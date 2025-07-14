@@ -1,4 +1,3 @@
-yaml
 # Configuration for the issue template chooser in DNAPass Password Generator.
 # Disables blank issues to ensure users select a template.
 # Includes contact links for security vulnerabilities and general support.
@@ -12,12 +11,12 @@ issue_templates:
     name: General Issue
     about: Report feature requests, documentation improvements, or other issues.
 contact_links:
-  - name: Security Vulnerability Report
-    url: https://github.com/gerivanc/dnapass-password-generator/blob/main/SECURITY.md
+  - name: Issue Report
+    url: https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/issue_template.md
     about: Report security vulnerabilities privately following our security policy.
   - name: General Questions or Support
     url: mailto:dean-grumbly-plop@duck.com
     about: Contact the maintainer for questions or support.
   - name: Bug Report
     url: https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/bug_report.md
-    about: Report bugs or unexpected behavior using the bug report template.
+    about: Report security bugs privately, following our security policy.
