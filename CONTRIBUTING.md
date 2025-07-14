@@ -47,7 +47,7 @@ To contribute, set up a local development environment:
 
 ### 📢 2. Reporting Issues
 If you find a bug, have a feature request, or notice documentation that needs improvement:
-- **Search existing issues**: Check the [GitHub Issues page](https://github.com/gerivanc/dnapass/issues) to avoid duplicates.
+- **Search existing issues**: Check the [GitHub Issues page](https://github.com/gerivanc/dnapass-password-generator/issues) to avoid duplicates.
 - **Use templates**: Follow the issue templates in `.github/ISSUE_TEMPLATE/` for bug reports or feature requests.
 - **Provide details**: Include a clear title, description, steps to reproduce (if applicable), expected behavior, and screenshots or logs.
 - **Security issues**: For vulnerabilities, follow the process in [SECURITY.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md) instead of opening a public issue.
