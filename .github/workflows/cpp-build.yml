@@ -78,13 +78,26 @@ jobs:
         fi
       shell: bash
 
-    - name: Configure CMake
-      run: |
-        mkdir build
-        cd build
-        if "${{ matrix.os }}" == "windows-latest" && "${{ matrix.compiler }}" == "gcc" (cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++ ) else (cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }} )
-      shell: cmd
+    - name: Create build directory (Windows)
       if: matrix.os == 'windows-latest'
+      run: mkdir build
+      shell: cmd
+
+    - name: Change to build directory (Windows)
+      if: matrix.os == 'windows-latest'
+      run: cd build
+      shell: cmd
+
+    - name: Configure CMake (Windows)
+      if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
+      run: cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
+      shell: cmd
+
+    - name: Configure CMake (Windows - Default)
+      if: matrix.os == 'windows-latest' && matrix.compiler != 'gcc'
+      run: cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+      shell: cmd
+
     - name: Configure CMake (Unix)
       run: |
         mkdir build
