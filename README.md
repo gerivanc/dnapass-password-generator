@@ -127,4 +127,5 @@ If you find DNAPass Password Generator useful, consider supporting its developme
 
 # 📧 Contact
 For questions or feedback, please contact: dean-grumbly-plop@duck.com.
-Copyright © 2025 Gerivan Costa dos Santos
+
+#### Copyright © 2025 Gerivan Costa dos Santos
