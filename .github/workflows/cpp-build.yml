@@ -88,15 +88,22 @@ jobs:
       run: cd build
       shell: cmd
 
+    - name: Debug - Show current directory (Windows)
+      if: matrix.os == 'windows-latest'
+      run: cd
+      shell: cmd
+
     - name: Configure CMake (Windows)
       if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
       run: cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
       shell: cmd
+      working-directory: ../
 
     - name: Configure CMake (Windows - Default)
       if: matrix.os == 'windows-latest' && matrix.compiler != 'gcc'
       run: cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
       shell: cmd
+      working-directory: ../
 
     - name: Configure CMake (Unix)
       run: |
