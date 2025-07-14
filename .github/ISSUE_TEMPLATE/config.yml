@@ -1,4 +1,4 @@
-```yaml
+yaml
 # Configuration for the issue template chooser in DNAPass Password Generator.
 # Disables blank issues to ensure users select a template.
 # Includes contact links for security vulnerabilities and general support.
@@ -21,4 +21,3 @@ contact_links:
   - name: Bug Report
     url: https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/bug_report.md
     about: Report bugs or unexpected behavior using the bug report template.
-```
