@@ -1,153 +1,118 @@
 # Contributing to DNAPass Password Generator
 
-Thank you for your interest in contributing to the **DNAPass Password Generator**! This project provides a secure and customizable password generation tool, compliant with NIST standards, and we welcome contributions to enhance its functionality, documentation, and accessibility. Whether you're fixing bugs, adding features, improving documentation, or contributing in other ways, your efforts are greatly appreciated.
+Thank you for your interest in contributing to the **DNAPass Password Generator**! This guide outlines the process for contributing to the project. Whether you're fixing bugs, adding features, or improving documentation, your contributions are welcome!
 
 ---
 
-## 🤝 Ways to Contribute
+## 📌 Getting Started
 
-You can contribute to the DNAPass Password Generator in several ways:
-- **Code**: Fix bugs, add new features, or optimize existing functionality in `dnapass_generator.cpp`.
-- **Documentation**: Improve `README.md`, `SECURITY.md`, `RELEASE.md`, `DNAPASSCALCULATION.md`, or add inline comments.
-- **Issues**: Report bugs, suggest features, or propose documentation enhancements via GitHub Issues.
-- **Translations**: Translate documentation or CLI messages to other languages.
-- **Media**: Create or update screenshots, logos, or other visual assets for the project.
-- **Testing**: Validate functionality across different platforms or C++ compilers.
+1. **Read the Documentation**:
+   - Review the [README.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/README.md) for an overview of the project.
+   - Check the [DNAPASSCALCULATION.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md) for details on the password generation methodology.
+   - See the [RELEASE.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/RELEASE.md) for version-specific details.
 
----
-
-## 🚀 Getting Started
-
-### ⚙️ 1. Setting Up Your Environment
-To contribute, set up a local development environment:
-1. **Install a C++ Compiler**: Ensure you have a C++17-compliant compiler installed, such as `g++` (GCC 7.0+) or `clang++` (Clang 5.0+).
-2. **Clone the repository**:
-   ```bash
-   git clone https://github.com/gerivanc/dnapass.git
-   cd dnapass
-   ```
-3. **Install development tools** (optional, but recommended):
-   - **clang-format**: For automatic code formatting.
+2. **Set Up Your Environment**:
+   - Clone the repository:
      ```bash
-     sudo apt-get install clang-format  # On Debian/Ubuntu
+     git clone https://github.com/gerivanc/dnapass-password-generator.git
+     cd dnapass-password-generator
+     ```
+   - Ensure you have a C++17-compliant compiler (e.g., `g++` 7.0+ or `clang++` 5.0+).
+   - Install CMake for building the project:
+     ```bash
+     sudo apt-get install cmake  # On Debian/Ubuntu
      # Or use your package manager (e.g., brew on macOS, choco on Windows)
      ```
-   - **clang-tidy**: For linting and static analysis (optional).
+   - (Optional) Install `clang-format` for code formatting:
      ```bash
-     sudo apt-get install clang-tidy
+     sudo apt-get install clang-format  # On Debian/Ubuntu
      ```
-4. **Compile the project**:
-   ```bash
-   g++ -std=c++17 dnapass_generator.cpp -o dnapass_generator
-   ```
-   Alternatively, use `clang++`:
-   ```bash
-   clang++ -std=c++17 dnapass_generator.cpp -o dnapass_generator
-   ```
+   - Build the project:
+     ```bash
+     mkdir build && cd build
+     cmake ..
+     cmake --build .
+     ```
 
-### 📢 2. Reporting Issues
-If you find a bug, have a feature request, or notice documentation that needs improvement:
-- **Search existing issues**: Check the [GitHub Issues page](https://github.com/gerivanc/dnapass-password-generator/issues) to avoid duplicates.
-- **Use templates**: Follow the issue templates in `.github/ISSUE_TEMPLATE/` for bug reports or feature requests.
-- **Provide details**: Include a clear title, description, steps to reproduce (if applicable), expected behavior, and screenshots or logs.
-- **Security issues**: For vulnerabilities, follow the process in [SECURITY.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md) instead of opening a public issue.
-
-### 🔄 3. Submitting Pull Requests
-To contribute code, documentation, or other changes, submit a pull request (PR):
-1. **Fork the repository**:
-   - Click the "Fork" button on the [repository page](https://github.com/gerivanc/dnapass-password-generator/).
-   - Clone your fork:
-     ```bash
-     git clone https://github.com/<your-username>/dnapass.git
-     cd dnapass
-     ```
-2. **Create a branch**:
-   - Use a descriptive name (e.g., `feature/add-new-mode`, `fix/bug-entropy-calc`):
-     ```bash
-     git checkout -b feature/your-feature-name
-     ```
-3. **Make changes**:
-   - Follow the coding standards below.
-   - Test changes locally (see "Testing" section).
-   - Update documentation (e.g., `README.md`, inline comments) if necessary.
-   - Run formatting tools:
+3. **Check Coding Standards**:
+   - Use `clang-format` to ensure consistent code style:
      ```bash
      clang-format -i dnapass_generator.cpp
      ```
-     Optionally, run `clang-tidy` for linting:
+   - Follow C++17 standards and avoid external dependencies beyond standard libraries.
+
+---
+
+## 🤝 How to Contribute
+
+1. **Fork the Repository**:
+   - Fork the project on GitHub: [https://github.com/gerivanc/dnapass-password-generator](https://github.com/gerivanc/dnapass-password-generator).
+   - Clone your fork:
      ```bash
-     clang-tidy dnapass_generator.cpp -- -std=c++17
+     git clone https://github.com/<your-username>/dnapass-password-generator.git
      ```
-4. **Commit changes**:
-   - Use clear, concise commit messages following the [Conventional Commits](https://www.conventionalcommits.org/) format (e.g., `feat: add new password mode`, `fix: correct entropy calculation`):
+
+2. **Create a Branch**:
+   - Create a branch for your changes:
      ```bash
-     git commit -m "feat: describe your change"
+     git checkout -b feature/your-feature-name
      ```
-5. **Push to your fork**:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-6. **Open a pull request**:
-   - Go to the [repository](https://github.com/gerivanc/dnapass) and click "New pull request".
-   - Select your branch and provide a detailed description of your changes.
-   - Reference related issues (e.g., "Fixes #123").
-   - Ensure your PR passes the GitHub Actions CI checks (if configured).
 
-### 📜 4. Coding Standards
-To maintain consistency and security, adhere to these guidelines:
-- **C++ Version**: Use C++17 or higher, as specified in the compilation instructions.
-- **Style**: Follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) or [LLVM Coding Standards](https://llvm.org/docs/CodingStandards.html). Use `clang-format` for consistent formatting.
-- **Comments**: Write clear, English comments for all functions and complex logic. Use Doxygen-style comments for functions if adding documentation.
-- **Security**: Use `std::random_device` and `std::mt19937` for random number generation. Avoid insecure functions like `rand()`. If introducing new dependencies, justify their necessity and security.
-- **File Structure**: Keep changes within the existing structure (e.g., core logic in `dnapass_generator.cpp`).
-- **Licensing**: By contributing, you agree that your contributions are licensed under the [MIT License](https://github.com/gerivanc/dnapass/blob/main/LICENSE.md).
+3. **Make Changes**:
+   - Implement your feature or bug fix in `dnapass_generator.cpp` or documentation files.
+   - Ensure your code compiles and runs without errors:
+     ```bash
+     ./build/dnapass_generator
+     ```
 
-### 🧪 5. Testing
-Ensure your changes do not break existing functionality:
-- **Manual Testing**:
-  - Run the compiled binary with different configurations:
-    ```bash
-    ./dnapass_generator
-    ```
-    Enter different password lengths (e.g., 8, 12, 128) to verify output.
-- **Cross-Platform Testing**:
-  - Test on Linux, macOS, and Windows to ensure compatibility.
-  - Use different compilers (e.g., `g++`, `clang++`, MSVC) to verify portability.
-- **Automated Tests**:
-  - Currently, the project does not include automated tests. If adding tests, consider using a framework like [Catch2](https://github.com/catchorg/Catch2) or [Google Test](https://github.com/google/googletest). Place tests in a `tests/` directory. Example compilation with Catch2:
-    ```bash
-    g++ -std=c++17 tests/test_dnapass.cpp -o test_dnapass
-    ./test_dnapass
-    ```
-  - Contributions that add test coverage are highly encouraged.
-- **Validation**:
-  - Verify that password generation meets NIST standards (80+ bits of entropy).
-  - Check that passwords include required character types (uppercase, lowercase, digits, special characters).
+4. **Test Your Changes**:
+   - Test the program with various password lengths (8–128).
+   - Verify that the output meets the requirements (e.g., 4 special characters, 2–3 digits, 10% uppercase, 1 lowercase).
+   - Add unit tests if possible (e.g., using Catch2 in the future).
 
-### ✅ 6. Pull Request Review Process
-After submitting a PR:
-- **Review Time**: The maintainer will review your PR within 7 business days. Complex changes may take longer.
-- **Criteria**: PRs are evaluated based on code quality, adherence to standards, security, and alignment with project goals.
-- **Feedback**: You may be asked to make revisions. Address feedback promptly to expedite merging.
-- **Approval**: PRs require approval from the maintainer (Gerivan Costa dos Santos) before merging.
-- **CI Checks**: Ensure all GitHub Actions checks (if configured) pass. Fix any failures reported in the workflow.
+5. **Commit and Push**:
+   - Write clear commit messages:
+     ```bash
+     git commit -m "Add feature: describe your change"
+     ```
+   - Push to your fork:
+     ```bash
+     git push origin feature/your-feature-name
+     ```
 
-### 🤗 7. Code of Conduct
-We are committed to fostering an inclusive and respectful community. Please:
-- Be kind, respectful, and professional in all interactions.
-- Avoid offensive language, harassment, or discriminatory behavior.
-- Report inappropriate behavior to the maintainer at [dean-grumbly-plop@duck.com](mailto:dean-grumbly-plop@duck.com).
-Violations may result in exclusion from the project.
+6. **Open a Pull Request**:
+   - Go to [https://github.com/gerivanc/dnapass-password-generator](https://github.com/gerivanc/dnapass-password-generator) and create a pull request from your branch.
+   - Reference any related issues (e.g., "Fixes #123").
+   - Provide a clear description of your changes.
 
-### ❓ 8. Getting Help
-For questions or assistance:
-- Read the [README.md](https://github.com/gerivanc/dnapass/blob/main/README.md) for project details.
-- Check the [SECURITY.md](https://github.com/gerivanc/dnapass/blob/main/SECURITY.md) for vulnerability reporting.
-- Open an issue on the [GitHub Issues page](https://github.com/gerivanc/dnapass/issues).
-- Contact the maintainer at [dean-grumbly-plop@duck.com](mailto:dean-grumbly-plop@duck.com).
+---
 
-### 🙌 9. Acknowledgments
-Thank you for contributing to the **DNAPass Password Generator**! Your efforts help make this tool more secure, accessible, and valuable for users worldwide. Significant contributors may be acknowledged in the project’s documentation or release notes (with your consent).
+## 🐛 Reporting Bugs
+
+- Use the [Bug Report template](https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/bug_report.md) to report issues.
+- Include steps to reproduce, expected behavior, and environment details (OS, compiler version, project version).
+
+---
+
+## 💡 Suggesting Features
+
+- Use the [Issue Report template](https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/issue_template.md) for feature requests or improvements.
+- Provide a clear description and use case for the suggested feature.
+
+---
+
+## 🔒 Security Vulnerabilities
+
+- For security issues, follow the instructions in [SECURITY.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/SECURITY.md) to report privately.
+- Do not disclose security vulnerabilities publicly until they are resolved.
+
+---
+
+## 📬 Contact
+
+For questions or support, reach out to the maintainer at [dean-grumbly-plop@duck.com](mailto:dean-grumbly-plop@duck.com).
+
+Thank you for helping improve the **DNAPass Password Generator**! 🚀🔑
 
 ---
 
