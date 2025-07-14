@@ -1,4 +1,3 @@
-```yaml
 name: Publish DNAPass to GitHub Releases
 
 on:
@@ -28,7 +27,7 @@ jobs:
         echo "Current commit:"
         git log -1
         echo "Content of dnapass_generator.cpp:"
-        cat dnapass_generator.cpp
+        cat dnapass_password_generator/dnapass_generator.cpp
 
     - name: Set up compiler
       run: |
@@ -73,4 +72,3 @@ jobs:
         files: build/dnapass_generator${{ matrix.os == 'windows-latest' && '.exe' || '' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
