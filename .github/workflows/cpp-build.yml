@@ -1,4 +1,3 @@
-```yaml
 name: DNAPass Password Generator CI
 
 on:
@@ -133,4 +132,3 @@ jobs:
       env:
         test_input.txt: |
           12
-```
