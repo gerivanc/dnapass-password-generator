@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![GitHub Workflow Status](https://github.com/gerivanc/dnapass/actions/workflows/cpp-app.yml/badge.svg)
 
-**DNAPass Password Generator is a secure C++ tool that generates strong passwords inspired by DNA sequences. It offers a command-line interface (CLI) with customizable length (8–128 characters) and ensures high entropy, exceeding NIST (80+ bits) standards. The project uses DNA-inspired sequences, ambiguity resolution, and character diversity to create robust passwords for developers and security enthusiasts.**
+**DNAPass Password Generator is a secure C++ tool that generates strong passwords inspired by DNA sequences. It offers a command-line interface (CLI) with customizable length (8–128 characters) and ensures high entropy. The project uses DNA-inspired sequences, ambiguity resolution, and character diversity to create robust passwords for developers and security enthusiasts.**
 
 ---
 
