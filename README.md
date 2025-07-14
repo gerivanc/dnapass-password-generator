@@ -2,7 +2,7 @@
 
 ![C++](https://img.shields.io/badge/C++-17-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![GitHub Workflow Status](https://github.com/gerivanc/dnapass/actions/workflows/cpp-app.yml/badge.svg)
+![GitHub Workflow Status](https://github.com/gerivanc/dnapass-password-generator/actions/workflows/cpp-build.yml/badge.svg)
 
 **DNAPass Password Generator is a secure C++ tool that generates strong passwords inspired by DNA sequences. It offers a command-line interface (CLI) with customizable length (8–128 characters) and ensures high entropy. The project uses DNA-inspired sequences, ambiguity resolution, and character diversity to create robust passwords for developers and security enthusiasts.**
 
@@ -26,8 +26,8 @@
 # 💾 Installation
 Clone the repository and compile the source code:
 ```bash
-git clone https://github.com/gerivanc/dnapass.git
-cd dnapass
+git clone https://github.com/gerivanc/dnapass-password-generator.git
+cd dnapass-password-generator
 g++ -std=c++17 dnapass_generator.cpp -o dnapass_generator
 ```
 
@@ -45,8 +45,8 @@ Enter the password length (8 to 128): 12
 Copyright © 2025 Gerivan Costa dos Santos
 DNAPass Password Generator - Generate secure passwords inspired by DNA sequences
 Author: gerivanc
-GitHub: https://github.com/gerivanc
-MIT License: https://github.com/gerivanc/dnapass/blob/main/LICENSE.md
+GitHub: https://github.com/gerivanc/dnapass-password-generator
+MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
 
 Generated password: 5t@A#t7!cga
 ----------
@@ -73,16 +73,16 @@ DNAPass generates passwords by:
 3. Adjusting for length and enforcing character diversity (uppercase, lowercase, digits, special characters).
 4. Shuffling the final password to ensure randomness.
 
-See the [Contributing](https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md) for details.
+See the [DNAPASSCALCULATION.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md) for details.
 
 ---
 
 ## 🛠️ Development
 
-To contribute to the **DNAPass Password Generator**, follow the guidelines in [CONTRIBUTING.md](https://github.com/gerivanc/dnapass/blob/main/CONTRIBUTING.md). Set up a development environment with:
+To contribute to the **DNAPass Password Generator**, follow the guidelines in [CONTRIBUTING.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md). Set up a development environment with:
 ```bash
-git clone https://github.com/gerivanc/dnapass.git
-cd dnapass
+git clone https://github.com/gerivanc/dnapass-password-generator.git
+cd dnapass-password-generator
 g++ -std=c++17 dnapass_generator.cpp -o dnapass_generator
 ```
 Install `clang-format` for code formatting (optional, but recommended):
@@ -94,7 +94,7 @@ sudo apt-get install clang-format  # On Debian/Ubuntu
 ---
 
 # 🤝 Contributing
-See the [Contributing](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md) for details.
+See the [CONTRIBUTING.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md) for details.
 
 ---
 
@@ -104,18 +104,17 @@ See the [RELEASE.md](https://github.com/gerivanc/dnapass-password-generator/blob
 ---
 
 # 🛡️ Security
-For security vulnerabilities, follow the process in Security instead of opening a public issue. We recommend using a password manager and enabling 2FA for enhanced security.
-See the [Security](https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md) for details.
+For security vulnerabilities, follow the process in [SECURITY.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/SECURITY.md) instead of opening a public issue. We recommend using a password manager and enabling 2FA for enhanced security.
 
 ---
 
 # 📅 Changelog
-See the [Changelog](https://github.com/gerivanc/dnapass-password-generator/blob/main/CHANGELOG.md) for a detailed history of changes to this project.
+See the [CHANGELOG.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/CHANGELOG.md) for a detailed history of changes to this project.
 
 ---
 
 # 📄 License
-This project is licensed under the MIT License. See the [License](https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md) for details.
+This project is licensed under the MIT License. See the [LICENSE.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md) for details.
 
 ---
 
@@ -127,6 +126,6 @@ If you find DNAPass Password Generator useful, consider supporting its developme
 ---
 
 # 📧 Contact
-For questions or feedback, please contact: dean-grumbly-plop@duck.com.
+For questions or feedback, please contact: [dean-grumbly-plop@duck.com](mailto:dean-grumbly-plop@duck.com).
 
 #### Copyright © 2025 Gerivan Costa dos Santos
