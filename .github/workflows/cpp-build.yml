@@ -1,0 +1,95 @@
+```yaml
+name: DNAPass Password Generator CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        compiler: [gcc, clang]
+        exclude:
+          - os: windows-latest
+            compiler: clang
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Debug - Show commit and file content
+      run: |
+        echo "Current commit:"
+        git log -1
+        echo "Content of dnapass_generator.cpp:"
+        cat dnapass_generator.cpp
+
+    - name: Set up compiler
+      run: |
+        if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+          if [ "${{ matrix.compiler }}" == "gcc" ]; then
+            sudo apt-get update
+            sudo apt-get install -y g++ cmake
+          else
+            sudo apt-get update
+            sudo apt-get install -y clang cmake
+          fi
+        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+          brew install cmake
+          if [ "${{ matrix.compiler }}" == "gcc" ]; then
+            brew install gcc
+          fi
+        else
+          choco install cmake
+        fi
+
+    - name: Install clang-tidy (Linux and macOS)
+      if: matrix.os != 'windows-latest'
+      run: |
+        if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+          sudo apt-get install -y clang-tidy
+        else
+          brew install llvm
+          echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
+        fi
+
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+
+    - name: Build project
+      run: |
+        cd build
+        cmake --build .
+
+    - name: Run clang-tidy (Linux and macOS)
+      if: matrix.os != 'windows-latest'
+      run: |
+        clang-tidy dnapass_generator.cpp -- -std=c++17
+
+    - name: Test executable
+      run: |
+        cd build
+        ./dnapass_generator <<< "12"
+      shell: bash
+      if: matrix.os != 'windows-latest'
+
+    - name: Test executable (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        cd build
+        .\dnapass_generator.exe < test_input.txt
+      shell: cmd
+      env:
+        test_input.txt: |
+          12
+```
