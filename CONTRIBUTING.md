@@ -55,7 +55,7 @@ If you find a bug, have a feature request, or notice documentation that needs im
 ### 🔄 3. Submitting Pull Requests
 To contribute code, documentation, or other changes, submit a pull request (PR):
 1. **Fork the repository**:
-   - Click the "Fork" button on the [repository page](https://github.com/gerivanc/dnapass).
+   - Click the "Fork" button on the [repository page](https://github.com/gerivanc/dnapass-password-generator/).
    - Clone your fork:
      ```bash
      git clone https://github.com/<your-username>/dnapass.git
