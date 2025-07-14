@@ -51,12 +51,21 @@ jobs:
             sudo apt-get install -y clang cmake
           fi
         elif "${{ matrix.os }}" == "windows-latest"; then
-          choco install cmake -y
+          choco install cmake -y --no-progress
           if "${{ matrix.compiler }}" == "gcc" ; then
-            choco install mingw -y
+            choco install mingw -y --no-progress
+            echo "C:\ProgramData\chocolatey\bin" >> $env:GITHUB_PATH
+            echo "C:\Program Files\mingw-w64\mingw64\bin" >> $env:GITHUB_PATH
           fi
         fi
       shell: bash
+
+    - name: Verify compiler setup (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        where g++
+        g++ --version
+      shell: cmd
 
     - name: Install clang-tidy (Linux and macOS)
       if: matrix.os != 'windows-latest'
@@ -73,7 +82,11 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+        if "${{ matrix.os }}" == "windows-latest" && "${{ matrix.compiler }}" == "gcc"; then
+          cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
+        else
+          cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+        fi
       shell: cmd
       if: matrix.os == 'windows-latest'
     - name: Configure CMake (Unix)
