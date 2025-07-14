@@ -82,11 +82,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        if "${{ matrix.os }}" == "windows-latest" && "${{ matrix.compiler }}" == "gcc"; then
-          cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
-        else
-          cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
-        fi
+        if "${{ matrix.os }}" == "windows-latest" && "${{ matrix.compiler }}" == "gcc" (cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++ ) else (cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }} )
       shell: cmd
       if: matrix.os == 'windows-latest'
     - name: Configure CMake (Unix)
