@@ -8,6 +8,10 @@
 
 ---
 
+🧪 Experimental Zone Ahead! 🚧 Calm down, project under construction! 🛠️ 💡 Contributions and ideas are welcome — just don’t trip over the cables!
+
+---
+
 # ✨ Features
 - Generates passwords with lengths between 8 and 128 characters.
 - Supports uppercase letters, lowercase letters, digits, and special characters.
