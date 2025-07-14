@@ -1,4 +1,3 @@
-```yaml
 name: DNAPass Password Generator CI
 
 on:
@@ -29,7 +28,7 @@ jobs:
         echo "Current commit:"
         git log -1
         echo "Content of dnapass_generator.cpp:"
-        cat dnapass_generator.cpp
+        cat dnapass_password_generator/dnapass_generator.cpp
 
     - name: Set up compiler
       run: |
@@ -74,7 +73,7 @@ jobs:
     - name: Run clang-tidy (Linux and macOS)
       if: matrix.os != 'windows-latest'
       run: |
-        clang-tidy dnapass_generator.cpp -- -std=c++17
+        clang-tidy dnapass_password_generator/dnapass_generator.cpp -- -std=c++17
 
     - name: Test executable
       run: |
@@ -92,4 +91,3 @@ jobs:
       env:
         test_input.txt: |
           12
-```
