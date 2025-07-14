@@ -19,7 +19,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Add executable
-add_executable(dnapass_generator dnapass_generator.cpp)
+add_executable(dnapass_generator dnapass_password_generator/dnapass_generator.cpp)
 
 # Installation rules (optional, for installing the executable)
 install(TARGETS dnapass_generator DESTINATION bin)
