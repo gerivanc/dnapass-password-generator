@@ -1,0 +1,76 @@
+```yaml
+name: Publish DNAPass to GitHub Releases
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Publishes when a version tag (e.g., v0.1.0) is created
+
+permissions:
+  contents: write  # Required for uploading to GitHub Releases
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        compiler: [gcc, clang]
+        exclude:
+          - os: windows-latest
+            compiler: clang
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Debug - Show commit and file content
+      run: |
+        echo "Current commit:"
+        git log -1
+        echo "Content of dnapass_generator.cpp:"
+        cat dnapass_generator.cpp
+
+    - name: Set up compiler
+      run: |
+        if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+          if [ "${{ matrix.compiler }}" == "gcc" ]; then
+            sudo apt-get update
+            sudo apt-get install -y g++ cmake
+          else
+            sudo apt-get update
+            sudo apt-get install -y clang cmake
+          fi
+        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+          brew install cmake
+          if [ "${{ matrix.compiler }}" == "gcc" ]; then
+            brew install gcc
+          fi
+        else
+          choco install cmake
+        fi
+
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+
+    - name: Build project
+      run: |
+        cd build
+        cmake --build .
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dnapass_generator-${{ matrix.os }}-${{ matrix.compiler }}
+        path: build/dnapass_generator${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+
+    - name: Publish to GitHub Releases
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/dnapass_generator${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
