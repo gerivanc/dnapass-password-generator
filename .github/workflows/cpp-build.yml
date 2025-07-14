@@ -28,26 +28,35 @@ jobs:
         echo "Current commit:"
         git log -1
         echo "Content of dnapass_generator.cpp:"
+        type dnapass_password_generator\dnapass_generator.cpp
+      shell: cmd
+      if: matrix.os == 'windows-latest'
+    - name: Debug - Show commit and file content (Unix)
+      run: |
+        echo "Current commit:"
+        git log -1
+        echo "Content of dnapass_generator.cpp:"
         cat dnapass_password_generator/dnapass_generator.cpp
+      shell: bash
+      if: matrix.os != 'windows-latest'
 
     - name: Set up compiler
       run: |
-        if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+        if "${{ matrix.os }}" == "ubuntu-latest" || "${{ matrix.os }}" == "macos-latest"; then
           if [ "${{ matrix.compiler }}" == "gcc" ]; then
-            sudo apt-get update
+            sudo apt-get update -y
             sudo apt-get install -y g++ cmake
           else
-            sudo apt-get update
+            sudo apt-get update -y
             sudo apt-get install -y clang cmake
           fi
-        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-          brew install cmake
-          if [ "${{ matrix.compiler }}" == "gcc" ]; then
-            brew install gcc
+        elif "${{ matrix.os }}" == "windows-latest"; then
+          choco install cmake -y
+          if "${{ matrix.compiler }}" == "gcc" ; then
+            choco install mingw -y
           fi
-        else
-          choco install cmake
         fi
+      shell: bash
 
     - name: Install clang-tidy (Linux and macOS)
       if: matrix.os != 'windows-latest'
@@ -58,22 +67,41 @@ jobs:
           brew install llvm
           echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
         fi
+      shell: bash
 
     - name: Configure CMake
       run: |
         mkdir build
         cd build
         cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+      shell: cmd
+      if: matrix.os == 'windows-latest'
+    - name: Configure CMake (Unix)
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+      shell: bash
+      if: matrix.os != 'windows-latest'
 
     - name: Build project
       run: |
         cd build
         cmake --build .
+      shell: cmd
+      if: matrix.os == 'windows-latest'
+    - name: Build project (Unix)
+      run: |
+        cd build
+        cmake --build .
+      shell: bash
+      if: matrix.os != 'windows-latest'
 
     - name: Run clang-tidy (Linux and macOS)
       if: matrix.os != 'windows-latest'
       run: |
         clang-tidy dnapass_password_generator/dnapass_generator.cpp -- -std=c++17
+      shell: bash
 
     - name: Test executable
       run: |
