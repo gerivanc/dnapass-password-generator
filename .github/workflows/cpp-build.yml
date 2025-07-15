@@ -118,8 +118,13 @@ jobs:
       run: |
         mkdir build
         cd build
-        # Use o caminho completo do g++ instalado pelo brew
-        CMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++ cmake .. -DCMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          CMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++
+          cmake .. -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER
+        else
+          CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++
+          cmake .. -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER
+        fi
       shell: bash
       if: matrix.os != 'windows-latest'
 
