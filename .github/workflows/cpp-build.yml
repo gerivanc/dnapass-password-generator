@@ -88,7 +88,6 @@ jobs:
             brew reinstall llvm
             echo "$LLVM_DIR/bin" >> $GITHUB_PATH
           fi
-          echo "clang-tidy installed at: $LLVM_DIR/bin/clang-tidy"
           "$LLVM_DIR/bin/clang-tidy" --version || echo "Warning: clang-tidy version check failed"
         fi
       shell: bash
@@ -169,7 +168,7 @@ jobs:
     - name: Run clang-tidy (Linux and macOS)
       if: matrix.os != 'windows-latest'
       run: |
-        clang-tidy dnapass_password_generator/dnapass_generator.cpp -- -std=c++17
+        $LLVM_DIR/bin/clang-tidy dnapass_password_generator/dnapass_generator.cpp -- -std=c++17
       shell: bash
 
     - name: Test executable
