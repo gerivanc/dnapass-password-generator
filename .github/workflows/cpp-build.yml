@@ -29,7 +29,12 @@ jobs:
         echo Current commit:
         git log -1
         echo Content of dnapass_generator.cpp:
-        type dnapass_password_generator\dnapass_generator.cpp
+        if exist dnapass_password_generator\dnapass_generator.cpp (
+          type dnapass_password_generator\dnapass_generator.cpp
+        ) else (
+          echo Error: dnapass_generator.cpp not found
+          exit 1
+        )
       shell: cmd
 
     - name: Debug - Show commit and file content (Unix)
@@ -38,7 +43,12 @@ jobs:
         echo "Current commit:"
         git log -1
         echo "Content of dnapass_generator.cpp:"
-        cat dnapass_password_generator/dnapass_generator.cpp
+        if [ -f dnapass_password_generator/dnapass_generator.cpp ]; then
+          cat dnapass_password_generator/dnapass_generator.cpp
+        else
+          echo "Error: dnapass_generator.cpp not found"
+          exit 1
+        fi
       shell: bash
 
     - name: Set up compiler (Ubuntu)
@@ -76,7 +86,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         where g++
-        g++ --version
+        g++ --version || (echo "Error: g++ not found or not working" && exit 1)
       shell: cmd
 
     - name: Install clang-tidy (Linux and macOS)
@@ -97,32 +107,37 @@ jobs:
         fi
       shell: bash
 
-    - name: Create build directory (Windows)
-      if: matrix.os == 'windows-latest'
-      run: mkdir build
-      shell: cmd
-
-    - name: Change to build directory (Windows)
-      if: matrix.os == 'windows-latest'
-      run: cd build
-      shell: cmd
-
-    - name: Debug - Show current directory and CMakeLists.txt (Windows)
+    - name: Create and change to build directory (Windows)
       if: matrix.os == 'windows-latest'
       run: |
+        if not exist build mkdir build
+        cd build
         echo Current directory: %CD%
-        dir CMakeLists.txt
+      shell: cmd
+
+    - name: Debug - Verify CMakeLists.txt (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        if exist dnapass_password_generator\CMakeLists.txt (
+          echo CMakeLists.txt found
+          type dnapass_password_generator\CMakeLists.txt
+        ) else (
+          echo Error: CMakeLists.txt not found in dnapass_password_generator
+          exit 1
+        )
       shell: cmd
 
     - name: Configure CMake (Windows)
       if: matrix.os == 'windows-latest'
-      run: cmake %GITHUB_WORKSPACE% -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
+      run: |
+        cd build
+        cmake %GITHUB_WORKSPACE%\dnapass_password_generator -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Debug
       shell: cmd
 
     - name: Configure CMake (Unix)
       if: matrix.os != 'windows-latest'
       run: |
-        mkdir build
+        mkdir -p build
         cd build
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
           if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
@@ -141,10 +156,10 @@ jobs:
             CMAKE_CXX_COMPILER=$GPP_PATH
             echo "Using g++ at: $CMAKE_CXX_COMPILER"
           fi
-          cmake .. -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER
+          cmake ../dnapass_password_generator -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER -DCMAKE_BUILD_TYPE=Debug
         else
           CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++
-          cmake .. -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER
+          cmake ../dnapass_password_generator -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER -DCMAKE_BUILD_TYPE=Debug
         fi
       shell: bash
 
@@ -152,8 +167,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         cd build
-        cmake --build . --clean-first
-        echo Current directory: %CD%
+        cmake --build . --config Debug -v
         dir
       shell: cmd
 
@@ -161,7 +175,7 @@ jobs:
       if: matrix.os != 'windows-latest'
       run: |
         cd build
-        cmake --build .
+        cmake --build . --config Debug -v
       shell: bash
 
     - name: Run clang-tidy (Linux and macOS)
@@ -184,6 +198,7 @@ jobs:
         cd build
         if not exist dnapass_generator.exe (
           echo Error: dnapass_generator.exe not found in %CD%
+          dir
           exit 1
         )
         echo 12 | .\dnapass_generator.exe
