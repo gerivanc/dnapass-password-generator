@@ -106,12 +106,12 @@ jobs:
 
     - name: Configure CMake (Windows)
       if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
-      run: cmake %GITHUB_WORKSPACE%\dnapass-password-generator -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
+      run: cmake %GITHUB_WORKSPACE% -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
       shell: cmd
 
     - name: Configure CMake (Windows - Default)
       if: matrix.os == 'windows-latest' && matrix.compiler != 'gcc'
-      run: cmake %GITHUB_WORKSPACE%\dnapass-password-generator -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+      run: cmake %GITHUB_WORKSPACE% -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
       shell: cmd
 
     - name: Configure CMake (Unix)
