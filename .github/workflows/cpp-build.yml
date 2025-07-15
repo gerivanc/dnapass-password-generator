@@ -176,8 +176,15 @@ jobs:
     - name: Test executable (Windows)
       if: matrix.os == 'windows-latest'
       run: |
+        if not exist build mkdir build
         cd build
+        if not exist dnapass_generator.exe (
+          echo Error: dnapass_generator.exe not found in %CD%
+          exit 1
+        )
         .\dnapass_generator.exe < test_input.txt
+        echo Current directory: %CD%
+        dir
       shell: cmd
       env:
         test_input.txt: |
