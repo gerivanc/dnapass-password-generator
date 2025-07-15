@@ -51,6 +51,17 @@ jobs:
         fi
       shell: bash
 
+    - name: Set up Homebrew (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        if ! command -v brew >/dev/null 2>&1; then
+          echo "Installing Homebrew..."
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo "# Set PATH for Homebrew" >> $GITHUB_ENV
+          echo "PATH=$PATH:/usr/local/bin:/opt/homebrew/bin" >> $GITHUB_ENV
+        fi
+      shell: bash
+
     - name: Set up compiler (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: |
