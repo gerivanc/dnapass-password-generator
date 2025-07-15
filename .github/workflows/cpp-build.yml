@@ -58,7 +58,7 @@ jobs:
             brew install llvm  # Para clang
           fi
         elif [ "${{ matrix.os }}" = "windows-latest" ]; then
-          choco install cmake -y --no-progress
+          choco install cmake.install -y --no-progress
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
             choco install mingw -y --no-progress
             echo "C:\ProgramData\chocolatey\bin" >> $GITHUB_PATH
