@@ -119,17 +119,22 @@ jobs:
         mkdir build
         cd build
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
-          GPP_PATH=$(brew --prefix gcc)/bin/g++
-          if [ ! -f "$GPP_PATH" ]; then
-            echo "Error: g++ not found at $GPP_PATH. Checking alternatives..."
-            GPP_PATH=$(which g++ || echo "")
-            if [ -z "$GPP_PATH" ]; then
-              echo "Error: No g++ compiler found. Please install gcc via brew."
-              exit 1
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            CMAKE_CXX_COMPILER=g++
+            echo "Using g++ from apt-get: $CMAKE_CXX_COMPILER"
+          else
+            GPP_PATH=$(brew --prefix gcc)/bin/g++
+            if [ ! -f "$GPP_PATH" ]; then
+              echo "Error: g++ not found at $GPP_PATH. Checking alternatives..."
+              GPP_PATH=$(which g++ || echo "")
+              if [ -z "$GPP_PATH" ]; then
+                echo "Error: No g++ compiler found. Please install gcc via brew."
+                exit 1
+              fi
             fi
+            CMAKE_CXX_COMPILER=$GPP_PATH
+            echo "Using g++ at: $CMAKE_CXX_COMPILER"
           fi
-          CMAKE_CXX_COMPILER=$GPP_PATH
-          echo "Using g++ at: $CMAKE_CXX_COMPILER"
           cmake .. -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER
         else
           CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++
