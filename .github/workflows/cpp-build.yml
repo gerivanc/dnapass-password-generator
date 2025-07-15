@@ -83,7 +83,13 @@ jobs:
           brew install llvm
           LLVM_DIR=$(brew --prefix llvm)
           echo "$LLVM_DIR/bin" >> $GITHUB_PATH
+          if [ ! -f "$LLVM_DIR/bin/clang-tidy" ]; then
+            echo "Error: clang-tidy not found at $LLVM_DIR/bin/clang-tidy. Reinstalling..."
+            brew reinstall llvm
+            echo "$LLVM_DIR/bin" >> $GITHUB_PATH
+          fi
           echo "clang-tidy installed at: $LLVM_DIR/bin/clang-tidy"
+          "$LLVM_DIR/bin/clang-tidy" --version || echo "Warning: clang-tidy version check failed"
         fi
       shell: bash
 
