@@ -142,7 +142,10 @@ jobs:
       run: |
         if not exist build mkdir build
         cd build
+        if exist CMakeCache.txt del /F CMakeCache.txt
         cmake --build . --clean-first
+        echo Current directory: %CD%
+        dir
       shell: cmd
       if: matrix.os == 'windows-latest'
     - name: Build project (Unix)
