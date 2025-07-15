@@ -118,14 +118,16 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+        # Use o caminho completo do g++ instalado pelo brew
+        CMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++ cmake .. -DCMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++
       shell: bash
       if: matrix.os != 'windows-latest'
 
     - name: Build project
       run: |
+        if not exist build mkdir build
         cd build
-        cmake --build .
+        cmake --build . --clean-first
       shell: cmd
       if: matrix.os == 'windows-latest'
     - name: Build project (Unix)
