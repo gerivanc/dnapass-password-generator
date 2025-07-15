@@ -23,49 +23,54 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Debug - Show commit and file content
+    - name: Debug - Show commit and file content (Windows)
+      if: matrix.os == 'windows-latest'
       run: |
-        echo "Current commit:"
+        echo Current commit:
         git log -1
-        echo "Content of dnapass_generator.cpp:"
+        echo Content of dnapass_generator.cpp:
         type dnapass_password_generator\dnapass_generator.cpp
       shell: cmd
-      if: matrix.os == 'windows-latest'
+
     - name: Debug - Show commit and file content (Unix)
+      if: matrix.os != 'windows-latest'
       run: |
         echo "Current commit:"
         git log -1
         echo "Content of dnapass_generator.cpp:"
         cat dnapass_password_generator/dnapass_generator.cpp
       shell: bash
-      if: matrix.os != 'windows-latest'
 
-    - name: Set up compiler
+    - name: Set up compiler (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
       run: |
-        if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-          if [ "${{ matrix.compiler }}" = "gcc" ]; then
-            sudo apt-get update -y
-            sudo apt-get install -y g++ cmake
-          else
-            sudo apt-get update -y
-            sudo apt-get install -y clang cmake
-          fi
-        elif [ "${{ matrix.os }}" = "macos-latest" ]; then
-          brew install cmake
-          if [ "${{ matrix.compiler }}" = "gcc" ]; then
-            brew install gcc
-          else
-            brew install llvm  # Para clang
-          fi
-        elif [ "${{ matrix.os }}" = "windows-latest" ]; then
-          choco install cmake.install -y --no-progress
-          if [ "${{ matrix.compiler }}" = "gcc" ]; then
-            choco install mingw -y --no-progress
-            echo "C:\ProgramData\chocolatey\bin" >> $GITHUB_PATH
-            echo "C:\Program Files\mingw-w64\mingw64\bin" >> $GITHUB_PATH
-          fi
+        sudo apt-get update -y
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          sudo apt-get install -y g++ cmake
+        else
+          sudo apt-get install -y clang cmake
         fi
       shell: bash
+
+    - name: Set up compiler (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install cmake
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          brew install gcc
+        else
+          brew install llvm
+        fi
+      shell: bash
+
+    - name: Set up compiler (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install cmake.install --no-progress
+        choco install mingw --no-progress
+        echo C:\ProgramData\chocolatey\bin >> %GITHUB_PATH%
+        echo C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin >> %GITHUB_PATH%
+      shell: cmd
 
     - name: Verify compiler setup (Windows)
       if: matrix.os == 'windows-latest'
@@ -110,16 +115,12 @@ jobs:
       shell: cmd
 
     - name: Configure CMake (Windows)
-      if: matrix.os == 'windows-latest' && matrix.compiler == 'gcc'
+      if: matrix.os == 'windows-latest'
       run: cmake %GITHUB_WORKSPACE% -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
       shell: cmd
 
-    - name: Configure CMake (Windows - Default)
-      if: matrix.os == 'windows-latest' && matrix.compiler != 'gcc'
-      run: cmake %GITHUB_WORKSPACE% -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
-      shell: cmd
-
     - name: Configure CMake (Unix)
+      if: matrix.os != 'windows-latest'
       run: |
         mkdir build
         cd build
@@ -146,51 +147,46 @@ jobs:
           cmake .. -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER
         fi
       shell: bash
-      if: matrix.os != 'windows-latest'
 
-    - name: Build project
+    - name: Build project (Windows)
+      if: matrix.os == 'windows-latest'
       run: |
-        if not exist build mkdir build
         cd build
-        if exist CMakeCache.txt del /F CMakeCache.txt
         cmake --build . --clean-first
         echo Current directory: %CD%
         dir
       shell: cmd
-      if: matrix.os == 'windows-latest'
+
     - name: Build project (Unix)
+      if: matrix.os != 'windows-latest'
       run: |
         cd build
         cmake --build .
       shell: bash
-      if: matrix.os != 'windows-latest'
 
     - name: Run clang-tidy (Linux and macOS)
       if: matrix.os != 'windows-latest'
       run: |
-        $LLVM_DIR/bin/clang-tidy dnapass_password_generator/dnapass_generator.cpp -- -std=c++17
+        cd build
+        clang-tidy ../dnapass_password_generator/dnapass_generator.cpp -- -std=c++17
       shell: bash
 
-    - name: Test executable
+    - name: Test executable (Unix)
+      if: matrix.os != 'windows-latest'
       run: |
         cd build
         ./dnapass_generator <<< "12"
       shell: bash
-      if: matrix.os != 'windows-latest'
 
     - name: Test executable (Windows)
       if: matrix.os == 'windows-latest'
       run: |
-        if not exist build mkdir build
         cd build
         if not exist dnapass_generator.exe (
           echo Error: dnapass_generator.exe not found in %CD%
           exit 1
         )
-        .\dnapass_generator.exe < test_input.txt
+        echo 12 | .\dnapass_generator.exe
         echo Current directory: %CD%
         dir
       shell: cmd
-      env:
-        test_input.txt: |
-          12
