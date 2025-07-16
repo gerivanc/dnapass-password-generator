@@ -32,20 +32,21 @@ jobs:
     - name: Set up compiler
       run: |
         if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
-          if [ "${{ matrix.compiler }}" == "gcc" ]; then
-            sudo apt-get update
-            sudo apt-get install -y g++ cmake
-          else
-            sudo apt-get update
-            sudo apt-get install -y clang cmake
-          fi
+          sudo apt-get update
+          sudo apt-get install -y g++ cmake
         elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+          if ! command -v brew >/dev/null 2>&1; then
+            echo "Installing Homebrew..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            echo "# Set PATH for Homebrew" >> $GITHUB_ENV
+            echo "PATH=/usr/local/bin:/opt/homebrew/bin:$PATH" >> $GITHUB_ENV
+          fi
           brew install cmake
           if [ "${{ matrix.compiler }}" == "gcc" ]; then
             brew install gcc
           fi
         else
-          choco install cmake
+          choco install cmake.install --no-progress
         fi
 
     - name: Configure CMake
