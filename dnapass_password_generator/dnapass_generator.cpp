@@ -33,6 +33,9 @@
 
 namespace dnapass {
 
+// Definição da constante declarada como extern no cabeçalho
+const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
+
 const std::vector<std::string> primary_sequences = {
     "TTATAA", "CACCTGCNNNN", "NNNNNNNNGCAGGTG", "GACNNNNNGTC", "AGGCCT", "GACGTC", "GCTCGAGG",
     "GTMKAC", "CGCG", "TCCGGA", "TGCGCA", "ACCTGCNNNN", "NNNNNNCAGGT", "GGTACC", "GGWACC",
@@ -66,9 +69,6 @@ const std::vector<std::string> primary_sequences = {
 const std::vector<std::string> secondary_words = {
     "gattaca", "cgcg", "atcg", "tagc", "actg", "ccgg", "ttaa", "ggcc"
 };
-
-// Definição da constante declarada como extern no cabeçalho
-const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
 
 const std::map<char, std::vector<char>> ambiguous_chars = {
     {'N', {'A', 'T', 'C', 'G'}},
