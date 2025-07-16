@@ -67,6 +67,7 @@ const std::vector<std::string> secondary_words = {
     "gattaca", "cgcg", "atcg", "tagc", "actg", "ccgg", "ttaa", "ggcc"
 };
 
+// Definição da constante declarada como extern no cabeçalho
 const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
 
 const std::map<char, std::vector<char>> ambiguous_chars = {
