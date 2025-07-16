@@ -16,6 +16,8 @@
 
 namespace dnapass {
 
+extern const std::string special_chars; // Declaração externa da constante
+
 struct PasswordResult {
     std::string password;
     std::vector<std::string> used_words;
