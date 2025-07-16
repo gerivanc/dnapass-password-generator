@@ -1,6 +1,7 @@
 #include "dnapass_generator.hpp"
 #include <iostream>
 #include <random>
+#include <algorithm> // Adicionado para std::count_if
 
 int main() {
     try {
