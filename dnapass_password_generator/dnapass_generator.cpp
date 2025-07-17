@@ -152,7 +152,7 @@ PasswordResult generate_password(int length, std::mt19937& rng) {
 
     // Add at least four special characters
     int special_count = std::count_if(password.begin(), password.end(),
-                                      [special_chars = special_chars](char c) { return special_chars.find(c) != std::string::npos; });
+                                      [](char c) { return special_chars.find(c) != std::string::npos; });
     std::uniform_int_distribution<> special_dist(0, special_chars.length() - 1);
     while (special_count < 4) {
         password[idx_dist(rng)] = special_chars[special_dist(rng)];
@@ -188,7 +188,7 @@ PasswordResult generate_password(int length, std::mt19937& rng) {
     has_lower = std::any_of(password.begin(), password.end(), [](char c) { return std::islower(c); });
     digit_count = std::count_if(password.begin(), password.end(), [](char c) { return std::isdigit(c); });
     special_count = std::count_if(password.begin(), password.end(),
-                                  [special_chars = special_chars](char c) { return special_chars.find(c) != std::string::npos; });
+                                  [](char c) { return special_chars.find(c) != std::string::npos; });
     bool no_spaces = password.find(' ') == std::string::npos;
 
     if (password.length() >= 8 && password.length() <= 128 &&
