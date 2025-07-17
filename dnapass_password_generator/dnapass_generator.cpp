@@ -22,6 +22,7 @@
  * Version: 0.1.0
  */
 
+#include "dnapass_generator.hpp"
 #include <string>
 #include <vector>
 #include <map>
@@ -32,9 +33,6 @@
 #include <stdexcept>
 
 namespace dnapass {
-
-// Definição da constante declarada como extern no cabeçalho
-const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
 
 const std::vector<std::string> primary_sequences = {
     "TTATAA", "CACCTGCNNNN", "NNNNNNNNGCAGGTG", "GACNNNNNGTC", "AGGCCT", "GACGTC", "GCTCGAGG",
@@ -97,12 +95,6 @@ std::pair<std::string, std::string> resolve_ambiguous_sequence(const std::string
     }
     return {resolved, sequence};
 }
-
-struct PasswordResult {
-    std::string password;
-    std::vector<std::string> used_words;
-    std::vector<std::string> resolved_log;
-};
 
 PasswordResult generate_password(int length, std::mt19937& rng) {
     if (length < 8 || length > 128) {
