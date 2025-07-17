@@ -16,7 +16,7 @@
 
 namespace dnapass {
 
-const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
+inline const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
 
 struct PasswordResult {
     std::string password;
