@@ -3,10 +3,10 @@ name: Publish DNAPass to GitHub Releases
 on:
   push:
     tags:
-      - 'v*.*.*'  # Publishes when a version tag (e.g., v0.1.0) is created
+      - 'v*.*.*'
 
 permissions:
-  contents: write  # Required for uploading to GitHub Releases
+  contents: write
 
 jobs:
   release:
@@ -28,37 +28,61 @@ jobs:
         git log -1
         echo "Content of dnapass_generator.cpp:"
         cat dnapass_password_generator/dnapass_generator.cpp
+      shell: bash
 
-    - name: Set up compiler
+    - name: Set up compiler (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
       run: |
-        if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
-          sudo apt-get update
+        sudo apt-get update
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
           sudo apt-get install -y g++ cmake
-        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-          if ! command -v brew >/dev/null 2>&1; then
-            echo "Installing Homebrew..."
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            echo "# Set PATH for Homebrew" >> $GITHUB_ENV
-            echo "PATH=/usr/local/bin:/opt/homebrew/bin:$PATH" >> $GITHUB_ENV
-          fi
-          brew install cmake
-          if [ "${{ matrix.compiler }}" == "gcc" ]; then
-            brew install gcc
-          fi
+          echo "CMAKE_CXX_COMPILER=g++" >> $GITHUB_ENV
         else
-          choco install cmake.install --no-progress
+          sudo apt-get install -y clang cmake
+          echo "CMAKE_CXX_COMPILER=clang++" >> $GITHUB_ENV
         fi
+      shell: bash
+
+    - name: Set up compiler (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        if ! command -v brew >/dev/null 2>&1; then
+          echo "Installing Homebrew..."
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo "PATH=/usr/local/bin:/opt/homebrew/bin:$PATH" >> $GITHUB_ENV
+        fi
+        brew install cmake
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          brew install gcc
+          echo "CMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++" >> $GITHUB_ENV
+        else
+          brew install llvm
+          echo "CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++" >> $GITHUB_ENV
+        fi
+      shell: bash
+
+    - name: Set up compiler (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install cmake.install --no-progress
+        choco install mingw --no-progress
+        echo "C:\ProgramData\chocolatey\bin" >> %GITHUB_PATH%
+        echo "C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin" >> %GITHUB_PATH%
+        echo "CMAKE_CXX_COMPILER=g++" >> %GITHUB_ENV%
+      shell: cmd
 
     - name: Configure CMake
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_CXX_COMPILER=${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
+        cmake .. -DCMAKE_CXX_COMPILER=${{ env.CMAKE_CXX_COMPILER }}
+      shell: bash
 
     - name: Build project
       run: |
         cd build
         cmake --build .
+      shell: bash
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
