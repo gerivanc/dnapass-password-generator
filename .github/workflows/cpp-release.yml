@@ -3,10 +3,10 @@ name: Publish DNAPass to GitHub Releases
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*.*.*'  # Publishes when a version tag (e.g., v0.1.0) is created
 
 permissions:
-  contents: write
+  contents: write  # Required for uploading to GitHub Releases
 
 jobs:
   release:
@@ -33,13 +33,12 @@ jobs:
     - name: Set up compiler (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: |
-        sudo apt-get update
+        sudo apt-get update -y
+        sudo apt-get install -y cmake
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
-          sudo apt-get install -y g++ cmake
-          echo "CMAKE_CXX_COMPILER=g++" >> $GITHUB_ENV
+          sudo apt-get install -y g++
         else
-          sudo apt-get install -y clang cmake
-          echo "CMAKE_CXX_COMPILER=clang++" >> $GITHUB_ENV
+          sudo apt-get install -y clang
         fi
       shell: bash
 
@@ -54,10 +53,9 @@ jobs:
         brew install cmake
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
           brew install gcc
-          echo "CMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++" >> $GITHUB_ENV
         else
           brew install llvm
-          echo "CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++" >> $GITHUB_ENV
+          echo "$(brew --prefix llvm)/bin" >> $GITHUB_PATH
         fi
       shell: bash
 
@@ -66,22 +64,58 @@ jobs:
       run: |
         choco install cmake.install --no-progress
         choco install mingw --no-progress
-        echo "C:\ProgramData\chocolatey\bin" >> %GITHUB_PATH%
-        echo "C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin" >> %GITHUB_PATH%
-        echo "CMAKE_CXX_COMPILER=g++" >> %GITHUB_ENV%
+        echo "C:\ProgramData\chocolatey\bin" >> $GITHUB_PATH
+        echo "C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin" >> $GITHUB_PATH
       shell: cmd
 
-    - name: Configure CMake
+    - name: Configure CMake (Windows)
+      if: matrix.os == 'windows-latest'
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_CXX_COMPILER=${{ env.CMAKE_CXX_COMPILER }}
+        cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++ -CMAKE_BUILD_TYPE=Release
+      shell: cmd
+
+    - name: Configure CMake (Unix)
+      if: matrix.os != 'windows-latest'
+      run: |
+        mkdir -p build
+        cd build
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            CMAKE_CXX_COMPILER=g++
+          else
+            CMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++
+            if [ ! -f "$CMAKE_CXX_COMPILER" ]; then
+              CMAKE_CXX_COMPILER=$(which g++ || echo "")
+              if [ -z "$CMAKE_CXX_COMPILER" ]; then
+                echo "Error: No g++ compiler found. Please install gcc via brew."
+                exit 1
+              fi
+            fi
+          fi
+        else
+          CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            CMAKE_CXX_COMPILER=clang++
+          fi
+        fi
+        echo "Using compiler: $CMAKE_CXX_COMPILER"
+        cmake .. -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER -CMAKE_BUILD_TYPE=Release
       shell: bash
 
-    - name: Build project
+    - name: Build project (Windows)
+      if: matrix.os == 'windows-latest'
       run: |
         cd build
-        cmake --build .
+        cmake --build . --config Release -v
+      shell: cmd
+
+    - name: Build project (Unix)
+      if: matrix.os != 'windows-latest'
+      run: |
+        cd build
+        cmake --build . --config Release -v
       shell: bash
 
     - name: Upload artifact
