@@ -47,7 +47,7 @@ int main() {
         std::cout << "  Digits: " << std::count_if(result.password.begin(), result.password.end(),
                                         [](char c) { return std::isdigit(c); }) << "\n";
         std::cout << "  Special characters: " << std::count_if(result.password.begin(), result.password.end(),
-                                         [special_chars = dnapass::special_chars](char c) { return dnapass::special_chars.find(c) != std::string::npos; }) << "\n";
+                                         [](char c) { return dnapass::special_chars.find(c) != std::string::npos; }) << "\n";
     } catch (const std::invalid_argument& e) {
         std::cout << "Error: " << e.what() << "\n";
     } catch (const std::exception& e) {
