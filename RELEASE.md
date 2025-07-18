@@ -1,10 +1,10 @@
 # DNAPass Password Generator v0.1.0
 
-**Release Date:** July 13th, 2025
+**Release Date:** July 18th, 2025
 
 Released on 	2025/07/13 	
 
-Last updated 	2025/07/13 
+Last updated 	2025/07/18 
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
@@ -17,7 +17,7 @@ Reporting Issues	[Report a](https://github.com/gerivanc/dnapass/issues/new/choos
 ---
 
 ## 📋 Overview
-The **DNAPass Password Generator** v0.1.0 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
+The ** 🧬 DNAPass Password Generator** v0.1.0 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
 
 ---
 
@@ -31,31 +31,64 @@ The **DNAPass Password Generator** v0.1.0 is now available! This initial release
 
 ---
 
-## 🔧 Installation
-Ensure you have a C++17-compliant compiler installed (e.g., `g++` 7.0+ or `clang++` 5.0+). No external dependencies are required, as DNAPass uses only C++ standard libraries.
+# 📋 Requirements
 
-### Cloning the Repository
-To work with the source code or test the program locally, clone the repository and compile the code:
+Update and install the environments required for the installation. 
 
 ```bash
-git clone https://github.com/gerivanc/dnapass.git
-cd dnapass
-g++ -std=c++17 dnapass_generator.cpp -o dnapass_generator
+sudo apt update
+sudo apt install git
+sudo apt install cmake
+sudo apt install g++
+sudo apt install clang
 ```
 
-This command will compile the program into an executable named `dnapass_generator`. Alternatively, you can use `clang++`:
+After installing the environments, confirm and verify the installed versions. 
+
 ```bash
-clang++ -std=c++17 dnapass_generator.cpp -o dnapass_generator
+git --version
+cmake --version
+g++ --version
+clang --version
 ```
 
-After compilation, you can run the generator using:
+---
+
+# 💾 Installation
+
+Cloning the repository to install packages.
+
+```bash
+git clone https://github.com/gerivanc/dnapass-password-generator.git
+cd dnapass-password-generator
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
+---
+
+# 🛠 Command Line Interface
+## Usage
+
+Method 1.
+Call the function by question to generate the password by choosing between 8-128 characters:
+
 ```bash
 ./dnapass_generator
 ```
 
+Method 2. - Automated Mode. 
+Call to generate the password by choosing a 12-character password. In the function, enter the number of characters between 8 and 128. 
+
+```bash
+echo "45" | ./dnapass_generator
+```
+
 Enter the desired password length (8–128) when prompted. Example:
 ```
-Enter the password length (8 to 128): 12
+Enter the password length (8 to 128): 45
 
 Copyright © 2025 Gerivan Costa dos Santos
 DNAPass Password Generator - Generate secure passwords inspired by DNA sequences
@@ -63,48 +96,25 @@ Author: gerivanc
 GitHub: https://github.com/gerivanc
 MIT License: https://github.com/gerivanc/dnapass/blob/main/LICENSE.md
 
-Generated password: 5t@A#t7!cga
+Generated password: gtcg7tggt,t\agCagggCtc9gaatttGtccgca,aaacg\tC
 ----------
 
-Used words: TTATAA, gattaca
+Used words: GCTAGG, CCCGGG, GATTCTGATC, GATTGTTATC, GACTCCGAAGTC, ccgg
 Ambiguity resolution log:
-  TTATAA -> TTATAA
-  gattaca -> gattaca
+  GCTAGG -> GCTAGG
+  CCCGGG -> CCCGGG
+  GATNNNNATC -> GATTCTGATC
+  GATNNNNATC -> GATTGTTATC
+  GACTNNNNNGTC -> GACTCCGAAGTC
+  ccgg -> ccgg
 
 Password analysis:
-  Length: 12
-  Uppercase: 1
-  Lowercase: 5
+  Length: 45
+  Uppercase: 4
+  Lowercase: 35
   Digits: 2
   Special characters: 4
 ```
-
----
-
-## 🖥️ Getting Started on Windows
-For Windows users, you can compile and run the **DNAPass Password Generator** using a C++ compiler like MinGW (with `g++`) or MSVC (Microsoft Visual Studio). Follow these steps:
-1. Install a compiler:
-   - **MinGW**: Download from [MinGW-w64](https://www.mingw-w64.org/) or install via a package manager like `choco` (`choco install mingw`).
-   - **MSVC**: Install Visual Studio with the C++ development workload.
-2. Clone the repository:
-   ```bash
-   git clone https://github.com/gerivanc/dnapass.git
-   cd dnapass
-   ```
-3. Compile the code:
-   - With MinGW:
-     ```bash
-     g++ -std=c++17 dnapass_generator.cpp -o dnapass_generator
-     ```
-   - With MSVC (from Developer Command Prompt for Visual Studio):
-     ```bash
-     cl /std:c++17 dnapass_generator.cpp /o dnapass_generator
-     ```
-4. Run the program:
-   ```bash
-   dnapass_generator
-   ```
-For detailed guidance, check the [CONTRIBUTING.md](https://github.com/gerivanc/dnapass/blob/main/CONTRIBUTING.md) for setup and testing instructions.
 
 ---
 
