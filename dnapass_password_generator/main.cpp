@@ -1,7 +1,7 @@
 #include "dnapass_generator.hpp"
 #include <iostream>
 #include <random>
-#include <algorithm>
+#include <algorithm> // Adicionado para std::count_if
 
 int main() {
     try {
@@ -20,16 +20,16 @@ int main() {
         dnapass::PasswordResult result = dnapass::generate_password(length, rng);
 
         // Display results with visual separation
-        std::cout << "\n";
+        std::cout << "\n"; // Blank line before
         std::cout << "Copyright © 2025 Gerivan Costa dos Santos\n";
         std::cout << "DNAPass Password Generator - Generate secure passwords inspired by DNA sequences\n";
         std::cout << "Author: gerivanc\n";
         std::cout << "GitHub: https://github.com/gerivanc/dnapass-password-generator\n";
         std::cout << "MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md\n";
-        std::cout << "\n";
+        std::cout << "\n"; // Blank line after
         std::cout << "Generated password: " << result.password << "\n";
-        std::cout << "----------\n";
-        std::cout << "\n";
+        std::cout << "----------\n"; // Separation line
+        std::cout << "\n"; // Blank line after
         std::cout << "Used words: ";
         for (size_t i = 0; i < result.used_words.size(); ++i) {
             std::cout << (i > 0 ? ", " : "") << result.used_words[i];
@@ -47,7 +47,7 @@ int main() {
         std::cout << "  Digits: " << std::count_if(result.password.begin(), result.password.end(),
                                         [](char c) { return std::isdigit(c); }) << "\n";
         std::cout << "  Special characters: " << std::count_if(result.password.begin(), result.password.end(),
-                                         [](char c) { return dnapass::special_chars.find(c) != std::string::npos; }) << "\n";
+                                         [special_chars = dnapass::special_chars](char c) { return dnapass::special_chars.find(c) != std::string::npos; }) << "\n";
     } catch (const std::invalid_argument& e) {
         std::cout << "Error: " << e.what() << "\n";
     } catch (const std::exception& e) {
