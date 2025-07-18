@@ -22,6 +22,7 @@
  * Version: 0.1.0
  */
 
+#include "dnapass_generator.hpp"
 #include <string>
 #include <vector>
 #include <map>
