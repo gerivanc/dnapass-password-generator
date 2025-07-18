@@ -22,10 +22,10 @@ struct PasswordResult {
     std::vector<std::string> resolved_log;
 };
 
-// Função principal para gerar senhas
+// Main function to generate passwords
 PasswordResult generate_password(int length, std::mt19937& rng);
 
-// Função auxiliar para resolver sequências ambíguas
+// Auxiliary function to resolve ambiguous sequences
 std::pair<std::string, std::string> resolve_ambiguous_sequence(const std::string& sequence, std::mt19937& rng);
 
 } // namespace dnapass
