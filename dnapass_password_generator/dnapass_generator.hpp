@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <map> // Added to support std::map
 
 namespace dnapass {
 
