@@ -22,7 +22,6 @@
  * Version: 0.1.0
  */
 
-#include "dnapass_generator.hpp"
 #include <string>
 #include <vector>
 #include <map>
@@ -68,6 +67,9 @@ const std::vector<std::string> secondary_words = {
     "gattaca", "cgcg", "atcg", "tagc", "actg", "ccgg", "ttaa", "ggcc"
 };
 
+// Definição da constante declarada como extern no cabeçalho
+const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
+
 const std::map<char, std::vector<char>> ambiguous_chars = {
     {'N', {'A', 'T', 'C', 'G'}},
     {'R', {'A', 'G'}},
@@ -95,6 +97,12 @@ std::pair<std::string, std::string> resolve_ambiguous_sequence(const std::string
     }
     return {resolved, sequence};
 }
+
+struct PasswordResult {
+    std::string password;
+    std::vector<std::string> used_words;
+    std::vector<std::string> resolved_log;
+};
 
 PasswordResult generate_password(int length, std::mt19937& rng) {
     if (length < 8 || length > 128) {
@@ -152,7 +160,7 @@ PasswordResult generate_password(int length, std::mt19937& rng) {
 
     // Add at least four special characters
     int special_count = std::count_if(password.begin(), password.end(),
-                                      [](char c) { return special_chars.find(c) != std::string::npos; });
+                                      [special_chars = special_chars](char c) { return special_chars.find(c) != std::string::npos; });
     std::uniform_int_distribution<> special_dist(0, special_chars.length() - 1);
     while (special_count < 4) {
         password[idx_dist(rng)] = special_chars[special_dist(rng)];
@@ -188,7 +196,7 @@ PasswordResult generate_password(int length, std::mt19937& rng) {
     has_lower = std::any_of(password.begin(), password.end(), [](char c) { return std::islower(c); });
     digit_count = std::count_if(password.begin(), password.end(), [](char c) { return std::isdigit(c); });
     special_count = std::count_if(password.begin(), password.end(),
-                                  [](char c) { return special_chars.find(c) != std::string::npos; });
+                                  [special_chars = special_chars](char c) { return special_chars.find(c) != std::string::npos; });
     bool no_spaces = password.find(' ') == std::string::npos;
 
     if (password.length() >= 8 && password.length() <= 128 &&
