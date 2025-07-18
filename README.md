@@ -106,13 +106,6 @@ Then run the desired function to generate passwords as per your needs.
 
 ---
 
-# 🖥️ Getting Started on Windows
-For Windows users, a dedicated guide is available to help you install and use the **DNAPass Password Generator** via **PowerShell**. 
-This step-by-step tutorial covers installation, configuration, and password generation with clear examples tailored for the Windows environment, including detailed instructions for setting up Git and running the generator. 
-Check out the [**GETTING_STARTED_WINDOWS.md**](https://github.com/gerivanc/dnapass-password-generator/blob/main/GETTING_STARTED_WINDOWS.md) for comprehensive guidance.
-
----
-
 # 📊 DNAPass Calculation Methodology
 DNAPass generates passwords by:
 1. Selecting random DNA sequences from primary (90%) or secondary (10%) sets.
