@@ -96,12 +96,6 @@ std::pair<std::string, std::string> resolve_ambiguous_sequence(const std::string
     return {resolved, sequence};
 }
 
-struct PasswordResult {
-    std::string password;
-    std::vector<std::string> used_words;
-    std::vector<std::string> resolved_log;
-};
-
 PasswordResult generate_password(int length, std::mt19937& rng) {
     if (length < 8 || length > 128) {
         throw std::invalid_argument("Password length must be between 8 and 128 characters.");
