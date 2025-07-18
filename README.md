@@ -118,6 +118,7 @@ See the [DNAPASSCALCULATION.md](https://github.com/gerivanc/dnapass-password-gen
 ---
 
 # 🛠️ Development
+
 To contribute to the **DNAPass Password Generator**, set up a development environment:
 ```bash
 git clone https://github.com/gerivanc/dnapass-password-generator.git
