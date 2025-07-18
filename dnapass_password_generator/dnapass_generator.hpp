@@ -16,7 +16,11 @@
 
 namespace dnapass {
 
-extern const std::string special_chars; // External declaration of the constant
+inline const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\"; // Moved and marked as inline
+
+extern const std::vector<std::string> primary_sequences;
+extern const std::vector<std::string> secondary_words;
+extern const std::map<char, std::vector<char>> ambiguous_chars;
 
 struct PasswordResult {
     std::string password;
