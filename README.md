@@ -1,3 +1,8 @@
+![🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences
+written in Python](https://drive.google.com/uc?export=download&id=1mSu7_gDhIYj6gY-d6QlXz-4meQxlDL3r)
+
+---
+
 # 🧬 DNAPass Password Generator
 
 [![CMake](https://img.shields.io/badge/CMake-3.x-028A0F?style=for-the-badge&logo=cmake&logoColor=white)](https://cmake.org/)
