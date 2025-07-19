@@ -1,3 +1,8 @@
+Respostas em português e conteúdo do arquivo em inglês. 
+Abaixo está o arquivo 'DNAPASSCALCULATION.md' que diz respeito a metodologia de calculo do meu projeto DNAPass, ele está sem emoji nos títulos das seções. 
+
+Como melhorar o projeto como um todo?
+
 # DNAPass Calculation Methodology
 This document explains how the DNAPass Password Generator creates secure passwords inspired by DNA sequences, including the logic behind sequence selection, ambiguity resolution, and entropy considerations.
 
