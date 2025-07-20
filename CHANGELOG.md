@@ -7,6 +7,47 @@ All notable changes to the 🧬 DNAPass Password Generator project are documente
 
 ---
 
+## [0.1.1] - 2025-07-19
+
+### Added
+- Initial password generation functions implemented
+- Command-line interface (CLI) support
+- Basic documentation for usage and setup
+- Initial C++ implementation of DNAPass password generator
+- Logic based on DNA nucleotides (A, T, G, C) for password creation
+- CLI support for generating passwords with adjustable length
+- Random seed initialization based on system time
+- Documentation draft with usage examples
+- Initial integration of user authentication via biometric data
+- Support for secure password generation based on DNA patterns
+- API endpoints for DNA-based login and user profile creation
+- Initial implementation of the DNAPass CLI tool in C++
+- DNA-inspired password generation algorithm with customizable length (8–128 characters)
+- Character diversity and ambiguity resolution strategies
+- Basic documentation and usage instructions
+
+### Changed
+- Improved folder structure for easier navigation
+- Refactored core logic for better performance
+- Improved nucleotide mapping to enhance character distribution
+- Refactored core algorithm for better readability and performance
+- Refactored encryption module to enhance DNA matching performance
+- Updated UI for onboarding to reflect biometric steps
+- Adjusted database schema to support genetic data fields
+- Optimized the entropy calculation for improved randomness
+- Refactored password generation logic for better readability and performance
+
+### Fixed
+- Resolved minor bugs related to password length validation
+- Fixed CLI input parsing issues
+- Corrected memory leak during password generation loop
+- Resolved edge case with repeated nucleotide sequences
+- Resolved login failure issue on older devices
+- Corrected bug causing session timeout after successful authentication
+- Fixed display glitch in genetic profile preview
+- Corrected character pool mixing to prevent unintentional bias in output
+- Fixed CLI input validation for edge-case lengths
+
 ## [0.1.0] - 2025-07-18
 
 ### Added
