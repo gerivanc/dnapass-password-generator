@@ -27,7 +27,7 @@ The following versions of the **DNAPass Password Generator** are currently suppo
 
 | Version | Supported          |
 |---------|--------------------|
-| 0.1.0   | ✅ Yes             |
+| 0.1.1   | ✅ Yes             |
 
 Older versions are not supported. Please upgrade to the latest version to ensure you receive security fixes.
 
