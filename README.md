@@ -83,7 +83,7 @@ Call the function by question to generate the password by choosing between 8-128
 ```
 
 Method 2. - Automated Mode. 
-Call to generate the password by choosing a 12-character password. In the function, enter the number of characters between 8 and 128. 
+Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128. 
 
 ```bash
 echo "45" | ./dnapass_generator
@@ -98,7 +98,26 @@ echo "45" | ./dnapass_generator
   Ensure the build step completed successfully. Run `ls` to check if `dnapass_generator` exists in the `build` folder. If not, repeat the `cmake ..` and `cmake --build .` steps.
 - **Permission denied**:
   Run `chmod +x dnapass_generator` to make the executable runnable, then try `./dnapass_generator` again.
-  
+
+---
+
+## 📸 Screenshots
+
+### Method 1. Call the function by question to generate the password by choosing between 8-128 characters. Entering password output length to 8 characters:
+
+![length 8 Output](https://drive.google.com/uc?export=download&id=15mq0PeJKFsMs0rwRvLW-WQnxVkRjKSQW)
+
+> *Note*: Screenshot using the command: `./dnapass_generator`. Demonstration image of the output result of the function.
+
+
+### Method 2. - Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128. Entering password output length to 45 characters
+
+![length 45 Output](https://drive.google.com/uc?export=download&id=1VvKi7B87UZIqjeM_cOkvqCSxN-536IJl)
+
+> *Note*: Screenshot using the command: `echo "45" | ./dnapass_generator`. Demonstration image of the output result of the function.
+
+---
+
 ## Post installation
   
   After the first installation, there's no need to reinstall everything in your environment. Simply open the terminal (CLI) in the environment where the repository was installed and access the folder with the command:
