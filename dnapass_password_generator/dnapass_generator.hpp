@@ -4,7 +4,7 @@
  * Author: gerivanc
  * GitHub: https://github.com/gerivanc/dnapass-password-generator
  * MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
- * Version: 0.1.0
+ * Version: 0.1.1
  */
 
 #ifndef DNAPASS_GENERATOR_HPP
