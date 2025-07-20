@@ -1,10 +1,10 @@
-# DNAPass Password Generator v0.1.0
+# DNAPass Password Generator v0.1.1
 
-**Release Date:** July 18th, 2025
+**Release Date:** July 19th, 2025
 
 Released on 	2025/07/13 	
 
-Last updated 	2025/07/18 
+Last updated 	2025/07/19 
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
@@ -17,7 +17,7 @@ Reporting Issues	[Report a](https://github.com/gerivanc/dnapass/issues/new/choos
 ---
 
 ## 📋 Overview
-The ** 🧬 DNAPass Password Generator** v0.1.0 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
+The ** 🧬 DNAPass Password Generator** v0.1.1 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
 
 ---
 
@@ -72,41 +72,68 @@ cmake --build .
 # 🛠 Command Line Interface
 ## Usage
 
-Method 1.
-Call the function by question to generate the password by choosing between 8-128 characters:
+### Method 1. Call the function by question to generate the password by choosing between 8-128 characters. Entering password output length to 8 characters:
 
 ```bash
 ./dnapass_generator
 ```
 
-Method 2. - Automated Mode. 
-Call to generate the password by choosing a 12-character password. In the function, enter the number of characters between 8 and 128. 
+Example of generated password with 8 characters: 
+```bash
+┌──(user㉿parrot)-[~/dnapass-password-generator/build]
+└─$ ./dnapass_generator
+Enter the password length (8 to 128): 8
+
+Copyright © 2025 Gerivan Costa dos Santos
+DNAPass Password Generator - Generate secure passwords inspired by DNA sequences
+Author: gerivanc
+GitHub: https://github.com/gerivanc/dnapass-password-generator
+MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
+
+Generated password: 4C)6%~a+
+----------
+
+Used words: GACAATGTG
+Ambiguity resolution log:
+  GACNNNNTG -> GACAATGTG
+
+Password analysis:
+  Length: 8
+  Uppercase: 1
+  Lowercase: 1
+  Digits: 2
+  Special characters: 4
+```
+
+### Method 2. - Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128. Entering password output length to 45 characters
 
 ```bash
 echo "45" | ./dnapass_generator
 ```
 
-Enter the desired password length (8–128) when prompted. Example:
+Example of generated password with 45 characters: 
 ```
-Enter the password length (8 to 128): 45
-
+┌──(user㉿parrot)-[~/dnapass-password-generator/build]
+└─$ echo "45" | ./dnapass_generator
+Enter the password length (8 to 128): 
 Copyright © 2025 Gerivan Costa dos Santos
 DNAPass Password Generator - Generate secure passwords inspired by DNA sequences
 Author: gerivanc
-GitHub: https://github.com/gerivanc
-MIT License: https://github.com/gerivanc/dnapass/blob/main/LICENSE.md
+GitHub: https://github.com/gerivanc/dnapass-password-generator
+MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
 
-Generated password: gtcg7tggt,t\agCagggCtc9gaatttGtccgca,aaacg\tC
+Generated password: gggacc4ga#ggGtgtgaaaGgcgcagAac$a,ac5*Cgattatt
 ----------
 
-Used words: GCTAGG, CCCGGG, GATTCTGATC, GATTGTTATC, GACTCCGAAGTC, ccgg
+Used words: AATGAGAGC, GTCGAC, AGACGACGAG, GACGTC, gattaca, GCATTG, GCTGC
 Ambiguity resolution log:
-  GCTAGG -> GCTAGG
-  CCCGGG -> CCCGGG
-  GATNNNNATC -> GATTCTGATC
-  GATNNNNATC -> GATTGTTATC
-  GACTNNNNNGTC -> GACTCCGAAGTC
-  ccgg -> ccgg
+  NNNGAGAGC -> AATGAGAGC
+  GTMKAC -> GTCGAC
+  NNNNNNNGAG -> AGACGACGAG
+  GACGTC -> GACGTC
+  gattaca -> gattaca
+  GCATTG -> GCATTG
+  GCWGC -> GCTGC
 
 Password analysis:
   Length: 45
