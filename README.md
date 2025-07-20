@@ -3,7 +3,7 @@ written in Python](https://drive.google.com/uc?export=download&id=1mSu7_gDhIYj6g
 
 ---
 
-# 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences
+# 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences (v0.1.1)
 
 [![CMake](https://img.shields.io/badge/CMake-3.x-028A0F?style=for-the-badge&logo=cmake&logoColor=white)](https://cmake.org/)
 [![C++17](https://img.shields.io/badge/C++-17-00599C?style=flat&logo=c%2B%2B&logoColor=cyan)](https://en.cppreference.com/w/cpp/17)
