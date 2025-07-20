@@ -1,6 +1,6 @@
 # 🧬 DNAPass Password Generator - Issue Report
 
-Thank you for contributing to the **DNAPass Password Generator**! Please fill out the sections below to help us understand and address your issue or suggestion. For guidelines, see our [CONTRIBUTING.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md).
+Thank you for contributing to the **DNAPass Password Generator**! Please fill out the sections below to help us understand and address your issue or suggestion. For guidelines, see our [Contributing](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md).
 ---
 
 ## 📌 Issue Description
