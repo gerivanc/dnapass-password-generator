@@ -44,7 +44,7 @@ Provide details about your environment. To check versions, use:
 
 - **Operating System**: [e.g., Ubuntu 24.04, Windows 11, macOS Sonoma]
 - **Compiler Version**: [e.g., g++ 11.2.0, clang 15.0.0]
-- **Project Version**: [e.g., 0.1.0 from source]
+- **Project Version**: [e.g., 0.1.1 from source]
 - **Installation Method**: [e.g., compiled from source]
 - **Additional Context**: [e.g., system configurations, terminal output]
 
