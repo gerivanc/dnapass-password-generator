@@ -43,7 +43,7 @@ To check versions:
 
 - **Operating System**: [e.g., Windows 11, Ubuntu 24.04, macOS Sonoma]
 - **Compiler Version**: [e.g., g++ 11.2.0, clang 15.0.0]
-- **Project Version**: [e.g., 0.1.0]
+- **Project Version**: [e.g., 0.1.1]
 - **Installation Method**: [e.g., compiled from source]
 
 ---
