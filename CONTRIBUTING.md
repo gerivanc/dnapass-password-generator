@@ -46,7 +46,7 @@ Thank you for your interest in contributing to the **DNAPass Password Generator*
 ## 🤝 How to Contribute
 
 1. **Fork the Repository**:
-   - Fork the project on GitHub: [https://github.com/gerivanc/dnapass-password-generator](https://github.com/gerivanc/dnapass-password-generator).
+   - Fork the project on GitHub: [DNAPass](https://github.com/gerivanc/dnapass-password-generator/).
    - Clone your fork:
      ```bash
      git clone https://github.com/<your-username>/dnapass-password-generator.git
@@ -81,7 +81,7 @@ Thank you for your interest in contributing to the **DNAPass Password Generator*
      ```
 
 6. **Open a Pull Request**:
-   - Go to [https://github.com/gerivanc/dnapass-password-generator](https://github.com/gerivanc/dnapass-password-generator) and create a pull request from your branch.
+   - Go to [DNAPass](https://github.com/gerivanc/dnapass-password-generator/). and create a pull request from your branch.
    - Reference any related issues (e.g., "Fixes #123").
    - Provide a clear description of your changes.
 
