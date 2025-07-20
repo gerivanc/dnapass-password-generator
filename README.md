@@ -5,10 +5,10 @@ written in Python](https://drive.google.com/uc?export=download&id=1mSu7_gDhIYj6g
 
 # 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences (v0.1.1)
 
-[![CMake](https://img.shields.io/badge/CMake-3.x-028A0F?style=for-the-badge&logo=cmake&logoColor=white)](https://cmake.org/)
-[![C++17](https://img.shields.io/badge/C++-17-00599C?style=flat&logo=c%2B%2B&logoColor=cyan)](https://en.cppreference.com/w/cpp/17)
-[![Clang](https://img.shields.io/badge/Clang-Compiler-6B2EAA?style=plastic&logo=llvm&logoColor=white)](https://clang.llvm.org/)
-[![Git](https://img.shields.io/badge/Git-Version_Control-F05032?style=flat-square&logo=git&logoColor=white)](https://git-scm.com/)
+![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)&nbsp;
+![CMake](https://img.shields.io/badge/CMake-0288D1?style=for-the-badge&logo=cmake&logoColor=white)
+![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)&nbsp;
+[![Clang](https://img.shields.io/badge/Clang-Compiler-6B2EAA?style=for-the-badge&logo=llvm&logoColor=white)](https://clang.llvm.org/)
 [![Maintained](https://img.shields.io/badge/Maintained-Yes-2ECC71?style=flat&logo=git&logoColor=white)](https://github.com/your-username/your-repo)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
