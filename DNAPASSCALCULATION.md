@@ -71,6 +71,6 @@ The resulting password is strong, random, and meets all criteria, with entropy w
 The random module is used for simplicity in this initial version. For cryptographic purposes, future versions may switch to the secrets module.
 Users are encouraged to use password managers and enable two-factor authentication (2FA) for enhanced security.
 
-For more details, see the README and CONTRIBUTING files.
+For more details, see the [README.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/README.md) and [CONTRIBUTING.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md) files.
 
 #### Copyright © 2025 Gerivan Costa dos Santos
