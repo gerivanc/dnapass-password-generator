@@ -8,11 +8,11 @@ Last updated 	2025/07/19
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
-Changelog [Changelog](https://github.com/gerivanc/dnapass/blob/main/CHANGELOG.md)
+Changelog [Changelog](https://github.com/gerivanc/dnapass-password-generator/blob/main/CHANGELOG.md)
 
-Release Notes [RELEASE.md](https://github.com/gerivanc/dnapass/blob/main/RELEASE.md)
+Release Notes [RELEASE.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/RELEASE.md)
 
-Reporting Issues	[Report a](https://github.com/gerivanc/dnapass/issues/new/choose)
+Reporting Issues	[Report a](https://github.com/gerivanc/dnapass-password-generator/issues/new/choose)
 
 ---
 
