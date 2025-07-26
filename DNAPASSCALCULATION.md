@@ -5,7 +5,7 @@ This document explains how the DNAPass Password Generator creates secure passwor
 
 # 🎲 Sequence Selection DNAPass uses two sets of DNA-inspired sequences to generate passwords:
 
-Primary Sequences: A list of 200 DNA sequences (e.g., "TTATAA", "CACCTGCNNNN") derived from biological motifs, including ambiguous characters (e.g., 'N', 'R'). These sequences are selected with a 90% probability.
+Primary Sequences: A list of 200 DNA sequences (e.g., "GGGACN", "NCTCCAC", "CGCG", "GGRYG",) derived from biological motifs, including ambiguous characters (e.g., 'N', 'R'). These sequences are selected with a 90% probability.
 Secondary Sequences: A smaller set of 8 sequences (e.g., "gattaca", "cgcg") restricted to the nucleotides A, T, C, and G, selected with a 10% probability.
 
 The generator concatenates randomly chosen sequences from these sets until the password length (8–128 characters) is reached, then trims to the exact length.
