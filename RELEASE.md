@@ -90,12 +90,13 @@ Author: gerivanc
 GitHub: https://github.com/gerivanc/dnapass-password-generator
 MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
 
-Generated password: 4C)6%~a+
+Generated password: ;G#0@[4g
 ----------
 
-Used words: GACAATGTG
+Used words: GAGCGG, AAGCTT
 Ambiguity resolution log:
-  GACNNNNTG -> GACAATGTG
+  GAGCGG -> GAGCGG
+  AAGCTT -> AAGCTT
 
 Password analysis:
   Length: 8
@@ -122,23 +123,23 @@ Author: gerivanc
 GitHub: https://github.com/gerivanc/dnapass-password-generator
 MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
 
-Generated password: gggacc4ga#ggGtgtgaaaGgcgcagAac$a,ac5*Cgattatt
+Generated password: cggcc3gg;cCttgaGtgcacaCaaggt>gAt=agggag5tc)Ct
 ----------
 
-Used words: AATGAGAGC, GTCGAC, AGACGACGAG, GACGTC, gattaca, GCATTG, GCTGC
+Used words: CCTCGATAGG, ccgg, GAATTC, GGTGAT, TCCGGA, GAATGCC, GGGACG
 Ambiguity resolution log:
-  NNNGAGAGC -> AATGAGAGC
-  GTMKAC -> GTCGAC
-  NNNNNNNGAG -> AGACGACGAG
-  GACGTC -> GACGTC
-  gattaca -> gattaca
-  GCATTG -> GCATTG
-  GCWGC -> GCTGC
+  CCTNNNNAGG -> CCTCGATAGG
+  ccgg -> ccgg
+  RAATTY -> GAATTC
+  GGTGAN -> GGTGAT
+  WCCGGW -> TCCGGA
+  GAATGCN -> GAATGCC
+  GGGACN -> GGGACG
 
 Password analysis:
   Length: 45
-  Uppercase: 4
-  Lowercase: 35
+  Uppercase: 5
+  Lowercase: 34
   Digits: 2
   Special characters: 4
 ```
