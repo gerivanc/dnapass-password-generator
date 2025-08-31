@@ -3,7 +3,7 @@ written in Python](https://drive.google.com/uc?export=download&id=1mSu7_gDhIYj6g
 
 ---
 
-# 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences (v0.1.1)
+# 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences (v0.1.2)
 
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)&nbsp;
 [![g++](https://img.shields.io/badge/g++-Compiler-A41E23?style=for-the-badge&logo=gnu&logoColor=white)](https://gcc.gnu.org/)
@@ -17,6 +17,28 @@ written in Python](https://drive.google.com/uc?export=download&id=1mSu7_gDhIYj6g
 Just like every DNA sequence is unique to each living being, **🧬 DNAPass** creates digitally exclusive passwords — unpredictable and packed with high entropy. Built in **C++**, this secure generator uses DNA-inspired patterns to produce strong, resilient passwords suitable for high-security environments.
 
 With a command-line interface (CLI), users can customize password length from **8 to 128 characters**. DNAPass’s algorithm leverages character diversity, ambiguity resolution, and DNA-mimicking variations to deliver robust, one-of-a-kind passwords for **developers and cybersecurity enthusiasts.**
+
+---
+
+## 📚 Table of Contents
+
+- [📜 Disclaimer](#-disclaimer)
+- [✨ Features](#-features)
+- [📋 Requirements](#-requirements)
+- [💾 Installation](#-installation)
+- [🛠 Command Line Interface](#-command-line-interface)
+- [📸 Screenshots](#-screenshots)
+- [📦 Post installation](#-post-installation)
+- [📊 DNAPass Calculation Methodology](#-dnapass-calculation-methodology)
+- [🛠️ Development](#️-development)
+- [🤝 Contributing](#-contributing)
+- [📝 Release Notes](#-release-notes)
+- [📢 Reporting Issues](#-reporting-issues)
+- [🐞 Reporting Bugs](#-reporting-bugs)
+- [🛡️ Security](#️-security)
+- [📅 Changelog](#-changelog)
+- [📄 License](#-license)
+- [📧 Contact](#-contact)
 
 ---
 
@@ -106,20 +128,20 @@ echo "45" | ./dnapass_generator
 
 ### Method 1. Call the function by question to generate the password by choosing between 8-128 characters. Entering password output length to 8 characters:
 
-![length 8 Output](https://drive.google.com/uc?export=download&id=15mq0PeJKFsMs0rwRvLW-WQnxVkRjKSQW)
+![length 8 Output](https://drive.google.com/uc?export=download&id=1qtA7JvDbGGfqy0dzocFQRhxp7OWUcfNq)
 
 > *Note*: Screenshot using the command: `./dnapass_generator`. Demonstration image of the output result of the function.
 
 
-### Method 2. - Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128. Entering password output length to 45 characters
+### Method 2. - Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128. Entering password output length to 45 characters.
 
-![length 45 Output](https://drive.google.com/uc?export=download&id=1VvKi7B87UZIqjeM_cOkvqCSxN-536IJl)
+![length 45 Output](https://drive.google.com/uc?export=download&id=18jNvWh4z6dM6rJMb9XtG6UKX9fJPEq4v)
 
 > *Note*: Screenshot using the command: `echo "45" | ./dnapass_generator`. Demonstration image of the output result of the function.
 
 ---
 
-## Post installation
+## 📦 Post installation
   
   After the first installation, there's no need to reinstall everything in your environment. Simply open the terminal (CLI) in the environment where the repository was installed and access the folder with the command:
   
@@ -202,13 +224,6 @@ See the [CHANGELOG.md](https://github.com/gerivanc/dnapass-password-generator/bl
 
 # 📄 License
 This project is licensed under the MIT License. See the [LICENSE.md](https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md) for details.
-
----
-
-# ❤️ Support This Project
-If you find DNAPass Password Generator useful, consider supporting its development with a donation:
-
-[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="Donate with PayPal">](https://www.paypal.com/ncp/payment/FYUGSCLQRSQDN)
 
 ---
 
