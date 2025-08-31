@@ -1,10 +1,10 @@
-# DNAPass Password Generator v0.1.1
+# DNAPass Password Generator v0.1.2
 
-**Release Date:** July 19th, 2025
+**Release Date:** August 31th, 2025
 
 Released on 	2025/07/13 	
 
-Last updated 	2025/07/19 
+Last updated 	2025/08/31 
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
@@ -17,7 +17,7 @@ Reporting Issues	[Report a](https://github.com/gerivanc/dnapass-password-generat
 ---
 
 ## 📋 Overview
-The ** 🧬 DNAPass Password Generator** v0.1.1 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
+The ** 🧬 DNAPass Password Generator** v0.1.2 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
 
 ---
 
@@ -149,7 +149,6 @@ Password analysis:
 Help us improve by reporting issues using our [issue template](https://github.com/gerivanc/dnapass/blob/main/.github/ISSUE_TEMPLATE/issue_template.md).
 
 Thank you for supporting **DNAPass Password Generator**! 🚀🔑
-
 ---
 
 #### Copyright © 2025 Gerivan Costa dos Santos
