@@ -25,9 +25,11 @@ If you discover a security vulnerability in the **DNAPass Password Generator**, 
 
 The following versions of the **DNAPass Password Generator** are currently supported with security updates:
 
-| Version | Supported          |
-|---------|--------------------|
-| 0.1.1   | ✅ Yes             |
+| Version | Supported          | End-of-Life Date       |
+|---------|--------------------|------------------------|
+| 0.1.2   | :white_check_mark: | TBD (Est. August 2026)    |
+| 0.1.1   | :white_check_mark: | January 31, 2026      |
+| < 0.5   | :x:                | -                      |
 
 Older versions are not supported. Please upgrade to the latest version to ensure you receive security fixes.
 
