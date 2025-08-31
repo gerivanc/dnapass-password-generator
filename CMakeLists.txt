@@ -2,7 +2,7 @@
 # DNAPass Password Generator - CMake Configuration
 #
 # Project Name: DNAPass Password Generator
-# Version: 0.1.1
+# Version: 0.1.2
 # Description: Generate secure passwords inspired by DNA sequences written in C++.
 # Author: Gerivan Costa dos Santos <dean-grumbly-plop@duck.com>
 # License: MIT License
