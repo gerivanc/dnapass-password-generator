@@ -19,7 +19,7 @@
  * MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
  * Changelog: https://github.com/gerivanc/dnapass-password-generator/blob/main/CHANGELOG.md
  * Issue Report: https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/issue_template.md
- * Version: 0.1.1
+ * Version: 0.1.2
  */
 
 #include "dnapass_generator.hpp"
