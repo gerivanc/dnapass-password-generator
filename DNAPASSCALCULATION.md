@@ -52,7 +52,7 @@ For a 12-character password, assuming a mix of 62 alphanumeric characters (26 lo
 # 🧪 Example
 For a 12-character password:
 
-Select sequences (e.g., "TTATAA" + "gattaca") → "TTATAAGATTACA".
+Select sequences (e.g., "GCAANNGTCTCN" + "GCAATTGTCTCA") → "GCAATTGTCTCA".
 Trim to 12 characters: "TTATAAGATTAC".
 Resolve ambiguities (if any): Already resolved in this case.
 Convert ~85% to lowercase: "ttataagattac".
