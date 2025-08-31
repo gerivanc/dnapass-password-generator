@@ -10,7 +10,7 @@ All notable changes to the 🧬 DNAPass Password Generator project are documente
 ## [0.1.2] - 2025-08-31
 
 ### Added
-- Expanded the `primary_sequences` list in `dnapass_generator.cpp` to include 200 unique DNA-inspired sequences, adding 62 new sequences to the existing 138 unique sequences to enhance password generation variety. **GPG Key ID: B5690EEEBB952194, Verified on Jul 26, 2025, 09:49 AM. Commit: `ab808319d020ea7bbc0f0772483a3fc66cb8e5a9`**.
+- Expanded the `primary_sequences` list in `dnapass_generator.cpp` to include 200 unique DNA-inspired sequences, adding 62 new sequences to the existing 138 unique sequences to enhance password generation variety. **GPG Key ID: B5690EEEBB952194, Verified on Jul 26, 2025, 09:49 AM. Commit: ab808319d020ea7bbc0f0772483a3fc66cb8e5a9
 
 ### Changed
 - Extracted and processed the `Sequence` column from the `PASSWORD TEMPLATE FOR WEBSITES.pdf` file, removing the pipe '|' symbol from all sequences and reducing repetitions of 5 or more 'N' characters to a single 'N'.
