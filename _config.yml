@@ -1,0 +1,7 @@
+title: "DNAPass Password Generator"
+description: "Generate secure passwords inspired by DNA sequences"
+theme: jekyll-theme-minimal
+include: [".nojekyll", "*.html", "*.md", "docs/"]
+exclude: ["README.md"]
+plugins:
+  - jekyll-sitemap
