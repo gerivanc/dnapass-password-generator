@@ -13,9 +13,12 @@
 #include <string>
 #include <vector>
 #include <random>
-#include <map> // Added to support std::map
+#include <map>
 
 namespace dnapass {
+
+// REMOVE 'extern' and use 'inline' to avoid linking issues
+inline const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
 
 extern const std::vector<std::string> primary_sequences;
 extern const std::vector<std::string> secondary_words;
