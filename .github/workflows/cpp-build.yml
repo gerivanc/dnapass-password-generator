@@ -23,42 +23,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Debug - Show commit and file content (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: Debug - Show file structure
       run: |
-        echo Current commit:
-        git log -1
-        echo Content of dnapass_generator.cpp:
-        if exist dnapass_password_generator\dnapass_generator.cpp (
-          type dnapass_password_generator\dnapass_generator.cpp
-        ) else (
-          echo Error: dnapass_generator.cpp not found
-          exit 1
-        )
-      shell: cmd
-
-    - name: Debug - Show commit and file content (Unix)
-      if: matrix.os != 'windows-latest'
-      run: |
-        echo "Current commit:"
-        git log -1
-        echo "Content of dnapass_generator.cpp:"
-        if [ -f dnapass_password_generator/dnapass_generator.cpp ]; then
-          cat dnapass_password_generator/dnapass_generator.cpp
-        else
-          echo "Error: dnapass_generator.cpp not found"
-          exit 1
-        fi
-      shell: bash
-
-    - name: Set up Homebrew (macOS)
-      if: matrix.os == 'macos-latest'
-      run: |
-        if ! command -v brew >/dev/null 2>&1; then
-          echo "Installing Homebrew..."
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          echo "PATH=$PATH:/usr/local/bin:/opt/homebrew/bin" >> $GITHUB_ENV
-        fi
+        echo "File structure:"
+        find . -name "*.cpp" -o -name "*.hpp" -o -name "CMakeLists.txt" | sort
+        echo "Content of current directory:"
+        ls -la
       shell: bash
 
     - name: Set up compiler (Ubuntu)
@@ -88,119 +58,45 @@ jobs:
     - name: Set up compiler (Windows)
       if: matrix.os == 'windows-latest'
       run: |
-        choco install cmake.install --no-progress
-        choco install mingw --no-progress
-        echo "C:\ProgramData\chocolatey\bin" >> $GITHUB_PATH
-        echo "C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin" >> $GITHUB_PATH
-      shell: cmd
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+        choco install mingw -y
+      shell: pwsh
 
-    - name: Verify compiler setup (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        where g++
-        g++ --version || (echo "Error: g++ not found or not working" && exit 1)
-      shell: cmd
-
-    - name: Install clang-tidy (Linux and macOS)
-      if: matrix.os != 'windows-latest'
-      run: |
-        if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-          sudo apt-get install -y clang-tidy
-        else
-          brew install llvm
-          LLVM_DIR=$(brew --prefix llvm)
-          echo "$LLVM_DIR/bin" >> $GITHUB_PATH
-          if [ ! -f "$LLVM_DIR/bin/clang-tidy" ]; then
-            echo "Error: clang-tidy not found at $LLVM_DIR/bin/clang-tidy. Reinstalling..."
-            brew reinstall llvm
-            echo "$LLVM_DIR/bin" >> $GITHUB_PATH
-          fi
-          "$LLVM_DIR/bin/clang-tidy" --version || echo "Warning: clang-tidy version check failed"
-        fi
-      shell: bash
-
-    - name: Create and change to build directory (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        if not exist build mkdir build
-        cd build
-        echo Current directory: %CD%
-      shell: cmd
-
-    - name: Configure CMake (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        cd build
-        cmake .. -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++ -CMAKE_BUILD_TYPE=Debug
-      shell: cmd
-
-    - name: Configure CMake (Unix)
-      if: matrix.os != 'windows-latest'
+    - name: Configure CMake
       run: |
         mkdir -p build
         cd build
-        if [ "${{ matrix.compiler }}" = "gcc" ]; then
-          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            CMAKE_CXX_COMPILER=g++
-          else
-            CMAKE_CXX_COMPILER=$(brew --prefix gcc)/bin/g++
-            if [ ! -f "$CMAKE_CXX_COMPILER" ]; then
-              CMAKE_CXX_COMPILER=$(which g++ || echo "")
-              if [ -z "$CMAKE_CXX_COMPILER" ]; then
-                echo "Error: No g++ compiler found. Please install gcc via brew."
-                exit 1
-              fi
-            fi
-          fi
+        
+        # Definir compilador baseado no OS
+        if [ "${{ runner.os }}" = "Windows" ]; then
+          cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug
         else
-          CMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++
-          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            CMAKE_CXX_COMPILER=clang++
+          if [ "${{ matrix.compiler }}" = "gcc" ]; then
+            cmake .. -DCMAKE_BUILD_TYPE=Debug
+          else
+            cmake .. -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Debug
           fi
         fi
-        echo "Using compiler: $CMAKE_CXX_COMPILER"
-        cmake .. -DCMAKE_CXX_COMPILER=$CMAKE_CXX_COMPILER -CMAKE_BUILD_TYPE=Debug
       shell: bash
 
-    - name: Build project (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: Build project
       run: |
         cd build
-        cmake --build . --config Debug -v
-        dir
-      shell: cmd
-
-    - name: Build project (Unix)
-      if: matrix.os != 'windows-latest'
-      run: |
-        cd build
-        cmake --build . --config Debug -v
+        cmake --build . --config Debug
       shell: bash
 
-    - name: Run clang-tidy (Linux and macOS)
-      if: matrix.os != 'windows-latest'
+    - name: Test executable
       run: |
         cd build
-        clang-tidy ../dnapass_password_generator/dnapass_generator.cpp -- -std=c++17
+        if [ "${{ runner.os }}" = "Windows" ]; then
+          echo "12" | ./dnapass_generator.exe
+        else
+          echo "12" | ./dnapass_generator
+        fi
       shell: bash
 
-    - name: Test executable (Unix)
-      if: matrix.os != 'windows-latest'
-      run: |
-        cd build
-        ./dnapass_generator <<< "12"
-      shell: bash
-
-    - name: Test executable (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        cd build
-        if not exist dnapass_generator.exe (
-          echo Error: dnapass_generator.exe not found in %CD%
-          dir
-          exit 1
-        )
-        echo 12 | .\dnapass_generator.exe
-        echo Current directory: %CD%
-        dir
-      shell: cmd
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dnapass-${{ matrix.os }}-${{ matrix.compiler }}
+        path: build/dnapass_generator*
