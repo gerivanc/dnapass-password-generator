@@ -32,10 +32,7 @@
 #include <cctype>
 #include <stdexcept>
 
-namespace dnapass {
-	
-// ADD variable definition
-const std::string special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?~\\";
+namespace dnapass {	
 
 const std::vector<std::string> primary_sequences = {
     "TTATAA", "CACCTGCN", "NGAGGTC", "GACNNGTC", "AGGCCT", "GACGTC", "GCTCGAGG",
