@@ -1,6 +1,6 @@
-# DNAPass Password Generator v0.1.2
+# DNAPass Password Generator v0.1.3
 
-**Release Date:** August 31th, 2025
+**Release Date:** October 24th, 2025
 
 Released on 	2025/07/13 	
 
@@ -17,17 +17,21 @@ Reporting Issues	[Report a](https://github.com/gerivanc/dnapass-password-generat
 ---
 
 ## 📋 Overview
-The ** 🧬 DNAPass Password Generator** v0.1.2 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
+The ** 🧬 DNAPass Password Generator** v0.1.3 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
 
 ---
 
 ## ✨ What's New
-- Initial release of DNAPass Password Generator in C++.
-- Implemented core password generation logic in `dnapass_generator.cpp`, using DNA-inspired sequences with ambiguity resolution.
-- Added support for uppercase letters, lowercase letters, digits, and special characters, ensuring at least 4 special characters, 2–3 digits, 10% uppercase, and 1 lowercase.
-- Introduced GitHub Actions badge in `README.md` to display CI/CD workflow status.
-- Adjusted layout styling and emoji use in documentation for better readability and visual identity.
-- Corrected anchor links in the Table of Contents for improved navigation.
+- Completed total of 200 sequences for nucleotides in code 'dnapass_generator.cpp' function 'const std::vector<std::string> primary_sequences = { '
+- GitHub Actions CI/CD workflow for automated testing and building across multiple platforms
+- Multi-platform support (Ubuntu, macOS, Windows) with GCC and Clang compilers
+- Automated release process triggered by version tags
+- Comprehensive error handling and input validation in password generation
+- Initial public release of DNAPass Password Generator
+- Completed total of 200 sequences for nucleotides in code 'dnapass_generator.cpp'
+- Resolved CMake configuration issues preventing successful builds on macOS and Windows
+- Fixed `special_chars` variable declaration and linking errors across multiple compilation units
+- Corrected recursive password generation to include maximum attempt limits
 
 ---
 
@@ -82,7 +86,7 @@ Example of generated password with 8 characters:
 ```bash
 ┌──(user㉿parrot)-[~/dnapass-password-generator/build]
 └─$ ./dnapass_generator
-Enter the password length (8 to 128): 8
+Enter the password length (8 to 128): 24
 
 Copyright © 2025 Gerivan Costa dos Santos
 DNAPass Password Generator - Generate secure passwords inspired by DNA sequences
@@ -90,26 +94,28 @@ Author: gerivanc
 GitHub: https://github.com/gerivanc/dnapass-password-generator
 MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
 
-Generated password: ;G#0@[4g
+Generated password: gccgact1c;tgcaG6C[c<@gGc
 ----------
 
-Used words: GAGCGG, AAGCTT
+Used words: ACTCCG, CGCCGT, CACTGGC, ACCGGT
 Ambiguity resolution log:
-  GAGCGG -> GAGCGG
-  AAGCTT -> AAGCTT
+	ACTCYR -> ACTCCG
+	CGCYGT -> CGCCGT
+	CASTGNN -> CACTGGC
+	WCCGGW -> ACCGGT
 
 Password analysis:
-  Length: 8
-  Uppercase: 1
-  Lowercase: 1
-  Digits: 2
-  Special characters: 4
+	Length: 24
+	Uppercase: 3
+	Lowercase: 15
+	Digits: 2
+	Special characters: 4
 ```
 
 ### Method 2. - Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128. Entering password output length to 45 characters
 
 ```bash
-echo "45" | ./dnapass_generator
+echo "32" | ./dnapass_generator
 ```
 
 Example of generated password with 45 characters: 
@@ -123,25 +129,24 @@ Author: gerivanc
 GitHub: https://github.com/gerivanc/dnapass-password-generator
 MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
 
-Generated password: cggcc3gg;cCttgaGtgcacaCaaggt>gAt=agggag5tc)Ct
+Generated password: CTaaatAtcg)g(caccacT&gt=4a7Gtgat
 ----------
 
-Used words: CCTCGATAGG, ccgg, GAATTC, GGTGAT, TCCGGA, GAATGCC, GGGACG
+Used words: TCTAGA, GTCCTA, cgcg, ACTGAT, ATATAT, CGAATG
 Ambiguity resolution log:
-  CCTNNNNAGG -> CCTCGATAGG
-  ccgg -> ccgg
-  RAATTY -> GAATTC
-  GGTGAN -> GGTGAT
-  WCCGGW -> TCCGGA
-  GAATGCN -> GAATGCC
-  GGGACN -> GGGACG
+	TCTAGA -> TCTAGA
+	GTCNNA -> GTCCTA
+	cgcg -> cgcg
+	ACTGNN -> ACTGAT
+	ATATAT -> ATATAT
+	CGWATG -> CGAATG
 
 Password analysis:
-  Length: 45
-  Uppercase: 5
-  Lowercase: 34
-  Digits: 2
-  Special characters: 4
+	Length: 32
+	Uppercase: 5
+	Lowercase: 21
+	Digits: 2
+	Special characters: 4
 ```
 
 ---
