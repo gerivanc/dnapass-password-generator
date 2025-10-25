@@ -3,7 +3,7 @@ name: Publish DNAPass to GitHub Releases
 on:
   push:
     tags:
-      - 'v*'  # Publishes when a version tag (e.g., v0.1.2) is created
+      - 'v*'  # Publishes when a version tag (e.g., v0.1.3) is created
 
 permissions:
   contents: write
