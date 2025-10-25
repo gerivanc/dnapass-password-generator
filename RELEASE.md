@@ -76,13 +76,13 @@ cmake --build .
 # 🛠 Command Line Interface
 ## Usage
 
-### Method 1. Call the function by question to generate the password by choosing between 8-128 characters. Entering password output length to 8 characters:
+### Method 1. Call the function by question to generate the password by choosing between 8-128 characters. Entering password output length to 24 characters:
 
 ```bash
 ./dnapass_generator
 ```
 
-Example of generated password with 8 characters: 
+Example of generated password with 24 characters: 
 ```bash
 ┌──(user㉿parrot)-[~/dnapass-password-generator/build]
 └─$ ./dnapass_generator
@@ -112,16 +112,16 @@ Password analysis:
 	Special characters: 4
 ```
 
-### Method 2. - Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128. Entering password output length to 45 characters
+### Method 2. - Automated Mode. Call to generate the password by choosing a 32-character password. In the function, enter the number of characters between 8 and 128. Entering password output length to 32 characters
 
 ```bash
 echo "32" | ./dnapass_generator
 ```
 
-Example of generated password with 45 characters: 
+Example of generated password with 32 characters: 
 ```
 ┌──(user㉿parrot)-[~/dnapass-password-generator/build]
-└─$ echo "45" | ./dnapass_generator
+└─$ echo "32" | ./dnapass_generator
 Enter the password length (8 to 128): 
 Copyright © 2025 Gerivan Costa dos Santos
 DNAPass Password Generator - Generate secure passwords inspired by DNA sequences
