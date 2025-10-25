@@ -3,7 +3,7 @@ written in Python](https://drive.google.com/uc?export=download&id=1mSu7_gDhIYj6g
 
 ---
 
-# 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences (v0.1.2)
+# 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences (v0.1.3)
 
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)&nbsp;
 [![g++](https://img.shields.io/badge/g++-Compiler-A41E23?style=for-the-badge&logo=gnu&logoColor=white)](https://gcc.gnu.org/)
@@ -22,6 +22,7 @@ With a command-line interface (CLI), users can customize password length from **
 
 ## 📚 Table of Contents
 
+- [🌐 Interactive Web Version](#-interactive-web-version)
 - [📜 Disclaimer](#-disclaimer)
 - [✨ Features](#-features)
 - [📋 Requirements](#-requirements)
@@ -39,6 +40,29 @@ With a command-line interface (CLI), users can customize password length from **
 - [📅 Changelog](#-changelog)
 - [📄 License](#-license)
 - [📧 Contact](#-contact)
+
+---
+
+
+## 🌐 Interactive Web Version
+
+Experience the DNAPass Password Generator directly in your browser! The web version offers all the functionality of the C++ script in an intuitive and responsive interface.
+
+### 🚀 Access the Web Version
+
+<div align="center">
+  
+[**🌍 Try It Now on DNAPass Password Generator**](https://dnapass.gerivan.me/dnapass.html)
+
+</div>
+
+### ⚡ Interactive Demo
+
+<div align="center">
+
+[**📚 Interactive Readme**](https://dnapass.gerivan.me/)
+
+</div>
 
 ---
 
