@@ -7,6 +7,37 @@ All notable changes to the 🧬 DNAPass Password Generator project are documente
 
 ---
 
+## [0.1.3] - 2025-10-24
+
+### Added
+- Completed total of 200 sequences for nucleotides in code 'dnapass_generator.cpp' function 'const std::vector<std::string> primary_sequences = { '
+- GitHub Actions CI/CD workflow for automated testing and building across multiple platforms
+- Multi-platform support (Ubuntu, macOS, Windows) with GCC and Clang compilers
+- Automated release process triggered by version tags
+- Comprehensive error handling and input validation in password generation
+- Initial public release of DNAPass Password Generator
+- Core password generation functionality inspired by DNA sequences
+- Support for customizable password lengths (8-128 characters)
+- Character diversity enforcement (uppercase, lowercase, digits, special characters)
+- Ambiguous DNA sequence resolution system
+- Initial project setup and structure
+- Basic CMake build system configuration
+- Core DNA sequence libraries and character mapping
+
+### Changed
+- Refactored CMake configuration to support cross-platform compilation
+- Improved project structure with separated source files in `dnapass_password_generator/` directory
+- Enhanced character diversity enforcement in password generation algorithm
+- Updated compiler-specific flags for better code quality and warnings
+
+### Fixed
+- Completed total of 200 sequences for nucleotides in code 'dnapass_generator.cpp'
+- Resolved CMake configuration issues preventing successful builds on macOS and Windows
+- Fixed `special_chars` variable declaration and linking errors across multiple compilation units
+- Corrected recursive password generation to include maximum attempt limits
+- Addressed file path inconsistencies in build system configuration
+- Fixed character counting logic in password analysis output
+
 ## [0.1.2] - 2025-08-31
 
 ### Added
