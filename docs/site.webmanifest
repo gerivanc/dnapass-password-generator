@@ -1,0 +1,27 @@
+{
+  "name": "DNAPass Password Generator",
+  "short_name": "🧬 DNAPass Password Generator",
+  "description": "🧬 DNAPass Password Generator Create secure passwords based on DNA nucleotide patterns. A unique C++ tool merging genetic logic with encryption",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+"icons": [
+    {
+      "src": "/https://dnapass.gerivan.me/web-app-manifest-960x960.png",
+      "sizes": "960x960",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/https://dnapass.gerivan.me/web-app-manifest-960x958.png",
+      "sizes": "960x958",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+    }
+]
