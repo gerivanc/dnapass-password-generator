@@ -937,18 +937,27 @@
             // Ensure character diversity based on user preferences
             let passwordArray = password.split('');
             
-            // Add digits if requested
-            if (includeDigits) {
-                const minDigits = length >= 50 ? 3 : 2;
-                let digitCount = passwordArray.filter(c => /\d/.test(c)).length;
-                const digits = "0123456789";
-                
-                while (digitCount < minDigits) {
-                    const randomIndex = getRandomInt(0, passwordArray.length - 1);
-                    passwordArray[randomIndex] = digits[getRandomInt(0, digits.length - 1)];
-                    digitCount++;
-                }
-            }
+			// Add digits if requested
+			if (includeDigits) {
+				const digits = "0123456789";
+				let digitCount = passwordArray.filter(c => /\d/.test(c)).length;
+
+				// Garante pelo menos One digit
+				if (digitCount === 0) {
+					// Find a safe position to place the digit
+					let attempts = 0;
+					let randomIndex;
+					do {
+						randomIndex = getRandomInt(0, passwordArray.length - 1);
+						attempts++;
+					// Stop after 10 attempts to avoid an infinite loop
+						if (attempts > 10) break;
+					} while (includeSpecial && specialChars.includes(passwordArray[randomIndex]));
+					
+					passwordArray[randomIndex] = digits[getRandomInt(0, digits.length - 1)];
+					digitCount++;
+				}
+			}
 
             // Add special characters if requested
             if (includeSpecial) {
