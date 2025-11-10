@@ -3,39 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#00ffff">
+    <meta name="theme-color" content="#ff0000">
     <meta http-equiv="Content-Security-Policy" 
           content="default-src 'self'; 
                    script-src 'self' 'unsafe-inline'; 
                    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
                    font-src 'self' https://fonts.gstatic.com; 
-                   img-src 'self' data: https://*.githubusercontent.com https://img.shields.io https://komarev.com https://github-readme-activity-graph.vercel.app https://nirzak-streak-stats.vercel.app https://github-readme-stats.vercel.app https://github-profile-summary-cards.vercel.app https://vercel.app https://vercel.live;
-                   frame-src 'self' https://dnapass.gerivan.me https://*.githubusercontent.com;">
-	<!-- Favicon -->
-	<link rel="icon" type="image/png" href="https://dnapass.gerivan.me/web-app-manifest-960x960.png" sizes="960x960">
-	<link rel="icon" type="image/x-icon" href="https://dnapass.gerivan.me/favicon2.ico">
-	<link rel="shortcut icon" href="https://dnapass.gerivan.me/favicon2.ico">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://dnapass.gerivan.me/apple-touch-icon.png">
-	<link rel="manifest" href="https://dnapass.gerivan.me/site.webmanifest">		
-	
-    <!-- Meta tags para PWA -->
+                   img-src 'self' data:; 
+                   frame-src 'self'">
+    <!-- PWA Meta tags -->
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="description" content="Gerivan Costa - Developer passionate about security, science, and creativity">
+    <meta name="description" content="DNAPass - Generate secure passwords inspired by DNA sequences">
     <title>DNAPass Password Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-green: #39ff14;
-            --aqua-green: #00ffcc;
-            --aqua-blue: #00ccff;
-            --light-yellow: #ffff99;
-            --white: #ffffff;
-            --red: #ff0000;
+            --neon-red: #ff0000;
+            --neon-blue: #00ccff;
+            --neon-cyan: #00ffff;
             --dark-bg: #000000;
-            --glass-bg: rgba(0, 255, 255, 0.1);
-            --glass-border: rgba(0, 255, 255, 0.3);
-            --glass-shadow: 0 8px 32px rgba(0, 255, 255, 0.1);
+            --darker-bg: #0a0a0a;
+            --glass-bg: rgba(255, 0, 0, 0.05);
+            --glass-border: rgba(255, 0, 0, 0.3);
+            --glass-shadow: 0 8px 32px rgba(255, 0, 0, 0.1);
         }
         
         * {
@@ -46,20 +37,49 @@
         
         body {
             background-color: var(--dark-bg);
-            color: var(--white);
+            color: var(--neon-cyan);
             font-family: 'Exo 2', sans-serif;
             line-height: 1.6;
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 0, 0.05) 0%, transparent 20%);
             overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* DNA Password Cascade Effect */
+        .dna-cascade {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .dna-column {
+            position: absolute;
+            top: -100%;
+            width: 20px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--neon-red);
+            text-shadow: 0 0 5px var(--neon-red);
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                top: 100%;
+            }
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         header {
@@ -76,25 +96,21 @@
             left: 10%;
             right: 10%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            background: linear-gradient(90deg, transparent, var(--neon-red), transparent);
         }
         
         h1 {
-            color: var(--red);
+            color: var(--neon-red);
             font-size: 3rem;
             margin-bottom: 15px;
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 2px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, var(--red), #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
         h2 {
-            color: var(--aqua-blue);
+            color: var(--neon-blue);
             font-size: 2.4rem;
             margin: 50px 0 25px;
             padding-bottom: 15px;
@@ -112,64 +128,65 @@
             left: 25%;
             width: 50%;
             height: 3px;
-            background: linear-gradient(90deg, transparent, var(--aqua-blue), transparent);
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
         }
         
         h3 {
-            color: var(--aqua-green);
+            color: var(--neon-cyan);
             font-size: 1.8rem;
             margin: 30px 0 15px;
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
         
         p, li {
-            color: var(--white);
+            color: var(--neon-cyan);
             margin-bottom: 18px;
             font-size: 1.15rem;
             line-height: 1.7;
         }
         
         .highlight {
-            color: var(--light-yellow);
+            color: var(--neon-red);
             font-weight: 600;
         }
         
         .neon-text {
-            color: var(--neon-green);
-            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+            color: var(--neon-red);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
         }
         
         .aqua-text {
-            color: var(--aqua-green);
+            color: var(--neon-cyan);
         }
         
         .blue-text {
-            color: var(--aqua-blue);
+            color: var(--neon-blue);
         }
         
         .tagline {
             font-size: 1.4rem;
             margin-bottom: 30px;
-            color: var(--neon-green);
-            text-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+            color: var(--neon-red);
+            text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
         }
         
         .password-display {
             background: linear-gradient(135deg, #111, #222);
-            border: 2px solid var(--neon-green);
+            border: 2px solid var(--neon-red);
             border-radius: 12px;
             padding: 20px;
             margin: 25px 0;
             font-size: 1.3rem;
             word-break: break-all;
-            color: var(--light-yellow);
+            color: var(--neon-cyan);
             min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
             font-family: 'Courier New', monospace;
             font-weight: bold;
             position: relative;
@@ -183,7 +200,7 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(45deg, var(--neon-green), transparent, var(--aqua-blue), transparent, var(--neon-green));
+            background: linear-gradient(45deg, var(--neon-red), transparent, var(--neon-blue), transparent, var(--neon-red));
             z-index: -1;
             border-radius: 12px;
             opacity: 0.7;
@@ -204,15 +221,15 @@
         label {
             display: block;
             margin-bottom: 10px;
-            color: var(--aqua-blue);
+            color: var(--neon-blue);
             font-size: 1.1rem;
             font-weight: 500;
         }
         
         input, select {
             background: linear-gradient(135deg, #111, #222);
-            color: var(--white);
-            border: 1px solid var(--aqua-green);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-red);
             border-radius: 8px;
             padding: 12px 15px;
             font-size: 1.1rem;
@@ -221,12 +238,12 @@
         
         input:focus, select:focus {
             outline: none;
-            border-color: var(--neon-green);
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+            border-color: var(--neon-red);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
         }
         
         button {
-            background: linear-gradient(135deg, var(--aqua-blue), var(--aqua-green));
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-red));
             color: #000;
             border: none;
             border-radius: 8px;
@@ -239,7 +256,7 @@
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
         }
         
         button::before {
@@ -255,7 +272,7 @@
         
         button:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.5);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.5);
         }
         
         button:hover::before {
@@ -294,17 +311,17 @@
             justify-content: space-between;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
             font-size: 1.1rem;
         }
         
         .analysis-label {
-            color: var(--aqua-blue);
+            color: var(--neon-blue);
             font-weight: 500;
         }
         
         .analysis-value {
-            color: var(--light-yellow);
+            color: var(--neon-cyan);
             font-weight: bold;
         }
         
@@ -313,7 +330,7 @@
             margin-top: 60px;
             padding-top: 30px;
             position: relative;
-            color: var(--white);
+            color: var(--neon-cyan);
             font-weight: bold;
             font-size: 1.1rem;
         }
@@ -325,7 +342,7 @@
             left: 10%;
             right: 10%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            background: linear-gradient(90deg, transparent, var(--neon-red), transparent);
         }
         
         .footer p {
@@ -341,10 +358,10 @@
         }
         
         .nav-links a {
-            color: var(--aqua-blue);
+            color: var(--neon-blue);
             text-decoration: none;
             padding: 12px 20px;
-            border: 1px solid var(--aqua-blue);
+            border: 1px solid var(--neon-blue);
             border-radius: 8px;
             transition: all 0.3s;
             font-family: 'Orbitron', sans-serif;
@@ -353,13 +370,46 @@
         }
         
         .nav-links a:hover {
-            background-color: var(--aqua-blue);
+            background-color: var(--neon-blue);
             color: #000;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 204, 255, 0.3);
         }
         
-        /* Nova animação de DNA helicoidal */
+        /* Security Overlay */
+        .security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            color: #ff0000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            z-index: 9999;
+            display: none;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        
+        .security-message {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--neon-red);
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* DNA Animation */
         .dna-animation {
             display: flex;
             justify-content: center;
@@ -399,9 +449,9 @@
         .connector {
             position: absolute;
             width: 4px;
-            background: linear-gradient(to bottom, var(--neon-green), var(--aqua-blue));
+            background: linear-gradient(to bottom, var(--neon-red), var(--neon-blue));
             transform-origin: top center;
-            box-shadow: 0 0 10px var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-red);
         }
         
         @keyframes rotateHelix {
@@ -414,12 +464,24 @@
             50% { transform: scale(1.15); box-shadow: 0 0 25px currentColor; }
         }
         
+        .content-box {
+            background-color: rgba(10, 10, 10, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            text-align: justify;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+        
         /* Mobile-specific styles */
         .mobile-menu-toggle {
             display: none;
             background: none;
-            border: 2px solid var(--aqua-blue);
-            color: var(--aqua-blue);
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
             font-size: 1.5rem;
             cursor: pointer;
             margin: 0 auto 20px;
@@ -429,7 +491,7 @@
         }
         
         .mobile-menu-toggle:hover {
-            background-color: var(--aqua-blue);
+            background-color: var(--neon-blue);
             color: #000;
         }
         
@@ -445,58 +507,19 @@
         }
         
         .mobile-nav a {
-            color: var(--aqua-blue);
+            color: var(--neon-blue);
             text-decoration: none;
             padding: 12px 20px;
-            border: 1px solid var(--aqua-blue);
+            border: 1px solid var(--neon-blue);
             border-radius: 8px;
             text-align: center;
             transition: all 0.3s;
         }
         
         .mobile-nav a:hover {
-            background-color: var(--aqua-blue);
+            background-color: var(--neon-blue);
             color: #000;
         }
-		
-		.content-box {
-		  background-color: #000000;
-		  border-radius: 12px;
-		  padding: 20px;
-		  margin: 20px auto;
-		  max-width: 800px;
-		  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-		}
-		
-		.content-box {
-		  background-color: #000000; /* Cores do plano de fundo das seções: How DNAPass Works e Security Notes */
-		  border-radius: 12px;
-		  padding: 20px;
-		  margin: 20px auto;
-		  max-width: 800px;
-		  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-		  text-align: justify;
-		}	
-
-		/* Centraliza os títulos */
-		h2 {
-		  text-align: center;
-		  margin-top: 40px;
-		  font-size: 1.8em;
-		  color: #fff;
-		}
-
-		/* Responsividade para mobile */
-		@media (max-width: 600px) {
-		  .content-box {
-			padding: 15px;
-			margin: 15px;
-		  }
-
-		  h2 {
-			font-size: 1.5em;
-		  }
-		}		
         
         @media (max-width: 768px) {
             .container {
@@ -548,6 +571,10 @@
             .desktop-nav {
                 display: none;
             }
+            
+            .security-message {
+                font-size: 2.5rem;
+            }
         }		
         
         @media (max-width: 480px) {
@@ -580,133 +607,145 @@
                 width: 150px;
                 height: 240px;
             }
+            
+            .security-message {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Security Overlay -->
+    <div class="security-overlay" id="securityOverlay">
+        <div class="security-message">SECURITY BREACH DETECTED</div>
+        <div>UNAUTHORIZED ACCESS ATTEMPT</div>
+    </div>
+
+    <!-- DNA Password Cascade -->
+    <div class="dna-cascade" id="dnaCascade"></div>
+
     <div class="container">
         <header>
-            <h1>🧬 DNAPass Password Generator</h1>
+            <h1>DNAPASS PASSWORD GENERATOR</h1>
             <p class="tagline">Generate secure passwords inspired by DNA sequences</p>
             
-            <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰ Menu</button>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰ MENU</button>
             
             <div class="nav-links desktop-nav" id="desktop-nav">
-                <a href="https://dnapass.gerivan.me/">Home</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GitHub</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank">Methodology</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank">Issues</a>
+                <a href="https://dnapass.gerivan.me/">HOME</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GITHUB</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank">METHODOLOGY</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank">ISSUES</a>
             </div>
             
             <div class="mobile-nav" id="mobile-nav">
-                <a href="https://dnapass.gerivan.me/">Home</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GitHub</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank">Methodology</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank">Issues</a>
+                <a href="https://dnapass.gerivan.me/">HOME</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GITHUB</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank">METHODOLOGY</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank">ISSUES</a>
             </div>
             
-            <!-- Nova animação de DNA helicoidal -->
+            <!-- DNA Animation -->
             <div class="dna-animation">
                 <div class="dna-helix" id="dnaHelix">
-                    <!-- A estrutura será criada via JavaScript -->
+                    <!-- Structure will be created via JavaScript -->
                 </div>
             </div>
         </header>
 
-            <!-- Visual of the password generator display -->        
+        <!-- Password Generator Section -->
         <section>
-            <h2>Password Generator</h2>
+            <h2>PASSWORD GENERATOR</h2>
             <div class="controls">                
                 <div class="control-group">
-                    <label for="include-uppercase">Include Uppercase</label>
+                    <label for="include-uppercase">INCLUDE UPPERCASE</label>
                     <select id="include-uppercase">
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
                     </select>
                 </div>
                 
                 <div class="control-group">
-                    <label for="include-lowercase">Include Lowercase</label>
+                    <label for="include-lowercase">INCLUDE LOWERCASE</label>
                     <select id="include-lowercase">
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
                     </select>
                 </div>
                 
                 <div class="control-group">
-                    <label for="include-digits">Include Digits</label>
+                    <label for="include-digits">INCLUDE DIGITS</label>
                     <select id="include-digits">
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
                     </select>
                 </div>
                 
                 <div class="control-group">
-                    <label for="include-special">Include Special Characters</label>
+                    <label for="include-special">INCLUDE SPECIAL CHARACTERS</label>
                     <select id="include-special">
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
+                        <option value="yes">YES</option>
+                        <option value="no">NO</option>
                     </select>
                 </div>
 				
 				<div class="control-group">
-					<label for="length">Password Length (8-128)</label>
-					<input type="number" id="length" min="8" max="128" value="24">
+					<label for="length">PASSWORD LENGTH (8-128)</label>
+					<input type="number" id="length" min="8" max="128" value="32">
 				</div>
             </div>
             
             <div class="btn-group">
-                <button id="generate-btn">Generate Password</button>
-                <button id="copy-btn">Copy to Clipboard</button>
+                <button id="generate-btn">GENERATE PASSWORD</button>
+                <button id="copy-btn">COPY TO CLIPBOARD</button>
             </div>
             
             <div class="password-display" id="password-display">
-                Your generated password will appear here
+                YOUR GENERATED PASSWORD WILL APPEAR HERE
             </div>
             
             <div class="analysis" id="password-analysis">
-                <h3>Password Analysis</h3>
+                <h3>PASSWORD ANALYSIS</h3>
                 <div class="analysis-item">
-                    <span class="analysis-label">Length:</span>
+                    <span class="analysis-label">LENGTH:</span>
                     <span class="analysis-value" id="analysis-length">-</span>
                 </div>
                 <div class="analysis-item">
-                    <span class="analysis-label">Uppercase:</span>
+                    <span class="analysis-label">UPPERCASE:</span>
                     <span class="analysis-value" id="analysis-uppercase">-</span>
                 </div>
                 <div class="analysis-item">
-                    <span class="analysis-label">Lowercase:</span>
+                    <span class="analysis-label">LOWERCASE:</span>
                     <span class="analysis-value" id="analysis-lowercase">-</span>
                 </div>
                 <div class="analysis-item">
-                    <span class="analysis-label">Digits:</span>
+                    <span class="analysis-label">DIGITS:</span>
                     <span class="analysis-value" id="analysis-digits">-</span>
                 </div>
                 <div class="analysis-item">
-                    <span class="analysis-label">Special Characters:</span>
+                    <span class="analysis-label">SPECIAL CHARACTERS:</span>
                     <span class="analysis-value" id="analysis-special">-</span>
                 </div>
                 <div class="analysis-item">
-                    <span class="analysis-label">Entropy (estimated):</span>
+                    <span class="analysis-label">ENTROPY (ESTIMATED):</span>
                     <span class="analysis-value" id="analysis-entropy">-</span>
                 </div>
             </div>
         </section>
         
         <section>
-            <h2>How DNAPass Works</h2>
+            <h2>HOW DNAPASS WORKS</h2>
 			<div class="content-box">
-			  <section>			
-            <p class="aqua-text">DNAPass generates passwords using DNA-inspired sequences:</p>
+            <p class="aqua-text">DNAPASS GENERATES PASSWORDS USING DNA-INSPIRED SEQUENCES:</p>
             
-            <h3>🎲 Sequence Selection</h3>
-            <p>DNAPass uses two sets of DNA-inspired sequences:</p>
+            <h3>SEQUENCE SELECTION</h3>
+            <p>DNAPASS uses two sets of DNA-inspired sequences:</p>
             <ul>
-                <li><span class="highlight">Primary Sequences:</span> A list of 200 DNA sequences derived from biological motifs, including ambiguous characters (e.g., 'N', 'R'). Selected with a 90% probability.</li>
-                <li><span class="highlight">Secondary Sequences:</span> A smaller set of 8 sequences restricted to the nucleotides A, T, C, and G, selected with a 10% probability.</li>
+                <li><span class="highlight">PRIMARY SEQUENCES:</span> A list of 200 DNA sequences derived from biological motifs, including ambiguous characters (e.g., 'N', 'R'). Selected with a 90% probability.</li>
+                <li><span class="highlight">SECONDARY SEQUENCES:</span> A smaller set of 8 sequences restricted to the nucleotides A, T, C, and G, selected with a 10% probability.</li>
             </ul>
             
-            <h3>🤹 Ambiguity Resolution</h3>
+            <h3>AMBIGUITY RESOLUTION</h3>
             <p>Primary sequences often contain ambiguous characters defined by the IUPAC nucleotide code. These are resolved randomly using a predefined mapping:</p>
             <ul>
                 <li>'N': Random choice from ['A', 'T', 'C', 'G']</li>
@@ -715,8 +754,8 @@
                 <li>And so on...</li>
             </ul>
             
-            <h3>🔣 Character Diversity</h3>
-            <p>To ensure password strength, DNAPass enforces:</p>
+            <h3>CHARACTER DIVERSITY</h3>
+            <p>To ensure password strength, DNAPASS enforces:</p>
             <ul>
                 <li>Uppercase Letters: At least 10% of the password length (minimum 1)</li>
                 <li>Lowercase Letters: At least one lowercase letter</li>
@@ -725,8 +764,8 @@
                 <li>No Spaces: Any spaces are removed</li>
             </ul>
             
-            <h3>📈 Entropy Considerations</h3>
-            <p>The entropy of a DNAPass-generated password is influenced by:</p>
+            <h3>ENTROPY CONSIDERATIONS</h3>
+            <p>The entropy of a DNAPASS-generated password is influenced by:</p>
             <ul>
                 <li>Sequence Selection: With 200 primary and 8 secondary sequences</li>
                 <li>Ambiguity Resolution: Each ambiguous character has multiple possible outcomes</li>
@@ -734,36 +773,120 @@
                 <li>Random Shuffling: Ensures no predictable structure</li>
             </ul>
             
-            <p class="neon-text">For a 12-character password, DNAPass typically achieves entropy above NIST's 80-bit recommendation for high-security passwords.</p>
-		  </section>
-		</div>
+            <p class="neon-text">For a 12-character password, DNAPASS typically achieves entropy above NIST's 80-bit recommendation for high-security passwords.</p>
+		  </div>
+        </section>
         
         <section>
-            <h2>Security Notes</h2>
-		<div class="content-box">
-		  <section>			
-            <p class="blue-text">Do not attempt to memorize the passwords generated by this tool. Instead, use a reliable password manager, such as <a href="https://bitwarden.com/" target="_blank" style="color: var(--light-yellow);">Bitwarden</a>, which I personally recommend.</p>
-            <p>The only password you should memorize is the master password for your password manager's vault, created with a strong combination of uppercase and lowercase letters, numbers, and special characters.</p>
-            <p class="neon-text">Enable two-factor authentication (2FA) whenever possible to enhance security.</p>
-		  </section>
-		</div>
+            <h2>SECURITY NOTES</h2>
+		    <div class="content-box">
+            <p class="blue-text">DO NOT ATTEMPT TO MEMORIZE THE PASSWORDS GENERATED BY THIS TOOL. INSTEAD, USE A RELIABLE PASSWORD MANAGER, SUCH AS <a href="https://bitwarden.com/" target="_blank" style="color: var(--neon-cyan);">BITWARDEN</a>, WHICH I PERSONALLY RECOMMEND.</p>
+            <p>THE ONLY PASSWORD YOU SHOULD MEMORIZE IS THE MASTER PASSWORD FOR YOUR PASSWORD MANAGER'S VAULT, CREATED WITH A STRONG COMBINATION OF UPPERCASE AND LOWERCASE LETTERS, NUMBERS, AND SPECIAL CHARACTERS.</p>
+            <p class="neon-text">ENABLE TWO-FACTOR AUTHENTICATION (2FA) WHENEVER POSSIBLE TO ENHANCE SECURITY.</p>
+		    </div>
+        </section>
         
         <footer class="footer">
-            <p>Copyright © 2025 Gerivan Costa dos Santos</p>
-            <p>DNAPass Password Generator © 2025</p>
-         	<p>Your passwords should be unique! Generate secure passwords inspired by DNA sequences.</p>			
+            <p>COPYRIGHT © 2025 GERIVAN COSTA DOS SANTOS</p>
+            <p>DNAPASS PASSWORD GENERATOR © 2025</p>
+         	<p>YOUR PASSWORDS SHOULD BE UNIQUE! GENERATE SECURE PASSWORDS INSPIRED BY DNA SEQUENCES.</p>			
 
             <div class="nav-links">
-                <a href="https://dnapass.gerivan.me/">Project Overview</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GitHub</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md" target="_blank">MIT License</a>
+                <a href="https://dnapass.gerivan.me/">PROJECT OVERVIEW</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GITHUB</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md" target="_blank">MIT LICENSE</a>
             </div>
         </footer>
     </div>
 
     <script>
+        // Security functions
+        function showSecurityAlert() {
+            const overlay = document.getElementById('securityOverlay');
+            overlay.style.display = 'flex';
+            
+            // Play alert sound if available
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+                
+                oscillator.start();
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 2);
+                oscillator.stop(audioContext.currentTime + 2);
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 5000);
+        }
+
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showSecurityAlert();
+            return false;
+        });
+
+        // Disable keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Disable F12
+            if (e.keyCode === 123) {
+                showSecurityAlert();
+                return false;
+            }
+            
+            // Disable Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 67)) {
+                showSecurityAlert();
+                return false;
+            }
+            
+            if (e.ctrlKey && e.keyCode === 85) {
+                showSecurityAlert();
+                return false;
+            }
+        });
+
+        // DNA cascade effect
+        function createDNACascade() {
+            const cascade = document.getElementById('dnaCascade');
+            const chars = ['A', 'T', 'C', 'G', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '@', '#', '$', '%', '&', '*'];
+            
+            // Create columns
+            for (let i = 0; i < 20; i++) {
+                const column = document.createElement('div');
+                column.className = 'dna-column';
+                column.style.left = `${(i / 20) * 100}%`;
+                column.style.animationDuration = `${15 + Math.random() * 10}s`;
+                column.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Add characters to column
+                for (let j = 0; j < 30; j++) {
+                    const char = document.createElement('div');
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.opacity = `${0.1 + Math.random() * 0.9}`;
+                    column.appendChild(char);
+                }
+                
+                cascade.appendChild(column);
+            }
+        }
+
         // DNA visualization
         document.addEventListener('DOMContentLoaded', function() {
+            createDNACascade();
+            
             const dnaHelix = document.getElementById('dnaHelix');
             const nucleotides = ['a', 't', 'c', 'g'];
             const numPairs = 14; // Number of nucleotide pairs
@@ -1049,7 +1172,7 @@
         generateBtn.addEventListener('click', () => {
             const length = parseInt(document.getElementById('length').value);
             if (length < 8 || length > 128) {
-                alert('Password length must be between 8 and 128 characters.');
+                alert('PASSWORD LENGTH MUST BE BETWEEN 8 AND 128 CHARACTERS.');
                 return;
             }
             
@@ -1061,25 +1184,25 @@
         // Copy to clipboard button click
         copyBtn.addEventListener('click', () => {
             const password = passwordDisplay.textContent;
-            if (password && password !== 'Your generated password will appear here') {
+            if (password && password !== 'YOUR GENERATED PASSWORD WILL APPEAR HERE') {
                 navigator.clipboard.writeText(password).then(() => {
                     // Visual feedback
                     const originalText = copyBtn.textContent;
-                    copyBtn.textContent = 'Copied!';
-                    copyBtn.style.background = 'linear-gradient(135deg, var(--neon-green), #00ff00)';
+                    copyBtn.textContent = 'COPIED!';
+                    copyBtn.style.background = 'linear-gradient(135deg, var(--neon-red), #ff3333)';
                     copyBtn.style.color = '#000';
                     
                     setTimeout(() => {
                         copyBtn.textContent = originalText;
-                        copyBtn.style.background = 'linear-gradient(135deg, var(--aqua-blue), var(--aqua-green))';
+                        copyBtn.style.background = 'linear-gradient(135deg, var(--neon-blue), var(--neon-red))';
                         copyBtn.style.color = '#000';
                     }, 2000);
                 }).catch(err => {
-                    console.error('Failed to copy: ', err);
-                    alert('Failed to copy password to clipboard.');
+                    console.error('FAILED TO COPY: ', err);
+                    alert('FAILED TO COPY PASSWORD TO CLIPBOARD.');
                 });
             } else {
-                alert('No password to copy. Please generate a password first.');
+                alert('NO PASSWORD TO COPY. PLEASE GENERATE A PASSWORD FIRST.');
             }
         });
 
