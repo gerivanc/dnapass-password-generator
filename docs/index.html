@@ -4,61 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#00ffff">
-	<meta http-equiv="Content-Security-Policy" 
-      content="default-src 'self'; 
-               script-src 'self' 'unsafe-inline'; 
-               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-               font-src 'self' https://fonts.gstatic.com; 
-               img-src 'self' data: https://*.githubusercontent.com https://img.shields.io https://komarev.com https://github-readme-activity-graph.vercel.app https://nirzak-streak-stats.vercel.app https://github-readme-stats.vercel.app https://github-profile-summary-cards.vercel.app https://vercel.app https://vercel.live;
-               frame-src 'self' https://dnapass.gerivan.me https://*.githubusercontent.com;">
-	<!-- Favicon -->
-	<link rel="icon" type="image/png" href="https://dnapass.gerivan.me/web-app-manifest-960x958.png" sizes="960x958">
-	<link rel="icon" type="image/x-icon" href="https://dnapass.gerivan.me/favicon.ico">
-	<link rel="shortcut icon" href="https://dnapass.gerivan.me/favicon.ico">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://dnapass.gerivan.me/apple-touch-icon.png">
-	<link rel="manifest" href="https://dnapass.gerivan.me/site.webmanifest">	
-	
-	<!-- Meta tags para PWA -->
-	<meta name="theme-color" content="#000000">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                   script-src 'self' 'unsafe-inline'; 
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+                   font-src 'self' https://fonts.gstatic.com; 
+                   img-src 'self' data: https://*.githubusercontent.com https://img.shields.io https://komarev.com https://github-readme-activity-graph.vercel.app https://nirzak-streak-stats.vercel.app https://github-readme-stats.vercel.app https://github-profile-summary-cards.vercel.app https://vercel.app https://vercel.live;
+                   frame-src 'self' https://dnapass.gerivan.me https://*.githubusercontent.com;">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://dnapass.gerivan.me/web-app-manifest-960x958.png" sizes="960x958">
+    <link rel="icon" type="image/x-icon" href="https://dnapass.gerivan.me/favicon.ico">
+    <link rel="shortcut icon" href="https://dnapass.gerivan.me/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://dnapass.gerivan.me/apple-touch-icon.png">
+    <link rel="manifest" href="https://dnapass.gerivan.me/site.webmanifest">	
+    
+    <!-- Meta tags para PWA -->
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="description" content="Gerivan Costa - Developer passionate about security, science, and creativity">
     <title>DNAPass Password Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-green: #39ff14;
-            --aqua-green: #00ffcc;
-            --aqua-blue: #00ccff;
-            --light-yellow: #ffff99;
-            --white: #ffffff;
-            --red: #ff0000;
-            --dark-bg: #000000;
+            --primary-color: #ff0000;
+            --secondary-color: #00ffff;
+            --accent-color: #00ffcc;
+            --text-color: #ffffff;
+            --background-color: #000000;
             --glass-bg: rgba(0, 255, 255, 0.1);
             --glass-border: rgba(0, 255, 255, 0.3);
             --glass-shadow: 0 8px 32px rgba(0, 255, 255, 0.1);
+            --hacker-green: #39ff14;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
-            background-color: var(--dark-bg);
-            color: var(--white);
+            background-color: var(--background-color);
+            color: var(--text-color);
             font-family: 'Exo 2', sans-serif;
-            margin: 0;
-            padding: 0;
             line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 255, 255, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 0, 0.05) 0%, transparent 20%);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* DNA Rain Animation */
+        .dna-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .dna-drop {
+            position: absolute;
+            font-size: 18px;
+            color: var(--primary-color);
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        /* Matrix Code Effect */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .code-column {
+            position: absolute;
+            top: -100%;
+            color: var(--hacker-green);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            animation: matrix-rain 20s linear infinite;
+        }
+        
+        @keyframes matrix-rain {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         header {
             text-align: center;
-            padding: 20px 0;
+            padding: 40px 0;
             margin-bottom: 30px;
             position: relative;
         }
@@ -70,21 +129,31 @@
             left: 10%;
             right: 10%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
         }
         
         h1 {
-            color: var(--red);
-            font-size: 2.8rem;
-            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-size: 3rem;
+            margin-bottom: 20px;
             text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
             font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            animation: pulse 3s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255, 0, 0, 0.9), 0 0 30px rgba(255, 0, 0, 0.6);
+            }
         }
         
         h2 {
-            color: var(--aqua-blue);
+            color: var(--secondary-color);
             font-size: 2.2rem;
             margin-top: 40px;
             margin-bottom: 20px;
@@ -103,11 +172,11 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--aqua-blue), transparent);
+            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
         }
         
         h3 {
-            color: var(--aqua-green);
+            color: var(--accent-color);
             font-size: 1.6rem;
             margin-top: 25px;
             margin-bottom: 15px;
@@ -115,25 +184,25 @@
         }
         
         p, li {
-            color: var(--white);
+            color: var(--text-color);
             margin-bottom: 15px;
             font-size: 1.1rem;
         }
         
         .highlight {
-            color: var(--light-yellow);
+            color: var(--hacker-green);
         }
         
         .neon-text {
-            color: var(--neon-green);
+            color: var(--hacker-green);
         }
         
         .aqua-text {
-            color: var(--aqua-green);
+            color: var(--accent-color);
         }
         
         .blue-text {
-            color: var(--aqua-blue);
+            color: var(--secondary-color);
         }
         
         .badge {
@@ -211,7 +280,7 @@
         }
         
         .feature-card:hover {
-            border-color: var(--neon-green);
+            border-color: var(--hacker-green);
             transform: translateY(-8px);
             box-shadow: 0 15px 30px rgba(0, 255, 255, 0.2);
         }
@@ -221,14 +290,14 @@
         }
         
         .feature-card h3 {
-            color: var(--aqua-green);
+            color: var(--accent-color);
             margin-top: 0;
             font-size: 1.4rem;
         }
         
         .btn {
             display: inline-block;
-            background: linear-gradient(135deg, var(--aqua-blue), var(--aqua-green));
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
             color: #000;
             padding: 14px 28px;
             text-decoration: none;
@@ -271,14 +340,14 @@
         
         .code-block {
             background-color: #111;
-            border: 1px solid var(--aqua-green);
+            border: 1px solid var(--accent-color);
             border-radius: 8px;
             padding: 20px;
             margin: 25px 0;
             overflow-x: auto;
             font-family: 'Courier New', monospace;
             position: relative;
-            font-size: 1.1rem; /* Aumentado para corresponder à seção USAGE */
+            font-size: 1.1rem;
         }
         
         .code-block::before {
@@ -286,15 +355,15 @@
             position: absolute;
             top: -10px;
             left: 20px;
-            background: var(--dark-bg);
-            color: var(--aqua-green);
+            background: var(--background-color);
+            color: var(--accent-color);
             padding: 0 10px;
             font-size: 1.3rem;
             font-weight: bold;
         }
         
         .code-block code {
-            color: var(--light-yellow);
+            color: var(--hacker-green);
             display: block;
         }
         
@@ -303,7 +372,7 @@
             margin-top: 50px;
             padding-top: 30px;
             position: relative;
-            color: var(--white);
+            color: var(--text-color);
             font-weight: bold;
             font-size: 1.1rem;
         }
@@ -315,7 +384,7 @@
             left: 10%;
             right: 10%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            background: linear-gradient(90deg, transparent, var(--hacker-green), transparent);
         }
         
         .nav-links {
@@ -327,10 +396,10 @@
         }
         
         .nav-links a {
-            color: var(--aqua-blue);
+            color: var(--secondary-color);
             text-decoration: none;
             padding: 10px 18px;
-            border: 1px solid var(--aqua-blue);
+            border: 1px solid var(--secondary-color);
             border-radius: 8px;
             transition: all 0.3s;
             font-family: 'Orbitron', sans-serif;
@@ -338,7 +407,7 @@
         }
         
         .nav-links a:hover {
-            background-color: var(--aqua-blue);
+            background-color: var(--secondary-color);
             color: #000;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 204, 255, 0.3);
@@ -364,13 +433,13 @@
         }
         
         .toc a {
-            color: var(--aqua-blue);
+            color: var(--secondary-color);
             text-decoration: none;
             transition: color 0.3s;
         }
         
         .toc a:hover {
-            color: var(--neon-green);
+            color: var(--hacker-green);
             text-decoration: underline;
         }
         
@@ -419,7 +488,7 @@
         .connector {
             position: absolute;
             width: 3px;
-            background: linear-gradient(to bottom, var(--neon-green), transparent);
+            background: linear-gradient(to bottom, var(--hacker-green), transparent);
             transform-origin: top center;
         }
         
@@ -428,12 +497,63 @@
             100% { transform: rotateY(360deg) rotateX(360deg); }
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 10px currentColor; }
-            50% { transform: scale(1.1); box-shadow: 0 0 20px currentColor; }
-            100% { transform: scale(1); box-shadow: 0 0 10px currentColor; }
+        .security-message {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--primary-color);
         }
         
+        /* Security Overlay */
+        .security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            color: var(--primary-color);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            animation: security-alert 0.5s infinite alternate;
+        }
+        
+        @keyframes security-alert {
+            0% {
+                background-color: rgba(0, 0, 0, 0.95);
+            }
+            100% {
+                background-color: rgba(255, 0, 0, 0.1);
+            }
+        }
+        
+        .content-box {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            text-align: justify;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        /* Centraliza os títulos */
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.8em;
+            color: var(--secondary-color);
+        }
+        
+        /* Responsividade para mobile */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -478,46 +598,11 @@
                 width: 150px;
                 height: 250px;
             }
+            
+            .security-overlay {
+                font-size: 1.5rem;
+            }
         }
-		
-		.content-box {
-		  background-color: #000000;
-		  border-radius: 12px;
-		  padding: 20px;
-		  margin: 20px auto;
-		  max-width: 800px;
-		  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-		}
-		
-		.content-box {
-		  background-color: #000000; /* Cores do plano de fundo das seções: How It Works e Security Notes */
-		  border-radius: 12px;
-		  padding: 20px;
-		  margin: 20px auto;
-		  max-width: 800px;
-		  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-		  text-align: justify;
-		}	
-
-		/* Centraliza os títulos */
-		h2 {
-		  text-align: center;
-		  margin-top: 40px;
-		  font-size: 1.8em;
-		  color: #fff;
-		}
-
-		/* Responsividade para mobile */
-		@media (max-width: 600px) {
-		  .content-box {
-			padding: 15px;
-			margin: 15px;
-		  }
-
-		  h2 {
-			font-size: 1.5em;
-		  }
-		}		
         
         @media (max-width: 480px) {
             h1 {
@@ -542,13 +627,29 @@
                 width: 120px;
                 height: 200px;
             }
+            
+            .security-overlay {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- DNA Rain Effect -->
+    <div class="dna-rain" id="dnaRain"></div>
+    
+    <!-- Matrix Code Background -->
+    <div class="matrix-bg" id="matrixBg"></div>
+    
+    <!-- Security Overlay -->
+    <div class="security-overlay" id="securityOverlay">
+        <div class="security-message">SECURITY BREACH DETECTED</div>
+        <div>UNAUTHORIZED ACCESS ATTEMPT</div>
+    </div>
+    
     <div class="container">
         <header>
-            <h1>🧬 DNAPass Password Generator</h1>
+            <h1>DNAPASS PASSWORD GENERATOR</h1>
             <p class="neon-text">Written in modern C++, inspired by DNA nucleotide sequences</p>
             
             <div class="nav-links">
@@ -573,20 +674,20 @@
         
         <section>
             <h2>OVERVIEW</h2>
-		<div class="content-box">
-		  <section>			
-            <p class="aqua-text">DNAPass is a password generator written in modern C++ that creates secure passwords inspired by DNA nucleotide sequences.</p>
-            
-            <p>The generator uses DNA-inspired sequences and applies various transformations to ensure password strength while maintaining memorability through biological patterns.</p>
-            
-            <div class="badges">
-                <span class="badge badge-cpp">C++</span>
-                <span class="badge badge-gpp">G++</span>
-                <span class="badge badge-cmake">CMake</span>
-                <span class="badge badge-git">Git</span>
-                <span class="badge badge-clang">Clang</span>
-                <span class="badge badge-maintained">Maintained</span>
-                <span class="badge badge-license">MIT License</span>
+            <div class="content-box">
+                <p class="aqua-text">DNAPass is a password generator written in modern C++ that creates secure passwords inspired by DNA nucleotide sequences.</p>
+                
+                <p>The generator uses DNA-inspired sequences and applies various transformations to ensure password strength while maintaining memorability through biological patterns.</p>
+                
+                <div class="badges">
+                    <span class="badge badge-cpp">C++</span>
+                    <span class="badge badge-gpp">G++</span>
+                    <span class="badge badge-cmake">CMake</span>
+                    <span class="badge badge-git">Git</span>
+                    <span class="badge badge-clang">Clang</span>
+                    <span class="badge badge-maintained">Maintained</span>
+                    <span class="badge badge-license">MIT License</span>
+                </div>
             </div>
         </section>
         
@@ -612,32 +713,32 @@
             
             <div class="feature-grid">
                 <div class="feature-card">
-                    <h3>🧬 DNA-Inspired Sequences</h3>
+                    <h3>DNA-INSPIRED SEQUENCES</h3>
                     <p>Generates passwords using DNA nucleotide sequences (A, T, C, G) with ambiguous character resolution.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3>🔒 High Entropy</h3>
+                    <h3>HIGH ENTROPY</h3>
                     <p>Produces passwords with high entropy, exceeding NIST's 80-bit recommendation for high-security passwords.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3>🎲 Random Selection</h3>
+                    <h3>RANDOM SELECTION</h3>
                     <p>Uses two sets of sequences with 90%/10% probability distribution for increased randomness.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3>🔣 Character Diversity</h3>
+                    <h3>CHARACTER DIVERSITY</h3>
                     <p>Enforces uppercase, lowercase, digits, and special characters for maximum password strength.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3>⚡ Modern C++</h3>
+                    <h3>MODERN C++</h3>
                     <p>Written in modern C++ with clean, maintainable code following best practices.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <h3>📦 Cross-Platform</h3>
+                    <h3>CROSS-PLATFORM</h3>
                     <p>Compatible with Windows, Linux, and macOS with CMake support for easy building.</p>
                 </div>
             </div>
@@ -653,13 +754,13 @@
                     sudo apt update<br>
                     sudo apt install git<br>
                     sudo apt install g++<br>
-					sudo apt install clang<br><br>
+                    sudo apt install clang<br><br>
                     
                     # After installing the environments, confirm and verify the installed versions. (Optional checking)<br><br>
-					sudo apt update<br>
-					sudo apt install git<br>
-					sudo apt install cmake<br>
-					sudo apt install g++<br>
+                    sudo apt update<br>
+                    sudo apt install git<br>
+                    sudo apt install cmake<br>
+                    sudo apt install g++<br>
                 </code>
             </div>
             
@@ -668,12 +769,12 @@
             <div class="code-block">
                 <code>
                     # Cloning the repository to install packages.<br><br>					
-					git clone https://github.com/gerivanc/dnapass-password-generator.git<br>
-					cd dnapass-password-generator<br>
-					mkdir build<br>
-					cd build<br>
-					cmake ..<br>
-					cmake --build .<br>
+                    git clone https://github.com/gerivanc/dnapass-password-generator.git<br>
+                    cd dnapass-password-generator<br>
+                    mkdir build<br>
+                    cd build<br>
+                    cmake ..<br>
+                    cmake --build .<br>
                 </code>
             </div>
         </section>
@@ -685,15 +786,15 @@
             
             <div class="code-block">
                 <code>
-			<ul>
-                <li><span class="highlight">Method 1.</span> Call the function by question to generate the password by choosing between 8-128 characters:</li>
-                <li><span class="highlight">./dnapass_generator<br><br>
-            </ul>
-				<br>                    
-			<ul>
-                <li><span class="highlight">Method 2.</span> Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128:</li>
-                <li><span class="highlight">echo "45" | ./dnapass_generator<br><br>
-            </ul>
+                    <ul>
+                        <li><span class="highlight">Method 1.</span> Call the function by question to generate the password by choosing between 8-128 characters:</li>
+                        <li><span class="highlight">./dnapass_generator<br><br>
+                    </ul>
+                    <br>                    
+                    <ul>
+                        <li><span class="highlight">Method 2.</span> Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128:</li>
+                        <li><span class="highlight">echo "45" | ./dnapass_generator<br><br>
+                    </ul>
                 </code>
             </div>
             
@@ -701,124 +802,120 @@
             
             <div class="code-block">
                 <code>
-            <ul>
-                <li><span class="highlight">Error:</span> "cmake: command not found"**: Install CMake with `sudo apt install cmake`.</li>
-                <li><span class="highlight">Error:</span> "g++: command not found"**: Install `g++` with `sudo apt install g++`.</li>
-                <li><span class="highlight">Error:</span> "./dnapass_generator: No such file or directory"**: Ensure the build step completed successfully. Run `ls` to check if `dnapass_generator` exists in the `build` folder. If not, repeat the `cmake ..` and `cmake --build .` steps.</li>
-                <li><span class="highlight">Permission denied:</span> Run `chmod +x dnapass_generator` to make the executable runnable, then try `./dnapass_generator` again.</li>
-            </ul>
+                    <ul>
+                        <li><span class="highlight">Error:</span> "cmake: command not found"**: Install CMake with `sudo apt install cmake`.</li>
+                        <li><span class="highlight">Error:</span> "g++: command not found"**: Install `g++` with `sudo apt install g++`.</li>
+                        <li><span class="highlight">Error:</span> "./dnapass_generator: No such file or directory"**: Ensure the build step completed successfully. Run `ls` to check if `dnapass_generator` exists in the `build` folder. If not, repeat the `cmake ..` and `cmake --build .` steps.</li>
+                        <li><span class="highlight">Permission denied:</span> Run `chmod +x dnapass_generator` to make the executable runnable, then try `./dnapass_generator` again.</li>
+                    </ul>
                 </code>
             </div>
             
             <h3>Web Interface</h3>
-            <p>Use our <a href="https://dnapass.gerivan.me" style="color: var(--aqua-blue);">web-based password generator</a> for quick and easy password generation.</p>
+            <p>Use our <a href="https://dnapass.gerivan.me" style="color: var(--secondary-color);">web-based password generator</a> for quick and easy password generation.</p>
             
             <a href="https://dnapass.gerivan.me/dnapass.html" class="btn">Try Web Generator</a>
         </section>
         
         <section id="how-it-works">
-		<div class="content-box">
-		  <section>		
             <h2>HOW IT WORKS</h2>
-            
-            <h3>🎲 Sequence Selection</h3>
-            <p>DNAPass uses two sets of DNA-inspired sequences:</p>
-            <ul>
-                <li><span class="highlight">Primary Sequences:</span> A list of 200 DNA sequences derived from biological motifs, including ambiguous characters (e.g., 'N', 'R'). Selected with a 90% probability.</li>
-                <li><span class="highlight">Secondary Sequences:</span> A smaller set of 8 sequences restricted to the nucleotides A, T, C, and G, selected with a 10% probability.</li>
-            </ul>
-            
-            <h3>🤹 Ambiguity Resolution</h3>
-            <p>Primary sequences often contain ambiguous characters defined by the IUPAC nucleotide code. These are resolved randomly using a predefined mapping:</p>
-            <ul>
-                <li>'N': Random choice from ['A', 'T', 'C', 'G']</li>
-                <li>'R': Random choice from ['A', 'G']</li>
-                <li>'Y': Random choice from ['C', 'T']</li>
-                <li>And so on...</li>
-            </ul>
-            
-            <h3>🔣 Character Diversity</h3>
-            <p>To ensure password strength, DNAPass enforces:</p>
-            <ul>
-                <li>Uppercase Letters: At least 10% of the password length (minimum 1)</li>
-                <li>Lowercase Letters: At least one lowercase letter</li>
-                <li>Digits: At least 2 digits for passwords &lt; 50 characters, or 3 for ≥ 50 characters</li>
-                <li>Special Characters: At least 4 special characters from a predefined set</li>
-                <li>No Spaces: Any spaces are removed</li>
-            </ul>
-            
-            <h3>📈 Entropy Considerations</h3>
-            <p>The entropy of a DNAPass-generated password is influenced by:</p>
-            <ul>
-                <li>Sequence Selection: With 141 primary and 8 secondary sequences</li>
-                <li>Ambiguity Resolution: Each ambiguous character has multiple possible outcomes</li>
-                <li>Character Modifications: Adding digits, special characters, and case variations</li>
-                <li>Random Shuffling: Ensures no predictable structure</li>
-            </ul>
-            
-            <p class="neon-text">For a 12-character password, DNAPass typically achieves entropy above NIST's 80-bit recommendation for high-security passwords.</p>
-            
-            <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank" class="btn">View Detailed Methodology</a>
-			  </section>
-			</div>
+            <div class="content-box">
+                <h3>SEQUENCE SELECTION</h3>
+                <p>DNAPass uses two sets of DNA-inspired sequences:</p>
+                <ul>
+                    <li><span class="highlight">Primary Sequences:</span> A list of 200 DNA sequences derived from biological motifs, including ambiguous characters (e.g., 'N', 'R'). Selected with a 90% probability.</li>
+                    <li><span class="highlight">Secondary Sequences:</span> A smaller set of 8 sequences restricted to the nucleotides A, T, C, and G, selected with a 10% probability.</li>
+                </ul>
+                
+                <h3>AMBIGUITY RESOLUTION</h3>
+                <p>Primary sequences often contain ambiguous characters defined by the IUPAC nucleotide code. These are resolved randomly using a predefined mapping:</p>
+                <ul>
+                    <li>'N': Random choice from ['A', 'T', 'C', 'G']</li>
+                    <li>'R': Random choice from ['A', 'G']</li>
+                    <li>'Y': Random choice from ['C', 'T']</li>
+                    <li>And so on...</li>
+                </ul>
+                
+                <h3>CHARACTER DIVERSITY</h3>
+                <p>To ensure password strength, DNAPass enforces:</p>
+                <ul>
+                    <li>Uppercase Letters: At least 10% of the password length (minimum 1)</li>
+                    <li>Lowercase Letters: At least one lowercase letter</li>
+                    <li>Digits: At least 2 digits for passwords &lt; 50 characters, or 3 for ≥ 50 characters</li>
+                    <li>Special Characters: At least 4 special characters from a predefined set</li>
+                    <li>No Spaces: Any spaces are removed</li>
+                </ul>
+                
+                <h3>ENTROPY CONSIDERATIONS</h3>
+                <p>The entropy of a DNAPass-generated password is influenced by:</p>
+                <ul>
+                    <li>Sequence Selection: With 141 primary and 8 secondary sequences</li>
+                    <li>Ambiguity Resolution: Each ambiguous character has multiple possible outcomes</li>
+                    <li>Character Modifications: Adding digits, special characters, and case variations</li>
+                    <li>Random Shuffling: Ensures no predictable structure</li>
+                </ul>
+                
+                <p class="neon-text">For a 12-character password, DNAPass typically achieves entropy above NIST's 80-bit recommendation for high-security passwords.</p>
+                
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank" class="btn">View Detailed Methodology</a>
+            </div>
+        </section>
         
         <section id="security-notes">
             <h2>SECURITY NOTES</h2>
-		<div class="content-box">
-		  <section>			
-            <p class="blue-text">Do not attempt to memorize the passwords generated by this tool. Instead, use a reliable password manager, such as <a href="https://bitwarden.com/" target="_blank" style="color: var(--light-yellow);">Bitwarden</a>, which I personally recommend.</p>
-            <p>The only password you should memorize is the master password for your password manager's vault, created with a strong combination of uppercase and lowercase letters, numbers, and special characters.</p>
-            <p class="neon-text">Enable two-factor authentication (2FA) whenever possible to enhance security.</p>
-			  </section>
-			</div>
+            <div class="content-box">
+                <p class="blue-text">Do not attempt to memorize the passwords generated by this tool. Instead, use a reliable password manager, such as <a href="https://bitwarden.com/" target="_blank" style="color: var(--hacker-green);">Bitwarden</a>, which I personally recommend.</p>
+                <p>The only password you should memorize is the master password for your password manager's vault, created with a strong combination of uppercase and lowercase letters, numbers, and special characters.</p>
+                <p class="neon-text">Enable two-factor authentication (2FA) whenever possible to enhance security.</p>
+            </div>
+        </section>
         
         <section id="contributing">
             <h2>CONTRIBUTING</h2>
-		<div class="content-box">
-		  <section>				
-            <p>Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.</p>
-            
-            <h3>Issue Templates</h3>
-            <p>Use our issue templates to report bugs or suggest improvements:</p>
-            <ul>
-                <li><a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/bug_report.md" target="_blank" style="color: var(--aqua-blue);">Bug Report Template</a></li>
-                <li><a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/issue_template.md" target="_blank" style="color: var(--aqua-blue);">Feature Request Template</a></li>
-            </ul>
-            
-            <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" class="btn">View Issues</a>
+            <div class="content-box">
+                <p>Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.</p>
+                
+                <h3>Issue Templates</h3>
+                <p>Use our issue templates to report bugs or suggest improvements:</p>
+                <ul>
+                    <li><a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/bug_report.md" target="_blank" style="color: var(--secondary-color);">Bug Report Template</a></li>
+                    <li><a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/issue_template.md" target="_blank" style="color: var(--secondary-color);">Feature Request Template</a></li>
+                </ul>
+                
+                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" class="btn">View Issues</a>
+            </div>
         </section>
         
         <section id="license">
             <h2>LICENSE</h2>
-            <p>This project is licensed under the MIT License. See the:</p>
-            <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md" target="_blank" class="btn">View MIT License</a>
-			  </section>
-			</div>
+            <div class="content-box">
+                <p>This project is licensed under the MIT License. See the:</p>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md" target="_blank" class="btn">View MIT License</a>
+            </div>
+        </section>
         
         <section id="changelog">
             <h2>CHANGELOG</h2>
-		<div class="content-box">
-		  <section>				
-            <p>See what's new in each version of DNAPass:</p>
-            <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/CHANGELOG.md" target="_blank" class="btn">View Changelog</a>
-			  </section>
-			</div>
+            <div class="content-box">
+                <p>See what's new in each version of DNAPass:</p>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/CHANGELOG.md" target="_blank" class="btn">View Changelog</a>
+            </div>
+        </section>
         
         <section id="issues">
             <h2>ISSUES</h2>
-		<div class="content-box">
-		  <section>					
-            <p>Found a bug or have a suggestion? Check our issues page:</p>
-            <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" class="btn">View Issues</a>
-			  </section>
-			</div>
+            <div class="content-box">
+                <p>Found a bug or have a suggestion? Check our issues page:</p>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" class="btn">View Issues</a>
+            </div>
+        </section>
         
         <footer class="footer">
             <p>Copyright © 2025 Gerivan Costa dos Santos</p>
             <p>DNAPass Password Generator © 2025</p>
-         	<p>Your passwords should be unique! Generate secure passwords inspired by DNA sequences.</p>
+            <p>Your passwords should be unique! Generate secure passwords inspired by DNA sequences.</p>
 
-			<div class="nav-links">
+            <div class="nav-links">
                 <a href="https://dnapass.gerivan.me/dnapass.html">Password Generator</a>
                 <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GitHub</a>
                 <a href="https://github.com/gerivanc/dnapass-password-generator/tree/main/dnapass_password_generator" target="_blank">Source Code</a>
@@ -868,7 +965,100 @@
                     dnaHelix.appendChild(connector);
                 }
             }
+            
+            // Criar chuva de DNA
+            createDnaRain();
+            
+            // Criar efeito Matrix
+            createMatrixEffect();
         });
+        
+        // Função para criar chuva de DNA
+        function createDnaRain() {
+            const dnaRain = document.getElementById('dnaRain');
+            const dnaCount = 50;
+            
+            for (let i = 0; i < dnaCount; i++) {
+                const dnaDrop = document.createElement('div');
+                dnaDrop.className = 'dna-drop';
+                dnaDrop.innerHTML = '🧬';
+                dnaDrop.style.left = `${Math.random() * 100}%`;
+                dnaDrop.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                dnaDrop.style.animationDelay = `${Math.random() * 5}s`;
+                dnaRain.appendChild(dnaDrop);
+            }
+        }
+        
+        // Função para criar efeito Matrix
+        function createMatrixEffect() {
+            const matrixBg = document.getElementById('matrixBg');
+            const columns = Math.floor(window.innerWidth / 20);
+            
+            for (let i = 0; i < columns; i++) {
+                const column = document.createElement('div');
+                column.className = 'code-column';
+                column.style.left = `${i * 20}px`;
+                column.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                column.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Adicionar caracteres aleatórios
+                let content = '';
+                const charCount = Math.floor(Math.random() * 20) + 10;
+                for (let j = 0; j < charCount; j++) {
+                    content += String.fromCharCode(Math.floor(Math.random() * 94) + 33) + '<br>';
+                }
+                
+                column.innerHTML = content;
+                matrixBg.appendChild(column);
+            }
+        }
+        
+        // Security functions
+        function showSecurityAlert() {
+            const securityOverlay = document.getElementById('securityOverlay');
+            securityOverlay.style.display = 'flex';
+            
+            // Bloquear interação
+            document.body.style.overflow = 'hidden';
+            
+            // Remover overlay após alguns segundos
+            setTimeout(() => {
+                securityOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 3000);
+        }
+        
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showSecurityAlert();
+            return false;
+        });
+        
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+U
+        document.addEventListener('keydown', function(e) {
+            if (
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+                (e.ctrlKey && e.key === 'u')
+            ) {
+                e.preventDefault();
+                showSecurityAlert();
+                return false;
+            }
+        });
+        
+        // Detect DevTools opening
+        (function() {
+            const element = new Image();
+            Object.defineProperty(element, 'id', {
+                get: function() {
+                    showSecurityAlert();
+                }
+            });
+            console.log('%c', element);
+        })();
     </script>
 </body>
 </html>
