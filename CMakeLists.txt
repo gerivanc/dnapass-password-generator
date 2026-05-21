@@ -28,7 +28,7 @@ set(SOURCE_FILES
 # Add executable
 add_executable(dnapass_generator ${SOURCE_FILES})
 
-# Include header files - CORRETO: headers estão na pasta dnapass_password_generator
+# Include header files - 
 target_include_directories(dnapass_generator PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dnapass_password_generator)
 
 # Set compiler-specific flags
