@@ -19,7 +19,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Add source files - CORRETO: arquivos estão na pasta dnapass_password_generator
+# Add source files 
 set(SOURCE_FILES
     dnapass_password_generator/dnapass_generator.cpp
     dnapass_password_generator/main.cpp
@@ -36,7 +36,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(dnapass_generator PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
-# Installation rules (optional)
+# Installation rules
 install(TARGETS dnapass_generator DESTINATION bin)
 
 # Add custom message for build completion
