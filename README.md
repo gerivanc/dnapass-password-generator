@@ -256,4 +256,4 @@ For questions or feedback, please contact: [dean-grumbly-plop@duck.com](mailto:d
 
 ---
 
-#### Copyright © 2025 Gerivan Costa dos Santos
+#### Copyright © 2025-2026 Gerivan Costa dos Santos
