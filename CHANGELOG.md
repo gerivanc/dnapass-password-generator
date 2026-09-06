@@ -7,6 +7,48 @@ All notable changes to the 🧬 DNAPass Password Generator project are documente
 
 ---
 
+## [0.1.4] - 2026-09-06
+
+### Added
+- Cryptographically secure random number generation for password creation in `docs/dnapass.html`, using the Web Crypto API (`crypto.getRandomValues()`): `secureRandomUint32()`, `secureRandomFloat()`, and a bias-free `getRandomInt()` built on rejection sampling, replacing `Math.random()` everywhere it fed into the generated password (sequence selection, case-flattening pass, character-diversity insertion, and the Fisher-Yates shuffle)
+- `reserveIndices()` helper in `docs/dnapass.html` that draws unique array positions from a shared pool without replacement, so digits, special characters, and forced-uppercase letters can never land on the same index
+- ARIA live-region attributes (`role="status"`, `aria-live="polite"`, `aria-atomic="true"`) on the password display, and `aria-live="polite"` on the analysis panel in `docs/dnapass.html`, so screen readers announce newly generated passwords and updated analysis values
+- Hardened Content-Security-Policy directives in `docs/dnapass.html`: `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`
+- Clarifying note in the "ENTROPY CONSIDERATIONS" section of `docs/dnapass.html` explaining that the displayed entropy is a charset-based Shannon estimate (an upper bound), since DNAPASS builds passwords from a fixed, published set of sequences rather than choosing every character independently and uniformly at random
+- `rel="noopener noreferrer"` on all 14 external `target="_blank"` links in `docs/index.html` to prevent reverse tabnabbing.
+- Open Graph meta tags (`og:type`, `og:title`, `og:description`, `og:url`, `og:image`) in `docs/index.html` for social sharing previews.
+- Twitter Card meta tags (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`) in `docs/index.html`.
+- `@media (prefers-reduced-motion: reduce)` rule in `docs/index.html` to disable the pulse, DNA-rain, Matrix-rain, helix-rotation, and security-alert animations for users who request reduced motion.
+- `aria-hidden="true"` on purely decorative background elements in `docs/index.html` (`dna-rain`, `matrix-bg`, `dna-animation`/`dna-helix`) so screen readers skip them.
+- `role="alert"` on the security overlay in `docs/index.html`, with its `aria-hidden` state now toggled by `showSecurityAlert()` when shown and reset when hidden, so assistive technology announces it correctly.
+
+### Changed
+- `docs/dnapass.html`: "INCLUDE UPPERCASE" and "INCLUDE LOWERCASE" now normalize the generated password to the requested case before the diversity checks run, so disabling one of them actually excludes that case from the output instead of only skipping the minimum-count enforcement
+- `docs/dnapass.html`: digit-count enforcement now scales with password length (at least 2 digits below 50 characters, 3 at 50 characters or more), matching the rule already documented in the "CHARACTER DIVERSITY" section instead of only guaranteeing a single digit
+- `docs/dnapass.html`: digit, special-character, and forced-uppercase minimums are now satisfied by reserving unique positions up front instead of looping with counters that could be incremented without a real change taking place
+- Corrected the "How It Works" entropy section in `docs/index.html` from "141 primary and 8 secondary sequences" to "200 primary and 8 secondary sequences" to match the Overview section and the current `primary_sequences` count in `dnapass_generator.cpp`.
+- Tightened the `Content-Security-Policy img-src` directive in `docs/index.html` to only the domains actually referenced on the page.
+- Updated the `<meta name="description">` in `docs/index.html` to describe DNAPass specifically instead of a generic developer bio.
+- Updated the `<meta name="viewport">` in `docs/index.html` to keep pinch-to-zoom enabled for accessibility.
+- Rebuilt the inner `<ul>`/`<li>` markup of the Usage → Command Line and Troubleshooting code blocks in `docs/index.html` so the lists render correctly.
+- Replaced backtick-wrapped inline code and stray leftover `**` Markdown artifacts in the Troubleshooting list (`docs/index.html`) with consistent `<span class="highlight">` styling.
+- Translated remaining Portuguese code comments (CSS and JavaScript) in `docs/index.html` to English.
+
+### Fixed
+- `docs/dnapass.html`: fixed a bug where the special-character insertion step could overwrite a position that had just been filled to satisfy the digit minimum (or vice versa), since both steps picked random positions independently; most noticeable at the minimum allowed length of 8 characters, where it could silently produce passwords with fewer digits or special characters than guaranteed
+- `docs/dnapass.html`: fixed minimum-count enforcement loops (digits, special characters, forced uppercase) that incremented their internal counters even when a randomly chosen position had already been counted, letting the loop exit before the documented minimum was actually reached
+- `docs/dnapass.html`: added an iteration guard to the "ensure at least one lowercase letter" step, removing a theoretical unbounded loop
+- Unclosed `<li>` tags in the Usage → Command Line and Troubleshooting code blocks in `docs/index.html`.
+- Duplicate/conflicting `h2` CSS rule in `docs/index.html` that overrode the heading `font-size` (2.2rem vs. 1.8em) set earlier in the stylesheet.
+- Missing `aria-hidden` reset on the security alert overlay in `docs/index.html` when it is hidden again after its timeout.
+
+### Removed
+- Duplicate `<meta name="theme-color">` tag in `docs/dnapass.html` (two conflicting declarations, `#00ffff` and `#000000`, existed in `<head>`; kept the one used for the PWA status bar)
+- Duplicate `<meta name="theme-color">` tag (`#00ffff`) in `docs/index.html`, keeping only the PWA-consistent `#000000` value.
+- Redundant `h2` CSS rule (previously commented "Centraliza os títulos") in `docs/index.html` that duplicated and conflicted with the primary `h2` style.
+- `maximum-scale=1.0` and `user-scalable=no` from the `<meta name="viewport">` tag in `docs/index.html` (blocked pinch-to-zoom, a WCAG accessibility violation).
+- Unused `Content-Security-Policy img-src` allowances in `docs/index.html` (`img.shields.io`, `komarev.com`, `github-readme-activity-graph.vercel.app`, `nirzak-streak-stats.vercel.app`, `github-readme-stats.vercel.app`, `github-profile-summary-cards.vercel.app`, `vercel.app`, `vercel.live`) not referenced anywhere on the page.
+
 ## [0.1.3] - 2025-10-24
 
 ### Added
