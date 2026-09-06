@@ -27,8 +27,8 @@ The following versions of the **DNAPass Password Generator** are currently suppo
 
 | Version | Supported          | End-of-Life Date       |
 |---------|--------------------|------------------------|
-| 0.1.2   | :white_check_mark: | TBD (Est. August 2026)    |
-| 0.1.1   | :white_check_mark: | January 31, 2026      |
+| 0.1.3   | :white_check_mark: | TBD (Est. August 2027)    |
+| 0.1.2   | :white_check_mark: | June 30, 2027      |
 | < 0.5   | :x:                | -                      |
 
 Older versions are not supported. Please upgrade to the latest version to ensure you receive security fixes.
