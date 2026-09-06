@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#00ffff">
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self'; 
-                   script-src 'self' 'unsafe-inline'; 
-                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-                   font-src 'self' https://fonts.gstatic.com; 
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   script-src 'self' 'unsafe-inline';
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                   font-src 'self' https://fonts.gstatic.com;
                    img-src 'self' data: https://*.githubusercontent.com https://img.shields.io https://komarev.com https://github-readme-activity-graph.vercel.app https://nirzak-streak-stats.vercel.app https://github-readme-stats.vercel.app https://github-profile-summary-cards.vercel.app https://vercel.app https://vercel.live;
-                   frame-src 'self' https://dnapass.gerivan.me https://*.githubusercontent.com;">
-	
+                   frame-src 'self' https://dnapass.gerivan.me https://*.githubusercontent.com;
+                   object-src 'none';
+                   base-uri 'self';
+                   form-action 'self';">
+
 	<!-- Favicon -->
 	<link rel="icon" type="image/png" href="https://dnapass.gerivan.me/web-app-manifest-960x960.png" sizes="960x960">
 	<link rel="icon" type="image/x-icon" href="https://dnapass.gerivan.me/favicon2.ico">
@@ -708,11 +710,11 @@
                 <button id="copy-btn">COPY TO CLIPBOARD</button>
             </div>
             
-            <div class="password-display" id="password-display">
+            <div class="password-display" id="password-display" role="status" aria-live="polite" aria-atomic="true">
                 YOUR GENERATED PASSWORD WILL APPEAR HERE
             </div>
-            
-            <div class="analysis" id="password-analysis">
+
+            <div class="analysis" id="password-analysis" aria-live="polite">
                 <h3>PASSWORD ANALYSIS</h3>
                 <div class="analysis-item">
                     <span class="analysis-label">LENGTH:</span>
@@ -782,6 +784,8 @@
             </ul>
             
             <p class="neon-text">For a 12-character password, DNAPASS typically achieves entropy above NIST's 80-bit recommendation for high-security passwords.</p>
+
+            <p>The ENTROPY (ESTIMATED) value shown by the generator above is a charset-based Shannon estimate (log2 of character-set size, raised to the password length) — the same method most password-strength meters use. It reflects brute-force resistance given the final character composition, but does not account for the fact that DNAPASS builds passwords from a fixed, published set of sequences rather than choosing every character independently and uniformly at random; treat it as an upper bound rather than the true guessing entropy.</p>
 		  </div>
         </section>
         
@@ -1008,9 +1012,37 @@
             mobileNav.classList.toggle('active');
         });
 
-        // Generate a random number
+        // Cryptographically secure random utilities.
+        // Math.random() is NOT safe for security-sensitive randomness (it is
+        // not a CSPRNG and its output can, in principle, be predicted), so
+        // every random choice that feeds into the generated password uses
+        // the Web Crypto API instead. Math.random() is still used further
+        // below for purely cosmetic effects (the falling DNA cascade),
+        // where predictability has no security impact.
+        function secureRandomUint32() {
+            const buffer = new Uint32Array(1);
+            crypto.getRandomValues(buffer);
+            return buffer[0];
+        }
+
+        // Cryptographically secure replacement for Math.random() (range [0, 1)).
+        function secureRandomFloat() {
+            return secureRandomUint32() / 0x100000000; // 2^32
+        }
+
+        // Cryptographically secure random integer in [min, max] (inclusive).
+        // Uses rejection sampling so the result is not biased toward the
+        // low end of the range, which a plain modulo reduction would cause.
         function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
+            const range = max - min + 1;
+            if (range <= 0) return min;
+            const maxUint32 = 0xFFFFFFFF;
+            const limit = maxUint32 - (maxUint32 % range);
+            let value;
+            do {
+                value = secureRandomUint32();
+            } while (value > limit);
+            return min + (value % range);
         }
 
         // Resolve ambiguous sequences
@@ -1038,7 +1070,7 @@
             // Choose sequences randomly (90% from primary set, 10% from secondary)
             while (password.length < length) {
                 let word;
-                if (Math.random() < 0.9) { // 90% chance to use primary set
+                if (secureRandomFloat() < 0.9) { // 90% chance to use primary set
                     const randomIndex = getRandomInt(0, primarySequences.length - 1);
                     word = resolveAmbiguousSequence(primarySequences[randomIndex]);
                 } else { // 10% chance to use secondary set
@@ -1057,7 +1089,7 @@
             // Convert ~85% of alphabetic characters to lowercase
             let tempPassword = '';
             for (let char of password) {
-                if (/[a-zA-Z]/.test(char) && Math.random() < 0.85) {
+                if (/[a-zA-Z]/.test(char) && secureRandomFloat() < 0.85) {
                     tempPassword += char.toLowerCase();
                 } else {
                     tempPassword += char;
@@ -1065,72 +1097,109 @@
             }
             password = tempPassword;
 
-            // Ensure character diversity based on user preferences
+            // Enforce case exclusivity requested by the user. Without this,
+            // "INCLUDE UPPERCASE: NO" (or LOWERCASE: NO) only skipped the
+            // *minimum-count* enforcement further below, but the ~85%
+            // lowercase pass above still left a mix of both cases in the
+            // output, so the option had no visible effect. Normalizing case
+            // here makes each toggle behave as documented in both directions.
+            if (!includeUppercase && includeLowercase) {
+                password = password.toLowerCase();
+            } else if (includeUppercase && !includeLowercase) {
+                password = password.toUpperCase();
+            } else if (!includeUppercase && !includeLowercase) {
+                // Both disabled: fall back to lowercase so the sequence-derived
+                // letters stay valid characters instead of being stripped.
+                password = password.toLowerCase();
+            }
+
+            // Ensure character diversity based on user preferences.
+            //
+            // Digits and special characters are placed by *reserving* a set of
+            // unique array indices up front (drawn from a shared pool with no
+            // replacement) instead of repeatedly poking random indices and
+            // hoping for the best. This closes two real bugs that existed
+            // here previously:
+            //   1. The old counters incremented on every write, even when a
+            //      write landed on an index already counted (or already
+            //      written by an earlier iteration), so "at least N digits/
+            //      specials" was not actually guaranteed.
+            //   2. Digits were inserted first and specials afterwards with no
+            //      knowledge of each other, so the special-character pass
+            //      could silently overwrite an already-placed digit (or vice
+            //      versa), again breaking the guarantee. Reserving indices
+            //      from one shared pool means digits and specials can never
+            //      land on the same position.
             let passwordArray = password.split('');
-            
-			// Add digits if requested
-			if (includeDigits) {
-				const digits = "0123456789";
-				let digitCount = passwordArray.filter(c => /\d/.test(c)).length;
+            let availableIndices = passwordArray.map((_, idx) => idx);
 
-				// Garante pelo menos One digit
-				if (digitCount === 0) {
-					// Find a safe position to place the digit
-					let attempts = 0;
-					let randomIndex;
-					do {
-						randomIndex = getRandomInt(0, passwordArray.length - 1);
-						attempts++;
-					// Stop after 10 attempts to avoid an infinite loop
-						if (attempts > 10) break;
-					} while (includeSpecial && specialChars.includes(passwordArray[randomIndex]));
-					
-					passwordArray[randomIndex] = digits[getRandomInt(0, digits.length - 1)];
-					digitCount++;
-				}
-			}
+            // Picks up to `count` unique indices from `pool` (without
+            // replacement) using the CSPRNG, removing them from the pool.
+            function reserveIndices(pool, count) {
+                const picked = [];
+                for (let k = 0; k < count && pool.length > 0; k++) {
+                    const r = getRandomInt(0, pool.length - 1);
+                    picked.push(pool[r]);
+                    pool.splice(r, 1);
+                }
+                return picked;
+            }
 
-            // Add special characters if requested
-            if (includeSpecial) {
-                let specialCount = passwordArray.filter(c => specialChars.includes(c)).length;
-                const minSpecial = 4;
-                
-                while (specialCount < minSpecial) {
-                    const randomIndex = getRandomInt(0, passwordArray.length - 1);
-                    passwordArray[randomIndex] = specialChars[getRandomInt(0, specialChars.length - 1)];
-                    specialCount++;
+            // Add digits if requested. Per the methodology described on this
+            // page: at least 2 digits below 50 characters, 3 at 50+.
+            if (includeDigits) {
+                const digits = "0123456789";
+                const minDigits = Math.min(length >= 50 ? 3 : 2, passwordArray.length);
+                const existingDigits = passwordArray.filter(c => /\d/.test(c)).length;
+                const needed = Math.max(0, minDigits - existingDigits);
+                for (const idx of reserveIndices(availableIndices, needed)) {
+                    passwordArray[idx] = digits[getRandomInt(0, digits.length - 1)];
                 }
             }
 
-            // Ensure uppercase if requested
+            // Add special characters if requested. Reserved separately from
+            // the digit indices above, so this can never overwrite a digit
+            // that was just placed to satisfy the minimum.
+            if (includeSpecial) {
+                const minSpecial = Math.min(4, passwordArray.length);
+                const existingSpecial = passwordArray.filter(c => specialChars.includes(c)).length;
+                const needed = Math.max(0, minSpecial - existingSpecial);
+                for (const idx of reserveIndices(availableIndices, needed)) {
+                    passwordArray[idx] = specialChars[getRandomInt(0, specialChars.length - 1)];
+                }
+            }
+
+            // Ensure uppercase if requested. Only touches positions that are
+            // still letters (digits/specials placed above are left alone),
+            // and reserves unique positions so the minimum is never
+            // over-reported the way the previous counter could.
             if (includeUppercase) {
                 const minUpper = Math.max(1, Math.floor(length / 10));
-                let upperCount = passwordArray.filter(c => /[A-Z]/.test(c)).length;
-                
-                while (upperCount < minUpper) {
-                    const randomIndex = getRandomInt(0, passwordArray.length - 1);
-                    if (/[a-zA-Z]/.test(passwordArray[randomIndex])) {
-                        passwordArray[randomIndex] = passwordArray[randomIndex].toUpperCase();
-                        upperCount++;
-                    }
+                const upperCount = passwordArray.filter(c => /[A-Z]/.test(c)).length;
+                const needed = Math.max(0, minUpper - upperCount);
+                const lowerLetterIndices = [];
+                passwordArray.forEach((c, idx) => { if (/[a-z]/.test(c)) lowerLetterIndices.push(idx); });
+                for (const idx of reserveIndices(lowerLetterIndices, needed)) {
+                    passwordArray[idx] = passwordArray[idx].toUpperCase();
                 }
             }
 
             // Ensure lowercase if requested
             if (includeLowercase) {
-                let hasLower = passwordArray.some(c => /[a-z]/.test(c));
+                const hasLower = passwordArray.some(c => /[a-z]/.test(c));
                 if (!hasLower) {
-                    let randomIndex = getRandomInt(0, passwordArray.length - 1);
-                    while (!/[a-zA-Z]/.test(passwordArray[randomIndex])) {
-                        randomIndex = getRandomInt(0, passwordArray.length - 1);
+                    const upperLetterIndices = [];
+                    passwordArray.forEach((c, idx) => { if (/[A-Z]/.test(c)) upperLetterIndices.push(idx); });
+                    const chosen = reserveIndices(upperLetterIndices, 1);
+                    if (chosen.length > 0) {
+                        passwordArray[chosen[0]] = passwordArray[chosen[0]].toLowerCase();
                     }
-                    passwordArray[randomIndex] = passwordArray[randomIndex].toLowerCase();
                 }
             }
 
-            // Shuffle randomly to avoid patterns
+            // Shuffle randomly to avoid patterns (cryptographically secure Fisher-Yates)
             for (let i = passwordArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
+                const j = getRandomInt(0, i);
                 [passwordArray[i], passwordArray[j]] = [passwordArray[j], passwordArray[i]];
             }
 
