@@ -2,27 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#00ffff">
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self'; 
-                   script-src 'self' 'unsafe-inline'; 
-                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-                   font-src 'self' https://fonts.gstatic.com; 
-                   img-src 'self' data: https://*.githubusercontent.com https://img.shields.io https://komarev.com https://github-readme-activity-graph.vercel.app https://nirzak-streak-stats.vercel.app https://github-readme-stats.vercel.app https://github-profile-summary-cards.vercel.app https://vercel.app https://vercel.live;
+    <!-- Zoom is intentionally left enabled (no maximum-scale/user-scalable=no) for accessibility -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   script-src 'self' 'unsafe-inline';
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                   font-src 'self' https://fonts.gstatic.com;
+                   img-src 'self' data: https://*.githubusercontent.com;
                    frame-src 'self' https://dnapass.gerivan.me https://*.githubusercontent.com;">
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://dnapass.gerivan.me/web-app-manifest-960x958.png" sizes="960x958">
     <link rel="icon" type="image/x-icon" href="https://dnapass.gerivan.me/favicon.ico">
     <link rel="shortcut icon" href="https://dnapass.gerivan.me/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="https://dnapass.gerivan.me/apple-touch-icon.png">
-    <link rel="manifest" href="https://dnapass.gerivan.me/site.webmanifest">	
-    
-    <!-- Meta tags para PWA -->
+    <link rel="manifest" href="https://dnapass.gerivan.me/site.webmanifest">
+
+    <!-- PWA meta tags (single source of truth for theme color) -->
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="description" content="Gerivan Costa - Developer passionate about security, science, and creativity">
+    <meta name="description" content="DNAPass is a modern C++ password generator that creates high-entropy passwords inspired by DNA nucleotide sequences.">
     <title>DNAPass Password Generator</title>
+
+    <!-- Open Graph / social sharing preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DNAPass Password Generator">
+    <meta property="og:description" content="A modern C++ password generator that creates high-entropy, DNA-inspired passwords for high-security environments.">
+    <meta property="og:url" content="https://dnapass.gerivan.me/">
+    <meta property="og:image" content="https://dnapass.gerivan.me/web-app-manifest-960x958.png">
+
+    <!-- Twitter Card preview -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DNAPass Password Generator">
+    <meta name="twitter:description" content="A modern C++ password generator that creates high-entropy, DNA-inspired passwords for high-security environments.">
+    <meta name="twitter:image" content="https://dnapass.gerivan.me/web-app-manifest-960x958.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -443,7 +457,7 @@
             text-decoration: underline;
         }
         
-        /* Nova animação de DNA helicoidal */
+        /* DNA double-helix animation */
         .dna-animation {
             display: flex;
             justify-content: center;
@@ -544,16 +558,19 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(0, 255, 255, 0.2);
         }
-        
-        /* Centraliza os títulos */
-        h2 {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 1.8em;
-            color: var(--secondary-color);
+
+        /* Respect the user's OS-level reduced-motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .dna-drop,
+            .code-column,
+            h1,
+            .dna-helix,
+            .security-overlay {
+                animation: none !important;
+            }
         }
-        
-        /* Responsividade para mobile */
+
+        /* Responsive layout for mobile devices */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -635,14 +652,14 @@
     </style>
 </head>
 <body>
-    <!-- DNA Rain Effect -->
-    <div class="dna-rain" id="dnaRain"></div>
-    
-    <!-- Matrix Code Background -->
-    <div class="matrix-bg" id="matrixBg"></div>
-    
+    <!-- DNA Rain Effect (decorative) -->
+    <div class="dna-rain" id="dnaRain" aria-hidden="true"></div>
+
+    <!-- Matrix Code Background (decorative) -->
+    <div class="matrix-bg" id="matrixBg" aria-hidden="true"></div>
+
     <!-- Security Overlay -->
-    <div class="security-overlay" id="securityOverlay">
+    <div class="security-overlay" id="securityOverlay" role="alert" aria-hidden="true">
         <div class="security-message">SECURITY BREACH DETECTED</div>
         <div>UNAUTHORIZED ACCESS ATTEMPT</div>
     </div>
@@ -654,21 +671,21 @@
             
             <div class="nav-links">
                 <a href="https://dnapass.gerivan.me/dnapass.html">Password Generator</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GitHub</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank">Methodology</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank">Issues</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank" rel="noopener noreferrer">Methodology</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" rel="noopener noreferrer">Issues</a>
             </div>
             
-            <!-- Nova animação de DNA helicoidal -->
-            <div class="dna-animation">
+            <!-- DNA double-helix animation (decorative) -->
+            <div class="dna-animation" aria-hidden="true">
                 <div class="dna-helix" id="dnaHelix">
-                    <!-- A estrutura será criada via JavaScript -->
+                    <!-- Structure is generated dynamically via JavaScript -->
                 </div>
             </div>
             
             <div>
                 <a href="https://dnapass.gerivan.me/dnapass.html" class="btn btn-large">Generate Password Now</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank" class="btn btn-large">View on GitHub</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank" rel="noopener noreferrer" class="btn btn-large">View on GitHub</a>
             </div>
         </header>
         
@@ -787,26 +804,27 @@
             <div class="code-block">
                 <code>
                     <ul>
-                        <li><span class="highlight">Method 1.</span> Call the function by question to generate the password by choosing between 8-128 characters:</li>
-                        <li><span class="highlight">./dnapass_generator<br><br>
-                    </ul>
-                    <br>                    
-                    <ul>
-                        <li><span class="highlight">Method 2.</span> Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128:</li>
-                        <li><span class="highlight">echo "45" | ./dnapass_generator<br><br>
+                        <li>
+                            <span class="highlight">Method 1.</span> Call the function by question to generate the password by choosing between 8-128 characters:<br>
+                            <span class="highlight">./dnapass_generator</span>
+                        </li>
+                        <li>
+                            <span class="highlight">Method 2.</span> Automated Mode. Call to generate the password by choosing a 45-character password. In the function, enter the number of characters between 8 and 128:<br>
+                            <span class="highlight">echo "45" | ./dnapass_generator</span>
+                        </li>
                     </ul>
                 </code>
             </div>
-            
+
             <h3>Troubleshooting</h3>
-            
+
             <div class="code-block">
                 <code>
                     <ul>
-                        <li><span class="highlight">Error:</span> "cmake: command not found"**: Install CMake with `sudo apt install cmake`.</li>
-                        <li><span class="highlight">Error:</span> "g++: command not found"**: Install `g++` with `sudo apt install g++`.</li>
-                        <li><span class="highlight">Error:</span> "./dnapass_generator: No such file or directory"**: Ensure the build step completed successfully. Run `ls` to check if `dnapass_generator` exists in the `build` folder. If not, repeat the `cmake ..` and `cmake --build .` steps.</li>
-                        <li><span class="highlight">Permission denied:</span> Run `chmod +x dnapass_generator` to make the executable runnable, then try `./dnapass_generator` again.</li>
+                        <li><span class="highlight">Error:</span> "cmake: command not found": Install CMake with <span class="highlight">sudo apt install cmake</span>.</li>
+                        <li><span class="highlight">Error:</span> "g++: command not found": Install g++ with <span class="highlight">sudo apt install g++</span>.</li>
+                        <li><span class="highlight">Error:</span> "./dnapass_generator: No such file or directory": Ensure the build step completed successfully. Run <span class="highlight">ls</span> to check if <span class="highlight">dnapass_generator</span> exists in the <span class="highlight">build</span> folder. If not, repeat the <span class="highlight">cmake ..</span> and <span class="highlight">cmake --build .</span> steps.</li>
+                        <li><span class="highlight">Permission denied:</span> Run <span class="highlight">chmod +x dnapass_generator</span> to make the executable runnable, then try <span class="highlight">./dnapass_generator</span> again.</li>
                     </ul>
                 </code>
             </div>
@@ -849,7 +867,7 @@
                 <h3>ENTROPY CONSIDERATIONS</h3>
                 <p>The entropy of a DNAPass-generated password is influenced by:</p>
                 <ul>
-                    <li>Sequence Selection: With 141 primary and 8 secondary sequences</li>
+                    <li>Sequence Selection: With 200 primary and 8 secondary sequences</li>
                     <li>Ambiguity Resolution: Each ambiguous character has multiple possible outcomes</li>
                     <li>Character Modifications: Adding digits, special characters, and case variations</li>
                     <li>Random Shuffling: Ensures no predictable structure</li>
@@ -857,14 +875,14 @@
                 
                 <p class="neon-text">For a 12-character password, DNAPass typically achieves entropy above NIST's 80-bit recommendation for high-security passwords.</p>
                 
-                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank" class="btn">View Detailed Methodology</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/DNAPASSCALCULATION.md" target="_blank" rel="noopener noreferrer" class="btn">View Detailed Methodology</a>
             </div>
         </section>
         
         <section id="security-notes">
             <h2>SECURITY NOTES</h2>
             <div class="content-box">
-                <p class="blue-text">Do not attempt to memorize the passwords generated by this tool. Instead, use a reliable password manager, such as <a href="https://bitwarden.com/" target="_blank" style="color: var(--hacker-green);">Bitwarden</a>, which I personally recommend.</p>
+                <p class="blue-text">Do not attempt to memorize the passwords generated by this tool. Instead, use a reliable password manager, such as <a href="https://bitwarden.com/" target="_blank" rel="noopener noreferrer" style="color: var(--hacker-green);">Bitwarden</a>, which I personally recommend.</p>
                 <p>The only password you should memorize is the master password for your password manager's vault, created with a strong combination of uppercase and lowercase letters, numbers, and special characters.</p>
                 <p class="neon-text">Enable two-factor authentication (2FA) whenever possible to enhance security.</p>
             </div>
@@ -878,11 +896,11 @@
                 <h3>Issue Templates</h3>
                 <p>Use our issue templates to report bugs or suggest improvements:</p>
                 <ul>
-                    <li><a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/bug_report.md" target="_blank" style="color: var(--secondary-color);">Bug Report Template</a></li>
-                    <li><a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/issue_template.md" target="_blank" style="color: var(--secondary-color);">Feature Request Template</a></li>
+                    <li><a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/bug_report.md" target="_blank" rel="noopener noreferrer" style="color: var(--secondary-color);">Bug Report Template</a></li>
+                    <li><a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/issue_template.md" target="_blank" rel="noopener noreferrer" style="color: var(--secondary-color);">Feature Request Template</a></li>
                 </ul>
                 
-                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" class="btn">View Issues</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" rel="noopener noreferrer" class="btn">View Issues</a>
             </div>
         </section>
         
@@ -890,7 +908,7 @@
             <h2>LICENSE</h2>
             <div class="content-box">
                 <p>This project is licensed under the MIT License. See the:</p>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md" target="_blank" class="btn">View MIT License</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer" class="btn">View MIT License</a>
             </div>
         </section>
         
@@ -898,7 +916,7 @@
             <h2>CHANGELOG</h2>
             <div class="content-box">
                 <p>See what's new in each version of DNAPass:</p>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/CHANGELOG.md" target="_blank" class="btn">View Changelog</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer" class="btn">View Changelog</a>
             </div>
         </section>
         
@@ -906,7 +924,7 @@
             <h2>ISSUES</h2>
             <div class="content-box">
                 <p>Found a bug or have a suggestion? Check our issues page:</p>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" class="btn">View Issues</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" rel="noopener noreferrer" class="btn">View Issues</a>
             </div>
         </section>
         
@@ -917,26 +935,26 @@
 
             <div class="nav-links">
                 <a href="https://dnapass.gerivan.me/dnapass.html">Password Generator</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank">GitHub</a>
-                <a href="https://github.com/gerivanc/dnapass-password-generator/tree/main/dnapass_password_generator" target="_blank">Source Code</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://github.com/gerivanc/dnapass-password-generator/tree/main/dnapass_password_generator" target="_blank" rel="noopener noreferrer">Source Code</a>
             </div>
         </footer>
     </div>
 
     <script>
-        // Criar animação helicoidal de DNA
+        // Build the rotating DNA double-helix animation
         document.addEventListener('DOMContentLoaded', function() {
             const dnaHelix = document.getElementById('dnaHelix');
             const nucleotides = ['a', 't', 'c', 'g'];
-            const numPairs = 12; // Número de pares de nucleotídeos
-            
+            const numPairs = 12; // Number of nucleotide pairs
+
             for (let i = 0; i < numPairs; i++) {
-                // Calcular posição ao longo da hélice
+                // Calculate position along the helix
                 const angle = (i / numPairs) * Math.PI * 2;
                 const radius = 40;
                 const y = (i / numPairs) * 200 - 100;
-                
-                // Nucleotídeo da esquerda
+
+                // Left-hand nucleotide
                 const leftNucleotide = document.createElement('div');
                 leftNucleotide.className = `nucleotide ${nucleotides[i % nucleotides.length]}`;
                 leftNucleotide.textContent = nucleotides[i % nucleotides.length].toUpperCase();
@@ -944,8 +962,8 @@
                 leftNucleotide.style.top = `${y + 150}px`;
                 leftNucleotide.style.transform = `translateZ(${Math.sin(angle) * radius}px)`;
                 dnaHelix.appendChild(leftNucleotide);
-                
-                // Nucleotídeo da direita
+
+                // Right-hand nucleotide
                 const rightNucleotide = document.createElement('div');
                 rightNucleotide.className = `nucleotide ${nucleotides[(i + 2) % nucleotides.length]}`;
                 rightNucleotide.textContent = nucleotides[(i + 2) % nucleotides.length].toUpperCase();
@@ -953,8 +971,8 @@
                 rightNucleotide.style.top = `${y + 150}px`;
                 rightNucleotide.style.transform = `translateZ(${Math.sin(angle + Math.PI) * radius}px)`;
                 dnaHelix.appendChild(rightNucleotide);
-                
-                // Conector vertical
+
+                // Vertical connector between the pair
                 if (i < numPairs - 1) {
                     const connector = document.createElement('div');
                     connector.className = 'connector';
@@ -965,19 +983,19 @@
                     dnaHelix.appendChild(connector);
                 }
             }
-            
-            // Criar chuva de DNA
+
+            // Build the DNA rain background
             createDnaRain();
-            
-            // Criar efeito Matrix
+
+            // Build the Matrix code-rain background
             createMatrixEffect();
         });
-        
-        // Função para criar chuva de DNA
+
+        // Creates the falling DNA-emoji background effect
         function createDnaRain() {
             const dnaRain = document.getElementById('dnaRain');
             const dnaCount = 50;
-            
+
             for (let i = 0; i < dnaCount; i++) {
                 const dnaDrop = document.createElement('div');
                 dnaDrop.className = 'dna-drop';
@@ -988,42 +1006,44 @@
                 dnaRain.appendChild(dnaDrop);
             }
         }
-        
-        // Função para criar efeito Matrix
+
+        // Creates the Matrix-style falling code background effect
         function createMatrixEffect() {
             const matrixBg = document.getElementById('matrixBg');
             const columns = Math.floor(window.innerWidth / 20);
-            
+
             for (let i = 0; i < columns; i++) {
                 const column = document.createElement('div');
                 column.className = 'code-column';
                 column.style.left = `${i * 20}px`;
                 column.style.animationDuration = `${Math.random() * 10 + 10}s`;
                 column.style.animationDelay = `${Math.random() * 5}s`;
-                
-                // Adicionar caracteres aleatórios
+
+                // Add random characters to the column
                 let content = '';
                 const charCount = Math.floor(Math.random() * 20) + 10;
                 for (let j = 0; j < charCount; j++) {
                     content += String.fromCharCode(Math.floor(Math.random() * 94) + 33) + '<br>';
                 }
-                
+
                 column.innerHTML = content;
                 matrixBg.appendChild(column);
             }
         }
-        
+
         // Security functions
         function showSecurityAlert() {
             const securityOverlay = document.getElementById('securityOverlay');
             securityOverlay.style.display = 'flex';
-            
-            // Bloquear interação
+            securityOverlay.setAttribute('aria-hidden', 'false');
+
+            // Block user interaction while the alert is showing
             document.body.style.overflow = 'hidden';
-            
-            // Remover overlay após alguns segundos
+
+            // Hide the overlay again after a few seconds
             setTimeout(() => {
                 securityOverlay.style.display = 'none';
+                securityOverlay.setAttribute('aria-hidden', 'true');
                 document.body.style.overflow = 'auto';
             }, 3000);
         }
