@@ -3,7 +3,7 @@ written in Python](https://drive.google.com/uc?export=download&id=1mSu7_gDhIYj6g
 
 ---
 
-# 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences (v0.1.4)
+# 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences (v0.1.5)
 
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)&nbsp;
 [![g++](https://img.shields.io/badge/g++-Compiler-A41E23?style=for-the-badge&logo=gnu&logoColor=white)](https://gcc.gnu.org/)
@@ -252,8 +252,9 @@ This project is licensed under the MIT License. See the [LICENSE.md](https://git
 ---
 
 # 📧 Contact
-For questions or feedback, please contact: [dean-grumbly-plop@duck.com](mailto:dean-grumbly-plop@duck.com).
+For questions or feedback, please contact: [ask@gerivan.me](mailto:ask@gerivan.me)
 
 ---
 
 #### Copyright © 2025-2026 Gerivan Costa dos Santos
+#### © 2025 🧬 DNAPass Password Generator - Written in modern C++, inspired by DNA nucleotide sequences
