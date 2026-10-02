@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Zoom is intentionally left enabled (no maximum-scale/user-scalable=no) for accessibility -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self';
                    script-src 'self' 'unsafe-inline';
                    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
                    font-src 'self' https://fonts.gstatic.com;
-                   img-src 'self' data: https://*.githubusercontent.com https://img.shields.io https://komarev.com https://github-readme-activity-graph.vercel.app https://nirzak-streak-stats.vercel.app https://github-readme-stats.vercel.app https://github-profile-summary-cards.vercel.app https://vercel.app https://vercel.live;
+                   img-src 'self' data:;
                    frame-src 'self' https://dnapass.gerivan.me https://*.githubusercontent.com;
+                   worker-src 'self';
+                   manifest-src 'self';
                    object-src 'none';
                    base-uri 'self';
                    form-action 'self';">
@@ -19,12 +22,16 @@
 	<link rel="icon" type="image/x-icon" href="https://dnapass.gerivan.me/favicon2.ico">
 	<link rel="shortcut icon" href="https://dnapass.gerivan.me/favicon2.ico">
 	<link rel="apple-touch-icon" sizes="180x180" href="https://dnapass.gerivan.me/apple-touch-icon.png">
-	<link rel="manifest" href="https://dnapass.gerivan.me/site.webmanifest">		
+	<link rel="manifest" href="site.webmanifest">		
 	
-    <!-- Meta tags para PWA -->
+    <!-- PWA meta tags (single source of truth for theme color) -->
     <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="DNAPass">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="description" content="Gerivan Costa - Developer passionate about security, science, and creativity">
+    <meta name="application-name" content="DNAPass">
+    <meta name="description" content="DNAPass web generator: create high-entropy passwords inspired by DNA nucleotide sequences, generated locally in your browser with cryptographically secure randomness. Installable as an app (PWA).">
     <title>DNAPass Password Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -622,6 +629,93 @@
                 font-size: 1.8rem;
             }
         }
+
+        /* PWA install banner (bilingual EN / PT-BR) */
+        .install-banner {
+            position: fixed;
+            left: 50%;
+            bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            transform: translateX(-50%);
+            width: min(560px, calc(100% - 32px));
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            border: 2px solid var(--neon-red);
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.35);
+            padding: 18px 20px;
+            z-index: 9000;
+            color: var(--neon-cyan);
+            animation: bannerIn 0.35s ease-out;
+        }
+
+        .install-banner[hidden] {
+            display: none;
+        }
+
+        @keyframes bannerIn {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to   { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        .install-banner h2 {
+            font-size: 1.05rem;
+            margin: 0 0 10px;
+            padding: 0;
+            text-align: left;
+            color: var(--neon-red);
+            letter-spacing: 1px;
+        }
+
+        .install-banner h2::after {
+            display: none;
+        }
+
+        .install-banner p {
+            font-size: 0.98rem;
+            margin: 0 0 6px;
+            line-height: 1.45;
+        }
+
+        .install-banner .install-lang {
+            display: inline-block;
+            min-width: 2.2em;
+            margin-right: 6px;
+            color: var(--neon-blue);
+            font-weight: 600;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .install-banner .install-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .install-banner .install-actions button {
+            flex: 1;
+            min-width: 140px;
+            padding: 11px 14px;
+            font-size: 0.85rem;
+        }
+
+        .install-banner .install-actions button.secondary {
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            box-shadow: none;
+        }
+
+        .install-banner .install-actions button:focus-visible {
+            outline: 2px solid var(--neon-cyan);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .install-banner {
+                animation: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -751,7 +845,7 @@
             <h3>SEQUENCE SELECTION</h3>
             <p>DNAPASS uses two sets of DNA-inspired sequences:</p>
             <ul>
-                <li><span class="highlight">PRIMARY SEQUENCES:</span> A list of 200 DNA sequences derived from biological motifs, including ambiguous characters (e.g., 'N', 'R'). Selected with a 90% probability.</li>
+                <li><span class="highlight">PRIMARY SEQUENCES:</span> A list of 253 DNA sequences (244 unique) derived from biological motifs, including ambiguous characters (e.g., 'N', 'R'). Selected with a 90% probability.</li>
                 <li><span class="highlight">SECONDARY SEQUENCES:</span> A smaller set of 8 sequences restricted to the nucleotides A, T, C, and G, selected with a 10% probability.</li>
             </ul>
             
@@ -777,13 +871,13 @@
             <h3>ENTROPY CONSIDERATIONS</h3>
             <p>The entropy of a DNAPASS-generated password is influenced by:</p>
             <ul>
-                <li>Sequence Selection: With 200 primary and 8 secondary sequences</li>
+                <li>Sequence Selection: With 253 primary (244 unique) and 8 secondary sequences</li>
                 <li>Ambiguity Resolution: Each ambiguous character has multiple possible outcomes</li>
                 <li>Character Modifications: Adding digits, special characters, and case variations</li>
                 <li>Random Shuffling: Ensures no predictable structure</li>
             </ul>
             
-            <p class="neon-text">For a 12-character password, DNAPASS typically achieves entropy above NIST's 80-bit recommendation for high-security passwords.</p>
+            <p class="neon-text">With all character types enabled, the estimate grows by about 6.5 bits per character (90-symbol set): about 78 bits at 12 characters and about 104 bits at 16. For high-security accounts, use 16 characters or more — 20+ is recommended.</p>
 
             <p>The ENTROPY (ESTIMATED) value shown by the generator above is a charset-based Shannon estimate (log2 of character-set size, raised to the password length) — the same method most password-strength meters use. It reflects brute-force resistance given the final character composition, but does not account for the fact that DNAPASS builds passwords from a fixed, published set of sequences rather than choosing every character independently and uniformly at random; treat it as an upper bound rather than the true guessing entropy.</p>
 		  </div>
@@ -809,6 +903,19 @@
                 <a href="https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md" target="_blank">MIT LICENSE</a>
             </div>
         </footer>
+    </div>
+
+    <!-- PWA install banner (bilingual EN / PT-BR). Shown by the PWA script at the end of this page. -->
+    <div class="install-banner" id="install-banner" role="dialog" aria-modal="false" aria-labelledby="install-title" aria-describedby="install-text" hidden>
+        <h2 id="install-title">INSTALL DNAPASS · INSTALAR DNAPASS</h2>
+        <div id="install-text">
+            <p><span class="install-lang" lang="en">EN</span><span lang="en" id="install-msg-en">Do you want to install DNAPass as an app on this device? It opens in its own window and works offline.</span></p>
+            <p><span class="install-lang" lang="pt-BR">PT</span><span lang="pt-BR" id="install-msg-pt">Deseja instalar o DNAPass como aplicativo neste dispositivo? Ele abre em janela própria e funciona offline.</span></p>
+        </div>
+        <div class="install-actions">
+            <button type="button" id="install-accept">INSTALL · INSTALAR</button>
+            <button type="button" id="install-dismiss" class="secondary">NOT NOW · AGORA NÃO</button>
+        </div>
     </div>
 
     <script>
@@ -1033,15 +1140,19 @@
         // Cryptographically secure random integer in [min, max] (inclusive).
         // Uses rejection sampling so the result is not biased toward the
         // low end of the range, which a plain modulo reduction would cause.
+        // Only values in [0, limit) are accepted, where `limit` is the
+        // largest multiple of `range` that fits in 32 bits, so every
+        // residue appears exactly the same number of times. (The previous
+        // check, `value > limit`, accepted `limit` itself as well, which
+        // left a residual 1-in-2^32 bias toward `min`.)
         function getRandomInt(min, max) {
             const range = max - min + 1;
             if (range <= 0) return min;
-            const maxUint32 = 0xFFFFFFFF;
-            const limit = maxUint32 - (maxUint32 % range);
+            const limit = 0x100000000 - (0x100000000 % range); // 2^32 - (2^32 mod range)
             let value;
             do {
                 value = secureRandomUint32();
-            } while (value > limit);
+            } while (value >= limit);
             return min + (value % range);
         }
 
@@ -1221,7 +1332,9 @@
             if (digits > 0) charsetSize += 10;
             if (special > 0) charsetSize += specialChars.length;
             
-            const entropy = charsetSize > 0 ? Math.log2(Math.pow(charsetSize, length)) : 0;
+            // length * log2(charset) is mathematically identical to
+            // log2(charset^length) but never builds a huge intermediate number.
+            const entropy = charsetSize > 0 ? length * Math.log2(charsetSize) : 0;
             
             return {
                 length,
@@ -1247,8 +1360,12 @@
 
         // Generate password button click
         generateBtn.addEventListener('click', () => {
-            const length = parseInt(document.getElementById('length').value);
-            if (length < 8 || length > 128) {
+            // Number() + Number.isInteger() rejects empty, fractional and
+            // non-numeric input (parseInt('') is NaN, and NaN < 8 is false,
+            // which previously let an empty field through and produced an
+            // empty password).
+            const length = Number(document.getElementById('length').value);
+            if (!Number.isInteger(length) || length < 8 || length > 128) {
                 alert('PASSWORD LENGTH MUST BE BETWEEN 8 AND 128 CHARACTERS.');
                 return;
             }
@@ -1285,11 +1402,215 @@
 
         // Initialize with a default password
         window.addEventListener('load', () => {
-            const length = parseInt(document.getElementById('length').value);
+            const requested = Number(document.getElementById('length').value);
+            const length = Number.isInteger(requested) && requested >= 8 && requested <= 128 ? requested : 32;
             const password = generatePassword(length);
             passwordDisplay.textContent = password;
             updateAnalysis(password);
         });
+    </script>
+
+    <script>
+        /*
+         * Progressive Web App (PWA) support
+         * ---------------------------------
+         * 1. Registers the service worker (sw.js) so the generator can be
+         *    installed and keeps working offline.
+         * 2. Shows a bilingual (English / Brazilian Portuguese) banner asking
+         *    whether the visitor wants to install the app:
+         *      - Chromium browsers (Chrome, Edge, Opera, Samsung Internet,
+         *        Brave...): uses the native install prompt captured from the
+         *        `beforeinstallprompt` event.
+         *      - iOS / iPadOS (Safari and every other iOS browser): there is
+         *        no install API, so the banner explains "Share → Add to Home
+         *        Screen".
+         *      - Safari on macOS: explains "File → Add to Dock".
+         *      - Other browsers without the install API (e.g. Firefox):
+         *        explains how to install from the browser menu.
+         * 3. Never shows the banner when the app is already running installed
+         *    (standalone), and remembers "Not now" for 7 days.
+         */
+        (function () {
+            'use strict';
+
+            const DISMISS_KEY = 'dnapass-install-dismissed-at';
+            const SNOOZE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+            const FALLBACK_DELAY_MS = 4000;
+
+            const QUESTION_EN = 'Do you want to install DNAPass as an app on this device? It opens in its own window and works offline.';
+            const QUESTION_PT = 'Deseja instalar o DNAPass como aplicativo neste dispositivo? Ele abre em janela própria e funciona offline.';
+
+            const HOWTO = {
+                ios: {
+                    en: 'To install: tap the Share button, then “Add to Home Screen”.',
+                    pt: 'Para instalar: toque no botão Compartilhar e depois em “Adicionar à Tela de Início”.'
+                },
+                macSafari: {
+                    en: 'To install: in the Safari menu bar choose File → “Add to Dock”.',
+                    pt: 'Para instalar: na barra de menus do Safari escolha Arquivo → “Adicionar ao Dock”.'
+                },
+                manual: {
+                    en: 'To install: open your browser menu and choose “Install app” or “Add to Home screen” (if available).',
+                    pt: 'Para instalar: abra o menu do navegador e escolha “Instalar app” ou “Adicionar à tela inicial” (se disponível).'
+                }
+            };
+
+            const banner = document.getElementById('install-banner');
+            const msgEn = document.getElementById('install-msg-en');
+            const msgPt = document.getElementById('install-msg-pt');
+            const acceptBtn = document.getElementById('install-accept');
+            const dismissBtn = document.getElementById('install-dismiss');
+
+            let deferredPrompt = null; // Saved `beforeinstallprompt` event
+            let bannerMode = null;     // 'prompt' | 'ios' | 'macSafari' | 'manual'
+            let fallbackTimer = null;
+
+            // Storage may be unavailable (private mode, blocked site data),
+            // so every access is wrapped and failures are simply ignored.
+            function storageGet(key) {
+                try { return window.localStorage.getItem(key); } catch (e) { return null; }
+            }
+
+            function storageSet(key, value) {
+                try { window.localStorage.setItem(key, value); } catch (e) { /* ignore */ }
+            }
+
+            function isStandalone() {
+                return window.matchMedia('(display-mode: standalone)').matches ||
+                       window.matchMedia('(display-mode: minimal-ui)').matches ||
+                       window.navigator.standalone === true; // iOS Safari
+            }
+
+            function recentlyDismissed() {
+                const at = Number(storageGet(DISMISS_KEY));
+                return Number.isFinite(at) && at > 0 && (Date.now() - at) < SNOOZE_MS;
+            }
+
+            function rememberDismissal() {
+                storageSet(DISMISS_KEY, String(Date.now()));
+            }
+
+            function isIOS() {
+                const ua = navigator.userAgent || '';
+                // iPadOS 13+ reports itself as "Macintosh" but has touch support.
+                return /iPad|iPhone|iPod/.test(ua) ||
+                       (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+            }
+
+            function isMacSafari() {
+                const ua = navigator.userAgent || '';
+                return /Macintosh/.test(ua) && /Safari\//.test(ua) &&
+                       !/Chrome|Chromium|CriOS|Edg|OPR|Firefox|FxiOS/.test(ua) &&
+                       navigator.maxTouchPoints <= 1;
+            }
+
+            function canShowBanner() {
+                return banner && !isStandalone() && !recentlyDismissed();
+            }
+
+            function showBanner(mode) {
+                if (!canShowBanner()) return;
+                bannerMode = mode;
+
+                if (mode === 'prompt') {
+                    msgEn.textContent = QUESTION_EN;
+                    msgPt.textContent = QUESTION_PT;
+                    acceptBtn.textContent = 'INSTALL · INSTALAR';
+                } else {
+                    const howto = HOWTO[mode] || HOWTO.manual;
+                    msgEn.textContent = QUESTION_EN + ' ' + howto.en;
+                    msgPt.textContent = QUESTION_PT + ' ' + howto.pt;
+                    acceptBtn.textContent = 'GOT IT · ENTENDI';
+                }
+                banner.hidden = false;
+            }
+
+            function hideBanner() {
+                if (banner) banner.hidden = true;
+                bannerMode = null;
+            }
+
+            // 1. Service worker registration (HTTPS or localhost only).
+            if ('serviceWorker' in navigator && window.isSecureContext) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./sw.js', { scope: './' })
+                        .catch((err) => console.warn('DNAPass: service worker registration failed:', err));
+                });
+            }
+
+            if (!banner) return;
+
+            // 2a. Chromium-based browsers: capture the native install prompt.
+            window.addEventListener('beforeinstallprompt', (event) => {
+                event.preventDefault(); // Show our bilingual banner instead of the mini-infobar
+                deferredPrompt = event;
+                if (fallbackTimer) {
+                    clearTimeout(fallbackTimer);
+                    fallbackTimer = null;
+                }
+                showBanner('prompt');
+            });
+
+            acceptBtn.addEventListener('click', async () => {
+                if (bannerMode === 'prompt' && deferredPrompt) {
+                    const promptEvent = deferredPrompt;
+                    deferredPrompt = null; // The prompt can only be used once
+                    hideBanner();
+                    try {
+                        await promptEvent.prompt();
+                        const choice = await promptEvent.userChoice;
+                        if (choice && choice.outcome === 'dismissed') {
+                            rememberDismissal();
+                        }
+                    } catch (err) {
+                        console.warn('DNAPass: install prompt failed:', err);
+                    }
+                } else {
+                    // Instruction-only modes: the user has read how to install.
+                    rememberDismissal();
+                    hideBanner();
+                }
+            });
+
+            dismissBtn.addEventListener('click', () => {
+                rememberDismissal();
+                hideBanner();
+            });
+
+            // Allow closing the banner with the Escape key.
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && !banner.hidden) {
+                    rememberDismissal();
+                    hideBanner();
+                }
+            });
+
+            window.addEventListener('appinstalled', () => {
+                deferredPrompt = null;
+                hideBanner();
+            });
+
+            // 2b. Browsers without `beforeinstallprompt`: show instructions.
+            // Chromium browsers are skipped here on purpose: if they never
+            // fire the event, the app is either already installed or not
+            // installable, and manual instructions would be misleading.
+            window.addEventListener('load', () => {
+                if (!canShowBanner()) return;
+                const hasNativePrompt = 'onbeforeinstallprompt' in window;
+
+                fallbackTimer = setTimeout(() => {
+                    fallbackTimer = null;
+                    if (deferredPrompt || !banner.hidden) return;
+                    if (isIOS()) {
+                        showBanner('ios');
+                    } else if (isMacSafari()) {
+                        showBanner('macSafari');
+                    } else if (!hasNativePrompt) {
+                        showBanner('manual');
+                    }
+                }, FALLBACK_DELAY_MS);
+            });
+        })();
     </script>
 </body>
 </html>
