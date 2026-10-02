@@ -7,6 +7,61 @@ All notable changes to the 🧬 DNAPass Password Generator project are documente
 
 ---
 
+## [0.1.5] - 2026-10-02
+
+### Added
+- Progressive Web App (PWA) support for `docs/dnapass.html`: the web generator can now be installed from any browser that supports installation and keeps working offline after the first visit.
+- New service worker `docs/sw.js` (network-first for pages, stale-while-revalidate for same-origin assets, versioned cache `dnapass-v0.1.5`, old caches removed on activation). Cross-origin requests are never intercepted, and generated passwords are never sent over the network or cached.
+- Bilingual (English / Brazilian Portuguese) install banner in `docs/dnapass.html` asking whether the visitor wants to install the app: uses the native install prompt on Chromium browsers (`beforeinstallprompt`), shows "Share → Add to Home Screen" instructions on iOS/iPadOS, "File → Add to Dock" on Safari for macOS, and browser-menu instructions on other browsers without an install API. "Not now" is remembered for 7 days, the banner never appears when the app is already running installed, and it can be closed with the Escape key.
+- PWA meta tags in `docs/dnapass.html` (`mobile-web-app-capable`, `apple-mobile-web-app-capable`, `apple-mobile-web-app-title`, `application-name`) and `worker-src 'self'` / `manifest-src 'self'` CSP directives.
+- C++ CLI: cryptographically secure random number module (`secure_random.hpp` / `secure_random.cpp`) that reads directly from the operating system CSPRNG (`BCryptGenRandom` on Windows, `getentropy()` on Linux/macOS/BSD, `/dev/urandom` elsewhere) and fails closed instead of falling back to a non-cryptographic generator. Includes a bias-free `uniform_below()`/`uniform_int()` based on rejection sampling.
+- C++ CLI: command-line options that mirror the web toggles: `-l/--length N` (or a positional `LENGTH`), `--no-uppercase`, `--no-lowercase`, `--no-digits`, `--no-special`, `-q/--quiet`, `-h/--help`, `-v/--version`. The interactive prompt (`./dnapass_generator`) and automated mode (`echo "45" | ./dnapass_generator`) keep working unchanged.
+- C++ CLI: "Settings" block and "Entropy (estimated)" line in the output, with the same upper-bound note shown on the web page.
+- C++ API: `GeneratorOptions`, `CharacterCounts`, `count_characters()`, `estimate_entropy_bits()`, `meets_policy()`, `min_digits_for()`, `min_uppercase_for()` and the `dnapass::version` constant.
+- Automated test suite `tests/test_generator.cpp` (CTest): validates 19,360 passwords per run (all 16 toggle combinations × every length from 8 to 128 × 10 repetitions) against the policy, plus range/chi-square checks for the CSPRNG helpers and CLI smoke tests. Both GitHub Actions workflows now run `ctest`.
+
+### Changed
+- C++ CLI: password generation now follows exactly the same rules as `docs/dnapass.html`: case normalization when uppercase or lowercase is disabled, digit minimum of 2 below 50 characters and 3 at 50 or more, at least 4 special characters, at least 10% uppercase (minimum 1) and at least 1 lowercase, all placed by reserving unique positions from a shared pool, followed by a CSPRNG-driven Fisher-Yates shuffle.
+- C++ CLI: `std::mt19937` (not cryptographically secure) was removed from password generation; `generate_password()` now takes `GeneratorOptions` (a `generate_password(int length)` overload is kept for convenience).
+- C++ CLI: errors are written to standard error and the program exits with a non-zero status (1 for invalid input, 2 for unexpected errors) so scripts can detect failures. Length input is now parsed strictly (e.g. `12abc` is rejected).
+- `docs/site.webmanifest`: added `id`, `scope`, `lang`, `display_override`, `orientation` and `categories`; `start_url` now opens the generator (`/dnapass.html`); `theme_color`/`background_color` aligned with the page (`#000000`); icons now declare `purpose` explicitly and include an `any` entry for the 960×960 icon. The `web-app-manifest-960x958.png` icon is declared with its real size (`960x960`) in the manifest and in `docs/index.html`; the previous `960x958` value did not match the image.
+- `docs/dnapass.html`: manifest is now linked with a relative URL (`site.webmanifest`) so it is always same-origin; `img-src` CSP tightened to `'self' data:` (no external images are used on the page); `<meta name="description">` now describes the generator instead of a generic developer bio.
+- `docs/dnapass.html`: entropy is computed as `length × log2(charset)` instead of `log2(charset^length)` (same value, no huge intermediate number).
+- `docs/dnapass.html`, `docs/index.html`, `DNAPASSCALCULATION.md`: replaced the inaccurate claim that a 12-character password exceeds 80 bits (the charset-based estimate is about 78 bits at 12 characters with the 90-symbol set, and it is an upper bound); 16+ characters are now recommended for high-security accounts.
+- Documentation updated to the real size of the primary sequence list (253 entries, 244 unique) instead of "200".
+- `SECURITY.md`: supported-versions table updated; versions before 0.1.4 are no longer supported because they generate passwords with a non-cryptographic PRNG.
+- Issue templates: added the YAML front matter GitHub needs to list them in the issue chooser, fixed mislabeled contact links, and updated build instructions and version examples.
+
+### Fixed
+- `docs/dnapass.html`: rejection sampling in `getRandomInt()` accepted the boundary value (`value > limit` instead of `value >= limit`), leaving a residual 1-in-2^32 bias toward the low end of the range.
+- `docs/dnapass.html`: an empty or non-numeric length field passed validation (`parseInt('')` is `NaN`, and `NaN < 8` is `false`) and produced an empty password; the length is now validated with `Number.isInteger()`.
+- `docs/dnapass.html`: removed `maximum-scale=1.0` and `user-scalable=no` from the viewport (blocked pinch-to-zoom, a WCAG accessibility issue), matching `docs/index.html`.
+- C++ CLI: "at least N" guarantees could silently fail (positions overwritten by later steps, counters incremented without a real change), and the result was only rescued by unbounded recursive retries; generation is now correct by construction and verified by `meets_policy()`.
+- `README.md`: bug-report section linked to the CONTRIBUTING guide of a different repository.
+- `RELEASE.md`: feedback link pointed to a non-existent repository path.
+- `DNAPASSCALCULATION.md`: removed references to Python's `random`/`secrets` modules (the project is written in C++ and JavaScript) and fixed the worked example.
+
+### Removed
+- C++ CLI: `std::mt19937` (non-cryptographic PRNG) from password generation, together with the `std::mt19937& rng` parameter of `generate_password()` and `resolve_ambiguous_sequence()`, the `#include <random>` in `dnapass_generator.hpp`, and the `std::random_device` seeding in `main.cpp`.
+- C++ CLI: the unbounded recursive retry (`return generate_password(length, rng);`) that regenerated the password whenever the diversity rules were not met; generation is now correct by construction.
+- C++ CLI: `std::regex_replace` and `#include <regex>` used to strip whitespace in `dnapass_generator.cpp` (replaced by a simple character filter), and the `<cctype>` calls (`std::isalpha`, `std::isupper`, `std::tolower`, ...) that are undefined for negative `char` values (replaced by ASCII-only helpers).
+- C++ CLI: the old minimum-count loops (`while (digit_count < min_digits)`, `while (special_count < 4)`, `while (upper_count < min_upper)`) that wrote to random positions and could overwrite characters placed by earlier steps.
+- C++ CLI: error messages printed to standard output with exit status `0`; errors now go to standard error with a non-zero exit status.
+- Leftover maintenance comments in the C++ sources: "REMOVE 'extern' and use 'inline' to avoid linking issues" (`dnapass_generator.hpp`) and the Portuguese comment "CORREÇÃO: Usar a variável special_chars diretamente" (`main.cpp`).
+- `docs/dnapass.html`: `maximum-scale=1.0` and `user-scalable=no` from the `<meta name="viewport">` tag (blocked pinch-to-zoom).
+- `docs/dnapass.html`: unused `Content-Security-Policy img-src` allowances (`*.githubusercontent.com`, `img.shields.io`, `komarev.com`, `github-readme-activity-graph.vercel.app`, `nirzak-streak-stats.vercel.app`, `github-readme-stats.vercel.app`, `github-profile-summary-cards.vercel.app`, `vercel.app`, `vercel.live`); the page loads no external images.
+- `docs/dnapass.html`: the absolute manifest URL (`https://dnapass.gerivan.me/site.webmanifest`), the generic developer-bio `<meta name="description">`, the Portuguese comment "Meta tags para PWA", and the `parseInt()`-based length validation that let an empty field through.
+- `docs/dnapass.html` and `docs/index.html`: the inaccurate claims "For a 12-character password, DNAPass typically achieves entropy above NIST's 80-bit recommendation" and "exceeding NIST's 80-bit recommendation for high-security passwords".
+- `docs/site.webmanifest`: the white `theme_color`/`background_color` (`#ffffff`), which conflicted with the page's `#000000`, and the incorrect `960x958` size declaration (the image is 960×960); the same wrong `sizes="960x958"` was removed from `docs/index.html`.
+- Documentation: the outdated "200 primary sequences" and "141 primary sequences" counts (`docs/dnapass.html`, `docs/index.html`, `DNAPASSCALCULATION.md`).
+- `DNAPASSCALCULATION.md`: the references to Python's `random` and `secrets` modules, the "32 special characters / 94-symbol" figures (the set has 28 symbols, 90 in total), and the inconsistent worked example.
+- `SECURITY.md`: the support rows for versions 0.1.3 and 0.1.2 and the contradictory "< 0.5 not supported" row.
+- `README.md`: the "written in Python" text in the header image alt text and the link to another repository's CONTRIBUTING guide (`entropy-password-generator`).
+- `RELEASE.md`: the broken feedback link (`gerivanc/dnapass`) and the v0.1.3 release notes, replaced by v0.1.5.
+- `.github/ISSUE_TEMPLATE/config.yml`: the unsupported `issue_templates:` key and the mislabeled "Issue Report" and "Bug Report" contact links (described as security channels); replaced by a link to `SECURITY.md`.
+- `.github/ISSUE_TEMPLATE/bug_report.md` and `issue_template.md`: the single-file build command (`g++ -std=c++17 dnapass_generator.cpp -o dnapass_generator`), which no longer builds the project, and the "80+ bits of entropy" expected-behavior examples.
+- `.github/workflows/cpp-build.yml`: the Portuguese comment "Definir compilador baseado no OS" and the wildcard artifact path `build/dnapass_generator*`.
+
 ## [0.1.4] - 2026-09-06
 
 ### Added
