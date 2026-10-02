@@ -1,10 +1,14 @@
-# DNAPass Password Generator v0.1.3
+# DNAPass Password Generator v0.1.5
 
-**Release Date:** October 24th, 2025
+**Release Date:** October 2st, 2026
 
 Released on 	2025/07/13 	
 
-Last updated 	2025/08/31 
+Last updated 	2026/10/02 
+
+Web Generator 	[DNAPassword](https://dnapass.gerivan.me/dnapass.html)
+
+Interactive Viewer 	[DNAPass](https://dnapass.gerivan.me/dnapass.html)
 
 Publisher 	[gerivanc](https://github.com/gerivanc/)
 
@@ -17,21 +21,18 @@ Reporting Issues	[Report a](https://github.com/gerivanc/dnapass-password-generat
 ---
 
 ## 📋 Overview
-The ** 🧬 DNAPass Password Generator** v0.1.3 is now available! This initial release introduces a secure C++ tool for generating strong passwords inspired by DNA sequences. It provides a command-line interface (CLI) with customizable password lengths (8–128 characters) and ensures high entropy, exceeding NIST standards (80+ bits). The project includes a GitHub Actions badge in the documentation to reflect the status of CI/CD workflows.
+The **🧬 DNAPass Password Generator** v0.1.5 is now available! This release makes the web generator installable as a Progressive Web App (PWA) and brings the C++ command-line interface (CLI) in line with the web version: the same generation rules, the same character options, and a cryptographically secure random source on every platform.
 
 ---
 
 ## ✨ What's New
-- Completed total of 200 sequences for nucleotides in code 'dnapass_generator.cpp' function 'const std::vector<std::string> primary_sequences = { '
-- GitHub Actions CI/CD workflow for automated testing and building across multiple platforms
-- Multi-platform support (Ubuntu, macOS, Windows) with GCC and Clang compilers
-- Automated release process triggered by version tags
-- Comprehensive error handling and input validation in password generation
-- Initial public release of DNAPass Password Generator
-- Completed total of 200 sequences for nucleotides in code 'dnapass_generator.cpp'
-- Resolved CMake configuration issues preventing successful builds on macOS and Windows
-- Fixed `special_chars` variable declaration and linking errors across multiple compilation units
-- Corrected recursive password generation to include maximum attempt limits
+- **Installable web app (PWA)**: [dnapass.html](https://dnapass.gerivan.me/dnapass.html) can be installed from the browser and works offline. A bilingual banner (English / Portuguese) asks whether you want to install it, using the native prompt on Chromium browsers and step-by-step instructions on iOS, Safari for macOS and other browsers.
+- **CSPRNG in the CLI**: `std::mt19937` was replaced by the operating system's secure random source (`BCryptGenRandom` on Windows, `getentropy()` on Linux/macOS/BSD), with bias-free rejection sampling.
+- **Same options as the web version**: `--length`, `--no-uppercase`, `--no-lowercase`, `--no-digits`, `--no-special`, plus `--quiet`, `--help` and `--version`.
+- **Same rules as the web version**: case options really exclude the disabled case; 2 digits below 50 characters and 3 at 50+; at least 4 special characters; at least 10% uppercase and 1 lowercase — guaranteed by reserving unique positions, never overwritten.
+- **Entropy estimate in the CLI**, with an honest note that it is an upper bound.
+- **Automated tests** (`ctest`): 19,360 passwords validated per run across every toggle combination and every length from 8 to 128; both GitHub Actions workflows run them.
+- **Web fixes**: residual bias in `getRandomInt()` removed, empty length field no longer produces an empty password, pinch-to-zoom re-enabled, tighter Content-Security-Policy.
 
 ---
 
@@ -86,75 +87,109 @@ Example of generated password with 24 characters:
 ```bash
 ┌──(user㉿parrot)-[~/dnapass-password-generator/build]
 └─$ ./dnapass_generator
-Enter the password length (8 to 128): 24
-
-Copyright © 2025 Gerivan Costa dos Santos
-DNAPass Password Generator - Generate secure passwords inspired by DNA sequences
+Enter the password length (8 to 128): 
+Copyright © 2025-2026 Gerivan Costa dos Santos
+DNAPass Password Generator v0.1.5 - Generate secure passwords inspired by DNA sequences
 Author: gerivanc
 GitHub: https://github.com/gerivanc/dnapass-password-generator
 MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
 
-Generated password: gccgact1c;tgcaG6C[c<@gGc
+Generated password: =attcgaAcg3c%gcggc?cgC&5
 ----------
 
-Used words: ACTCCG, CGCCGT, CACTGGC, ACCGGT
+Settings:
+  Include uppercase: YES
+  Include lowercase: YES
+  Include digits: YES
+  Include special characters: YES
+
+Used words: GCAACTGCAA, GAGC, ggcc, CATCAT
 Ambiguity resolution log:
-	ACTCYR -> ACTCCG
-	CGCYGT -> CGCCGT
-	CASTGNN -> CACTGGC
-	WCCGGW -> ACCGGT
+  GCANNTGCAN -> GCAACTGCAA
+  NNGC -> GAGC
+  ggcc -> ggcc
+  CATCAT -> CATCAT
 
 Password analysis:
-	Length: 24
-	Uppercase: 3
-	Lowercase: 15
-	Digits: 2
-	Special characters: 4
+  Length: 24
+  Uppercase: 2
+  Lowercase: 16
+  Digits: 2
+  Special characters: 4
+  Entropy (estimated): 155.80 bits
+
+Note: the entropy shown is a charset-based upper bound. DNAPass builds
+passwords from a fixed, public set of sequences, so the real guessing
+entropy is lower. Use 16+ characters for high-security accounts.
 ```
 
-### Method 2. - Automated Mode. Call to generate the password by choosing a 32-character password. In the function, enter the number of characters between 8 and 128. Entering password output length to 32 characters
+### Method 2. - Automated Mode. Call to generate the password by choosing a 32-character password. In the function, enter the number of characters between 8 and 128.
 
 ```bash
 echo "32" | ./dnapass_generator
 ```
 
-Example of generated password with 32 characters: 
+### Method 3. - Command-line options. Generate a 16-character password without special characters:
+
+```bash
+./dnapass_generator --length 16 --no-special
+```
+
+Example output:
 ```
 ┌──(user㉿parrot)-[~/dnapass-password-generator/build]
-└─$ echo "32" | ./dnapass_generator
-Enter the password length (8 to 128): 
-Copyright © 2025 Gerivan Costa dos Santos
-DNAPass Password Generator - Generate secure passwords inspired by DNA sequences
+└─$ ./dnapass_generator --length 16 --no-special
+
+Copyright © 2025-2026 Gerivan Costa dos Santos
+DNAPass Password Generator v0.1.5 - Generate secure passwords inspired by DNA sequences
 Author: gerivanc
 GitHub: https://github.com/gerivanc/dnapass-password-generator
 MIT License: https://github.com/gerivanc/dnapass-password-generator/blob/main/LICENSE.md
 
-Generated password: CTaaatAtcg)g(caccacT&gt=4a7Gtgat
+Generated password: Ct3caCcaGtta9cgt
 ----------
 
-Used words: TCTAGA, GTCCTA, cgcg, ACTGAT, ATATAT, CGAATG
+Settings:
+  Include uppercase: YES
+  Include lowercase: YES
+  Include digits: YES
+  Include special characters: NO
+
+Used words: TCTAGA, GGTACC, CCGTAG
 Ambiguity resolution log:
-	TCTAGA -> TCTAGA
-	GTCNNA -> GTCCTA
-	cgcg -> cgcg
-	ACTGNN -> ACTGAT
-	ATATAT -> ATATAT
-	CGWATG -> CGAATG
+  TCTAGA -> TCTAGA
+  GGTACC -> GGTACC
+  CCRTAG -> CCGTAG
 
 Password analysis:
-	Length: 32
-	Uppercase: 5
-	Lowercase: 21
-	Digits: 2
-	Special characters: 4
+  Length: 16
+  Uppercase: 3
+  Lowercase: 11
+  Digits: 2
+  Special characters: 0
+  Entropy (estimated): 95.27 bits
+
+Note: the entropy shown is a charset-based upper bound. DNAPass builds
+passwords from a fixed, public set of sequences, so the real guessing
+entropy is lower. Use 16+ characters for high-security accounts.
 ```
+
+Other examples:
+```bash
+./dnapass_generator -l 64 --quiet                  # print only the password
+./dnapass_generator 20 --no-uppercase --no-digits  # positional length
+./dnapass_generator --help                         # list all options
+```
+
+> 🔐 **Tip**: `--quiet` prints only the password, without the sequence log, which is useful for scripts and avoids leaving the password's building blocks in your terminal history.
 
 ---
 
 ## 📬 Feedback
-Help us improve by reporting issues using our [issue template](https://github.com/gerivanc/dnapass/blob/main/.github/ISSUE_TEMPLATE/issue_template.md).
+Help us improve by reporting issues using our [issue template](https://github.com/gerivanc/dnapass-password-generator/blob/main/.github/ISSUE_TEMPLATE/issue_template.md).
 
 Thank you for supporting **DNAPass Password Generator**! 🚀🔑
+
 ---
 
-#### Copyright © 2025 Gerivan Costa dos Santos
+#### Copyright © 2025-2026 Gerivan Costa dos Santos
