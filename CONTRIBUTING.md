@@ -37,9 +37,12 @@ Thank you for your interest in contributing to the **DNAPass Password Generator*
 3. **Check Coding Standards**:
    - Use `clang-format` to ensure consistent code style:
      ```bash
-     clang-format -i dnapass_generator.cpp
+     clang-format -i dnapass_password_generator/*.cpp dnapass_password_generator/*.hpp tests/*.cpp
      ```
    - Follow C++17 standards and avoid external dependencies beyond standard libraries.
+   - Never use a non-cryptographic generator (e.g. `std::mt19937`, `rand()`, `Math.random()`) for anything that affects the generated password; use `dnapass::secure_random` in C++ and `crypto.getRandomValues()` in the web version.
+   - Keep the C++ CLI (`dnapass_password_generator/`) and the web version (`docs/dnapass.html`) in sync: the same rules and the same options.
+   - Write all code comments in English.
 
 ---
 
@@ -59,16 +62,20 @@ Thank you for your interest in contributing to the **DNAPass Password Generator*
      ```
 
 3. **Make Changes**:
-   - Implement your feature or bug fix in `dnapass_generator.cpp` or documentation files.
+   - Implement your feature or bug fix in `dnapass_password_generator/` (C++ CLI), `docs/` (web version and PWA), or documentation files.
    - Ensure your code compiles and runs without errors:
      ```bash
      ./build/dnapass_generator
      ```
 
 4. **Test Your Changes**:
-   - Test the program with various password lengths (8–128).
-   - Verify that the output meets the requirements (e.g., 4 special characters, 2–3 digits, 10% uppercase, 1 lowercase).
-   - Add unit tests if possible (e.g., using Catch2 in the future).
+   - Run the automated tests from the `build` folder:
+     ```bash
+     ctest --output-on-failure
+     ```
+   - Test the program with various password lengths (8–128) and options (e.g. `./dnapass_generator -l 8 --no-special`).
+   - Verify that the output meets the requirements (e.g., 4 special characters, 2–3 digits, 10% uppercase, 1 lowercase for each enabled type).
+   - Add new checks to `tests/test_generator.cpp` when you change the generation rules.
 
 5. **Commit and Push**:
    - Write clear commit messages:
@@ -116,4 +123,4 @@ Thank you for helping improve the **DNAPass Password Generator**! 🚀🔑
 
 ---
 
-#### Copyright © 2025 Gerivan Costa dos Santos
+#### Copyright © 2025-2026 Gerivan Costa dos Santos
