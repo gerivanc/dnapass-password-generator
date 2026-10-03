@@ -1,3 +1,10 @@
+---
+name: General Issue
+about: Report feature requests, documentation improvements, or other issues.
+title: "[Issue] "
+labels: enhancement
+---
+
 # 🧬 DNAPass Password Generator - Issue Report
 
 Thank you for contributing to the **DNAPass Password Generator**! Please fill out the sections below to help us understand and address your issue or suggestion. For guidelines, see our [Contributing](https://github.com/gerivanc/dnapass-password-generator/blob/main/CONTRIBUTING.md).
@@ -16,7 +23,7 @@ Provide a clear and detailed description of the problem or suggestion. For examp
 ## 🔄 Steps to Reproduce
 List the steps to reproduce the issue. For example:
 1. Clone the repository: `git clone https://github.com/gerivanc/dnapass-password-generator.git`.
-2. Compile: `g++ -std=c++17 dnapass_generator.cpp -o dnapass_generator`.
+2. Build: `mkdir build && cd build && cmake .. && cmake --build .`.
 3. Run: `./dnapass_generator` and enter `8`.
 4. Observe the error: `[Error message or crash]`.
 
@@ -29,7 +36,7 @@ List the steps to reproduce the issue. For example:
 
 ## ✅ Expected Behavior
 Describe what should happen. For example:
-- "The command should generate an 8-character password with at least 4 special characters and 80+ bits of entropy."
+- "The command should generate an 8-character password with at least 4 special characters and 2 digits."
 
 **Expected Behavior**:
 [Enter expected behavior here]
@@ -39,11 +46,11 @@ Describe what should happen. For example:
 ## 🖥️ Environment Details
 Provide details about your environment. To check versions, use:
 - Compiler: `g++ --version` or `clang++ --version`
-- Project: Check the version in `CMakeLists.txt` or output of `./dnapass_generator`
+- Project: `./dnapass_generator --version` (or check `CMakeLists.txt`)
 
 - **Operating System**: [e.g., Ubuntu 24.04, Windows 11, macOS Sonoma]
 - **Compiler Version**: [e.g., g++ 11.2.0, clang 15.0.0]
-- **Project Version**: [e.g., 0.1.3 from source]
+- **Project Version**: [e.g., 0.1.5 from source]
 - **Installation Method**: [e.g., compiled from source]
 - **Additional Context**: [e.g., system configurations, terminal output]
 
@@ -104,4 +111,4 @@ If this issue involves a security vulnerability, please follow the instructions 
 
 ---
 
-#### Copyright © 2025 Gerivan Costa dos Santos
+#### Copyright © 2025-2026 Gerivan Costa dos Santos
