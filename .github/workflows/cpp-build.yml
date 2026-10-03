@@ -67,7 +67,7 @@ jobs:
         mkdir -p build
         cd build
         
-        # Definir compilador baseado no OS
+        # Select the compiler based on the operating system
         if [ "${{ runner.os }}" = "Windows" ]; then
           cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug
         else
@@ -85,18 +85,35 @@ jobs:
         cmake --build . --config Debug
       shell: bash
 
+    - name: Run automated tests
+      run: |
+        cd build
+        ctest --output-on-failure -C Debug
+      shell: bash
+
     - name: Test executable
       run: |
         cd build
         if [ "${{ runner.os }}" = "Windows" ]; then
-          echo "12" | ./dnapass_generator.exe
+          EXE=./dnapass_generator.exe
         else
-          echo "12" | ./dnapass_generator
+          EXE=./dnapass_generator
         fi
+        # Method 2 (automated mode) must keep working
+        echo "12" | $EXE
+        # New command-line options (mirror the web version toggles)
+        $EXE --version
+        $EXE --length 32 --quiet
+        $EXE -l 64 --no-uppercase --no-special
+        # Invalid length must fail with a non-zero exit code
+        if $EXE --length 7; then echo "Expected failure for length 7"; exit 1; fi
       shell: bash
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: dnapass-${{ matrix.os }}-${{ matrix.compiler }}
-        path: build/dnapass_generator*
+        path: |
+          build/dnapass_generator
+          build/dnapass_generator.exe
+        if-no-files-found: error
