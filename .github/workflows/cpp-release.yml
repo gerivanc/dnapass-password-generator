@@ -3,7 +3,7 @@ name: Publish DNAPass to GitHub Releases
 on:
   push:
     tags:
-      - 'v*'  # Publishes when a version tag (e.g., v0.1.3) is created
+      - 'v*'  # Publishes when a version tag (e.g., v0.1.5) is created
 
 permissions:
   contents: write
@@ -54,6 +54,12 @@ jobs:
       run: |
         cd build
         cmake --build . --config Release --parallel
+      shell: bash
+
+    - name: Run automated tests
+      run: |
+        cd build
+        ctest --output-on-failure -C Release
       shell: bash
 
     - name: Create release assets directory
