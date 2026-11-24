@@ -458,260 +458,194 @@
         }
         
         /* ================================================================
-           DNA TV — full-width double-helix "flat screen"
-           Rendered on <canvas>; spans the whole content width (respecting
-           the .container margins). Base-pair colours keep the original
-           palette: A #ff4d4d · T #4d94ff · C #4dff88 · G #ffcc00.
+           DNA helix card — ported from the "Domain DNA" animator
+           (SVG dots + thin rungs, depth via radius/opacity, flat palette),
+           stretched to the full content width.
            ================================================================ */
         .dnatv {
-            --tv-accent: #00ffff;
-            --tv-accent2: #39ff14;
+            --dna-a: #39ff14;
+            --dna-t: #ff2e63;
+            --dna-c: #00f0ff;
+            --dna-g: #ffcc00;
+            --dna-none: #a9b4d6;
+            --dna-line: rgba(0, 240, 255, 0.22);
+            --dna-soft: rgba(0, 240, 255, 0.07);
+            --dna-panel: rgba(10, 17, 30, 0.94);
+            --dna-mute: #8ffcff;
+            --dna-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Consolas, 'Courier New', monospace;
             position: relative;
             width: 100%;
             margin: 40px 0;
-            padding: 2px;
-            border-radius: 18px;
-            background: linear-gradient(120deg, var(--tv-accent), rgba(255, 255, 255, 0.06) 28%, rgba(255, 255, 255, 0.06) 72%, var(--tv-accent2));
-            box-shadow: 0 0 45px rgba(0, 255, 255, 0.12), 0 40px 70px -40px rgba(0, 0, 0, 0.95);
+            border: 1px solid var(--dna-line);
+            border-radius: 14px;
+            /* Solid panel instead of backdrop-filter: blurring the animated
+               rain behind a full-width card every frame was the main cost. */
+            background: var(--dna-panel);
+            box-shadow: 0 0 24px rgba(0, 150, 255, 0.08);
+            overflow: hidden;
             text-align: left;
         }
 
-        .dnatv--red {
-            --tv-accent: #ff2a2a;
-            --tv-accent2: #00ccff;
-            box-shadow: 0 0 45px rgba(255, 0, 0, 0.14), 0 40px 70px -40px rgba(0, 0, 0, 0.95);
+        .dnatv::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00f0ff, #ffcc00, #ff00aa);
+            opacity: 0.75;
         }
 
-        .dnatv-inner {
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            background: radial-gradient(130% 150% at 50% 0%, #0f1d24 0%, #070b0f 55%, #020304 100%);
-        }
-
-        .dnatv-bar {
+        .dnatv-head {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: baseline;
             flex-wrap: wrap;
-            gap: 10px 18px;
-            padding: 14px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .dnatv-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 6px 10px;
+            margin: 0;
+            padding: 12px 13px 10px;
+            border-bottom: 1px solid var(--dna-line);
+            background: var(--dna-soft);
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--tv-accent);
-            text-shadow: 0 0 12px var(--tv-accent);
+            font-size: 13.5px;
+            font-weight: 500;
+            letter-spacing: 0.6px;
+            color: #00f0ff;
+            text-shadow: 0 0 6px rgba(0, 240, 255, 0.55);
         }
 
-        .dnatv-live {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #ff3b5c;
-            box-shadow: 0 0 10px #ff3b5c;
-            animation: dnatvBlink 1.6s infinite;
-        }
-
-        .dnatv.is-paused .dnatv-live {
-            animation: none;
-            background: #666;
-            box-shadow: none;
-        }
-
-        @keyframes dnatvBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.25; }
-        }
-
-        .dnatv-spec {
-            flex: 1;
+        .dnatv-head small {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            font-family: 'Exo 2', 'Segoe UI', system-ui, sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0;
+            color: var(--dna-mute);
+            text-shadow: none;
             text-align: right;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: #d6eef5;
-            opacity: 0.85;
-            letter-spacing: 0.5px;
         }
 
         .dnatv .dnatv-btn {
-            background: transparent;
-            color: var(--tv-accent);
-            border: 1px solid var(--tv-accent);
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.72rem;
+            height: 24px;
+            padding: 0 9px;
+            border: 1px solid var(--dna-line);
+            border-radius: 7px;
+            background: rgba(0, 240, 255, 0.08);
+            color: #00f0ff;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 11.5px;
             font-weight: 500;
-            letter-spacing: 1px;
+            letter-spacing: 0;
             box-shadow: none;
             cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
         }
 
         .dnatv .dnatv-btn::before { display: none; }
 
         .dnatv .dnatv-btn:hover,
         .dnatv .dnatv-btn:focus-visible {
-            background: var(--tv-accent);
-            color: #000;
             transform: none;
-            box-shadow: none;
+            border-color: #00f0ff;
+            box-shadow: 0 0 10px #00f0ff;
             outline: none;
         }
 
-        .dnatv-stage {
-            position: relative;
-            height: clamp(210px, 27vw, 330px);
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-            background-size: 42px 42px;
-            background-position: center center;
-        }
+        .dnatv-body { padding: 13px; }
 
-        .dnatv-stage canvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
+        .dnatv svg {
             display: block;
-            cursor: crosshair;
-            touch-action: pan-y;
+            width: 100%;
+            height: auto;
         }
 
-        /* CRT scanlines + vignette + glass glare (pure CSS, no cost to the canvas) */
-        .dnatv-stage::before,
-        .dnatv-stage::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
+        .dnatv .rung {
+            stroke: var(--dna-line);
+            stroke-width: 1.4;
         }
 
-        .dnatv-stage::before {
-            background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
-            z-index: 1;
-        }
-
-        .dnatv-stage::after {
-            background:
-                linear-gradient(160deg, rgba(255, 255, 255, 0.06) 0%, transparent 32%),
-                radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.55) 100%);
-            z-index: 1;
-        }
-
-        .dnatv-tip {
-            position: absolute;
-            bottom: 10px;
-            z-index: 2;
-            transform: translateX(-50%);
-            padding: 5px 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            pointer-events: none;
-        }
-
-        .dnatv-tip[hidden] { display: none; }
+        .dnatv circle { fill: var(--dna-none); }
+        .dnatv circle.A { fill: var(--dna-a); }
+        .dnatv circle.T { fill: var(--dna-t); }
+        .dnatv circle.C { fill: var(--dna-c); }
+        .dnatv circle.G { fill: var(--dna-g); }
 
         .dnatv-seq {
-            padding: 14px 20px 4px;
-            font-family: 'Courier New', monospace;
-            font-size: clamp(11px, 1.12vw, 15px);
-            font-weight: bold;
-            letter-spacing: 0.08em;
-            line-height: 1.6;
+            margin-top: 6px;
+            font-family: var(--dna-mono);
+            font-size: 13px;
+            letter-spacing: 2px;
+            line-height: 1.5;
             word-break: break-all;
         }
 
-        .dnatv-seq span {
-            border-radius: 2px;
-            opacity: 0.45;
-            transition: opacity 0.25s, background-color 0.25s;
-        }
+        .dnatv-seq .A { color: var(--dna-a); }
+        .dnatv-seq .T { color: var(--dna-t); }
+        .dnatv-seq .C { color: var(--dna-c); }
+        .dnatv-seq .G { color: var(--dna-g); }
 
-        .dnatv-seq span.on { opacity: 1; }
-        .dnatv-seq span.hot { background: rgba(255, 255, 255, 0.22); opacity: 1; }
-        .dnatv-seq span[data-b="A"] { color: #ff4d4d; }
-        .dnatv-seq span[data-b="T"] { color: #4d94ff; }
-        .dnatv-seq span[data-b="C"] { color: #4dff88; }
-        .dnatv-seq span[data-b="G"] { color: #ffcc00; }
-
-        .dnatv-hash {
-            padding: 4px 20px 16px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: #cfe3ea;
+        .dnatv-fp {
+            margin-top: 4px;
+            font-family: var(--dna-mono);
+            font-size: 11px;
+            color: var(--dna-mute);
             word-break: break-all;
         }
 
-        .dnatv-hash b {
-            color: var(--tv-accent);
-            font-weight: bold;
+        .dnatv-note {
+            margin-top: 10px;
+            padding: 8px 10px;
+            border: 1px solid var(--dna-line);
+            border-left: 4px solid #00bfff;
+            border-radius: 8px;
+            background: var(--dna-soft);
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: #e0ffff;
         }
 
-        .dnatv-foot {
+        .dnatv-note b { color: #00bfff; }
+
+        .dnatv-input-row {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 10px 14px;
-            padding: 12px 20px 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.07);
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: #a9c3cc;
+            gap: 8px 10px;
+            margin-top: 10px;
         }
 
-        .dnatv-foot label {
-            display: inline;
-            margin: 0;
+        .dnatv-input-row label {
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 1.5px;
-            color: var(--tv-accent);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #ffcc00;
         }
 
         .dnatv .dnatv-input {
             flex: 1;
             min-width: 200px;
-            padding: 9px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.55);
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
+            height: 36px;
+            padding: 0 12px;
+            border: 1px solid rgba(255, 204, 0, 0.38);
+            border-radius: 6px;
+            background: #050510;
+            color: #e0ffff;
+            font-family: var(--dna-mono);
+            font-size: 14px;
         }
 
         .dnatv .dnatv-input:focus {
             outline: none;
-            border-color: var(--tv-accent);
-            box-shadow: 0 0 10px var(--tv-accent);
-        }
-
-        .dnatv-note {
-            flex-basis: 100%;
-            opacity: 0.8;
+            border-color: #ffcc00;
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
         }
 
         @media (max-width: 768px) {
             .dnatv { margin: 28px 0; }
-            .dnatv-spec { flex-basis: 100%; order: 3; text-align: left; font-size: 0.75rem; }
-            .dnatv-bar, .dnatv-seq, .dnatv-hash, .dnatv-foot { padding-left: 14px; padding-right: 14px; }
-            .dnatv-hash { font-size: 0.78rem; }
+            .dnatv-head small { text-align: left; }
         }
 
         .security-message {
@@ -767,7 +701,6 @@
             .dna-drop,
             .code-column,
             h1,
-            .dnatv-live,
             .security-overlay {
                 animation: none !important;
             }
@@ -869,25 +802,18 @@
                 <a href="https://github.com/gerivanc/dnapass-password-generator/issues" target="_blank" rel="noopener noreferrer">Issues</a>
             </div>
             
-<!-- DNA TV: full-width double helix screen (canvas). Built by the DNATV script below. -->
+<!-- DNA helix card (ported from the "Domain DNA" animator). Driven by the DNATV script below. -->
             <div class="dnatv" id="dnaTV">
-                <div class="dnatv-inner">
-                    <div class="dnatv-bar">
-                        <div class="dnatv-title"><span class="dnatv-live" aria-hidden="true"></span><span data-dnatv-title>PROJECT DNA</span></div>
-                        <div class="dnatv-spec">SHA-256 &rarr; 2 bits/base &middot; 128 bp &middot; A=T &middot; G&equiv;C &middot; B-DNA 10.5 bp/turn</div>
-                        <button type="button" class="dnatv-btn" data-dnatv-pause aria-pressed="false">&#10074;&#10074; PAUSE</button>
-                    </div>
-                    <div class="dnatv-stage">
-                        <canvas role="img" aria-label="Animated DNA double helix"></canvas>
-                        <div class="dnatv-tip" data-dnatv-tip hidden></div>
-                    </div>
+                <div class="dnatv-head"><span data-dnatv-title>Project DNA</span><small><span>SHA-256 of the repository URL &middot; 128 bp</span><button type="button" class="dnatv-btn" data-dnatv-pause aria-pressed="false">&#10074;&#10074; pause</button></small></div>
+                <div class="dnatv-body">
+                    <svg viewBox="0 0 320 110" role="img" aria-label="Animated DNA double helix"><g></g></svg>
                     <div class="dnatv-seq" data-dnatv-seq aria-hidden="true"></div>
-                    <div class="dnatv-hash" data-dnatv-hash aria-live="polite"><b>sha256:</b> transcribing&hellip;</div>
-                    <div class="dnatv-foot">
-                        <label for="dnatv-text">TRANSCRIBE ANY TEXT</label>
+                    <div class="dnatv-fp" data-dnatv-fp aria-live="polite">sha256: sequencing&hellip;</div>
+                    <div class="dnatv-input-row">
+                        <label for="dnatv-text">Transcribe any text</label>
                         <input type="text" id="dnatv-text" class="dnatv-input" maxlength="256" autocomplete="off" spellcheck="false" placeholder="type a word, a name or a domain&hellip;">
-                        <span class="dnatv-note">Hashed locally with the Web Crypto API (SHA-256) &mdash; nothing leaves your browser. Hover the helix to inspect each base pair. Please don't type real passwords here.</span>
                     </div>
+                    <div class="dnatv-note"><b>&#129516; Hashed locally</b> with the Web Crypto API (SHA-256) &mdash; nothing leaves your browser. Please don't type real passwords here.</div>
                 </div>
             </div>
             
@@ -1158,406 +1084,194 @@
 
     <script>
         /* =================================================================
-           DNA TV — full-width animated double helix (canvas 2D)
+           DNA helix — port of the "Domain DNA" animator, full width.
            -----------------------------------------------------------------
-           How it works:
-             1. Any input (text, password) is hashed with Web Crypto
-                (SHA-256 or HMAC-SHA-256) -> 32 bytes = 256 bits.
-             2. Every 2 bits become one nucleotide (00=A 01=C 10=G 11=T),
-                so 256 bits = 128 base pairs. The complementary strand
-                follows Watson-Crick pairing (A=T with 2 H-bonds, G≡C with 3).
-             3. Each pair is placed on a B-DNA helix (10.5 bp per turn).
-                Depth (z = cos θ) drives dot size, opacity and draw order,
-                which fakes 3D on a flat 2D canvas.
-             4. When the sequence changes, a "transcription wave" sweeps
-                the screen from left to right, re-colouring each base.
-           Motion respects prefers-reduced-motion, has a PAUSE control
-           (WCAG 2.2.2) and stops drawing when off-screen.
-           Math.random() is used only for the cosmetic boot sequence.
+           * SVG: two <circle> bases per pair + all rungs in a single <path>.
+           * Pair i sits at x = x0 + i*9.4 with angle phase + i*0.4 rad;
+             y = 55 ± 38·sin, and depth (cos) drives radius 2.2–3.8 and
+             opacity 0.4–1.0, which reads as 3D without any shading.
+           * Colours: A #39ff14 · T #ff2e63 · C #00f0ff · G #ffcc00,
+             complementary strand by Watson-Crick pairing.
+           * The number of pairs is recomputed from the card width, so the
+             helix always runs edge to edge inside the page margins.
+           * While a new digest is being computed the helix "sequences":
+             it spins 5x faster and the bases flicker (cosmetic
+             Math.random only), then settles on the real sequence.
+           * Digest -> bases: 2 bits per base (00 A · 01 C · 10 G · 11 T),
+             so a 32-byte SHA-256/HMAC gives 128 bases.
+           Honours prefers-reduced-motion, has a pause button and stops
+           when the card is off-screen or the tab is hidden.
            ================================================================= */
         (function (global) {
             'use strict';
 
-            const COLORS = { A: '#ff4d4d', T: '#4d94ff', C: '#4dff88', G: '#ffcc00' };
+            const NS = 'http://www.w3.org/2000/svg';
             const PAIR = { A: 'T', T: 'A', C: 'G', G: 'C' };
-            const BONDS = { A: 2, T: 2, C: 3, G: 3 };
-            const ALPHABET = ['A', 'C', 'G', 'T'];          // 2-bit code: 00 01 10 11
-            const TWIST = (2 * Math.PI) / 10.5;              // B-DNA: 10.5 bp per turn
-            const LEN = 128;                                 // 256 bits / 2 bits per base
-
-            const mod = (n, m) => ((n % m) + m) % m;
+            const SPACING = 9.4, STEP = 0.4, AMP = 38, MID = 55, VB_H = 110, MARGIN = 14;
+            const SPIN = 0.022, SPIN_FAST = 0.11;           // rad per 60 Hz frame
+            const SCRAMBLE_MS = 550;
 
             function bytesToBases(bytes) {
                 let s = '';
-                for (const b of bytes) {
-                    s += ALPHABET[(b >> 6) & 3] + ALPHABET[(b >> 4) & 3] + ALPHABET[(b >> 2) & 3] + ALPHABET[b & 3];
-                }
+                for (const b of bytes) s += 'ACGT'[(b >> 6) & 3] + 'ACGT'[(b >> 4) & 3] + 'ACGT'[(b >> 2) & 3] + 'ACGT'[b & 3];
                 return s;
             }
 
-            function toHexGroups(bytes) {
-                const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
-                return hex.match(/.{1,8}/g).join(' ');
-            }
-
-            // Pre-rendered glow sprite per nucleotide colour: far cheaper than
-            // canvas shadowBlur, which would be recomputed for every dot.
-            function makeSprite(color) {
-                const size = 64, r = size / 2;
-                const c = document.createElement('canvas');
-                c.width = c.height = size;
-                const g = c.getContext('2d');
-                const grad = g.createRadialGradient(r, r, 0, r, r, r);
-                grad.addColorStop(0, '#ffffff');
-                grad.addColorStop(0.16, color);
-                grad.addColorStop(0.34, color);
-                grad.addColorStop(0.42, color + '66');
-                grad.addColorStop(1, color + '00');
-                g.fillStyle = grad;
-                g.fillRect(0, 0, size, size);
-                return c;
+            function svgEl(tag, attrs) {
+                const e = document.createElementNS(NS, tag);
+                for (const k in attrs) e.setAttribute(k, attrs[k]);
+                return e;
             }
 
             class DNATV {
-                constructor(root, opts) {
+                constructor(root) {
                     this.root = root;
-                    this.opts = Object.assign({ strandA: '#8af7ff', strandB: '#ff8fb3', speed: 1 }, opts || {});
-                    this.canvas = root.querySelector('canvas');
-                    this.ctx = this.canvas.getContext('2d');
+                    this.svg = root.querySelector('svg');
+                    this.g = this.svg.querySelector('g');
                     this.seqEl = root.querySelector('[data-dnatv-seq]');
-                    this.hashEl = root.querySelector('[data-dnatv-hash]');
-                    this.tipEl = root.querySelector('[data-dnatv-tip]');
+                    this.fpEl = root.querySelector('[data-dnatv-fp]');
                     this.pauseBtn = root.querySelector('[data-dnatv-pause]');
 
-                    this.cur = new Array(LEN);
-                    this.target = new Array(LEN);
-                    this.switchAt = new Float64Array(LEN).fill(Infinity);
-                    this.flash = new Float32Array(LEN);
-                    for (let i = 0; i < LEN; i++) {
-                        this.cur[i] = this.target[i] = ALPHABET[Math.floor(Math.random() * 4)]; // cosmetic only
-                    }
-
-                    this.offset = 0;
-                    this.spin = 0;
-                    this.lens = 0;
-                    this.paused = false;
+                    this.bases = '';
+                    this.phase = 0;
+                    this.els = [];
+                    this.n = 0;
+                    this.x0 = MARGIN;
+                    this.scramble = true;                     // flicker until the first digest lands
+                    this.frame = 0;
+                    this.colorsDirty = true;
                     this.visible = true;
-                    this.pending = 0;
-                    this.windowStart = -1;
-                    this.hotIdx = -1;
-                    this.mouse = { x: 0, y: 0, inside: false };
+                    this.paused = false;
                     this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-                    this.sprites = {};
-                    for (const b in COLORS) this.sprites[b] = makeSprite(COLORS[b]);
 
-                    this.buildSequence();
-                    this.bind();
-                    this.resize();
-                    this.last = performance.now();
-                    requestAnimationFrame(t => this.frame(t));
-                }
-
-                buildSequence() {
-                    this.spans = [];
-                    if (!this.seqEl) return;
-                    const frag = document.createDocumentFragment();
-                    for (let i = 0; i < LEN; i++) {
-                        const s = document.createElement('span');
-                        s.textContent = this.cur[i];
-                        s.dataset.b = this.cur[i];
-                        frag.appendChild(s);
-                        this.spans.push(s);
-                    }
-                    this.seqEl.textContent = '';
-                    this.seqEl.appendChild(frag);
-                }
-
-                bind() {
-                    const stage = this.canvas.parentElement;
-                    if ('ResizeObserver' in window) {
-                        new ResizeObserver(() => this.resize()).observe(stage);
-                    } else {
-                        window.addEventListener('resize', () => this.resize());
-                    }
+                    this.layout();
+                    if ('ResizeObserver' in window) new ResizeObserver(() => this.layout()).observe(this.svg.parentElement);
+                    else window.addEventListener('resize', () => this.layout());
                     if ('IntersectionObserver' in window) {
-                        new IntersectionObserver(entries => {
-                            this.visible = entries[0].isIntersecting;
-                        }).observe(stage);
+                        new IntersectionObserver(es => { this.visible = es[0].isIntersecting; }).observe(root);
                     }
-                    const move = e => {
-                        const r = this.canvas.getBoundingClientRect();
-                        this.mouse.x = e.clientX - r.left;
-                        this.mouse.y = e.clientY - r.top;
-                        this.mouse.inside = true;
+                    if (this.pauseBtn) this.pauseBtn.addEventListener('click', () => this.togglePause());
+
+                    this.last = performance.now();
+                    const tick = t => {
+                        const dt = Math.min(50, t - this.last);
+                        this.last = t;
+                        if (!document.hidden && this.visible && !this.reduce.matches && !this.paused) {
+                            this.phase += (this.scramble ? SPIN_FAST : SPIN) * dt / 16.667;
+                            if (this.scramble && ++this.frame % 3 === 0) {
+                                let r = '';
+                                for (let i = 0; i < this.n; i++) r += 'ACGT'[Math.random() * 4 | 0];
+                                this.bases = r;
+                                this.colorsDirty = true;
+                            }
+                            this.paint();
+                        }
+                        requestAnimationFrame(tick);
                     };
-                    this.canvas.addEventListener('pointermove', move);
-                    this.canvas.addEventListener('pointerdown', move);
-                    this.canvas.addEventListener('pointerleave', () => {
-                        this.mouse.inside = false;
-                        if (this.tipEl) this.tipEl.hidden = true;
-                        this.setHot(-1);
-                    });
-                    if (this.pauseBtn) {
-                        this.pauseBtn.addEventListener('click', () => this.togglePause());
+                    requestAnimationFrame(tick);
+                }
+
+                // Fit as many pairs as the card width allows, keeping the
+                // original proportions (scale 1x on phones up to 1.9x on desktop).
+                layout() {
+                    const w = this.svg.parentElement.clientWidth || 320;
+                    const scale = Math.min(1.9, Math.max(1, w / 320));
+                    const vbW = w / scale;
+                    const n = Math.max(8, Math.floor((vbW - 2 * MARGIN) / SPACING) + 1);
+                    this.x0 = (vbW - (n - 1) * SPACING) / 2;
+                    this.svg.setAttribute('viewBox', '0 0 ' + vbW.toFixed(1) + ' ' + VB_H);
+                    if (n !== this.n || this.layoutW !== vbW) {
+                        this.n = n;
+                        this.layoutW = vbW;
+                        this.g.textContent = '';
+                        this.els = [];
+                        // All rungs live in ONE <path>: a single attribute write per frame.
+                        this.rungs = svgEl('path', { class: 'rung' });
+                        this.g.append(this.rungs);
+                        this.xs = [];
+                        for (let i = 0; i < n; i++) {
+                            const x = (this.x0 + i * SPACING).toFixed(1);
+                            this.xs.push(x);
+                            // cx is fixed per pair, so it is written once here, not every frame.
+                            const a = svgEl('circle', { cx: x, r: '3' }), b = svgEl('circle', { cx: x, r: '3' });
+                            this.g.append(a, b);
+                            this.els.push([a, b]);
+                        }
+                        this.colorsDirty = true;
                     }
+                    this.paint();
+                }
+
+                paint() {
+                    const len = this.bases.length;
+                    let d = '';
+                    for (let i = 0; i < this.els.length; i++) {
+                        const [a, b] = this.els[i];
+                        const x = this.xs[i];
+                        const s = Math.sin(this.phase + i * STEP), c = Math.cos(this.phase + i * STEP);
+                        const y1 = (MID + AMP * s).toFixed(1), y2 = (MID - AMP * s).toFixed(1);
+                        d += 'M' + x + ' ' + y1 + 'V' + y2;
+                        a.setAttribute('cy', y1);
+                        a.setAttribute('r', (2.2 + 1.6 * (c + 1) / 2).toFixed(2));
+                        a.setAttribute('opacity', (0.4 + 0.6 * (c + 1) / 2).toFixed(2));
+                        b.setAttribute('cy', y2);
+                        b.setAttribute('r', (2.2 + 1.6 * (1 - c) / 2).toFixed(2));
+                        b.setAttribute('opacity', (0.4 + 0.6 * (1 - c) / 2).toFixed(2));
+                        if (this.colorsDirty) {
+                            const base = len ? this.bases[i % len] : '';
+                            a.setAttribute('class', base);
+                            b.setAttribute('class', PAIR[base] || '');
+                        }
+                    }
+                    this.rungs.setAttribute('d', d);
+                    this.colorsDirty = false;
                 }
 
                 togglePause() {
                     this.paused = !this.paused;
-                    this.root.classList.toggle('is-paused', this.paused);
-                    if (this.pauseBtn) {
-                        this.pauseBtn.setAttribute('aria-pressed', String(this.paused));
-                        this.pauseBtn.textContent = this.paused ? '▶ PLAY' : '❚❚ PAUSE';
-                    }
+                    this.pauseBtn.setAttribute('aria-pressed', String(this.paused));
+                    this.pauseBtn.textContent = this.paused ? '▶ play' : '❚❚ pause';
                 }
 
-                resize() {
-                    const stage = this.canvas.parentElement;
-                    this.w = stage.clientWidth;
-                    this.h = stage.clientHeight;
-                    this.dpr = Math.min(2, window.devicePixelRatio || 1);
-                    this.canvas.width = Math.round(this.w * this.dpr);
-                    this.canvas.height = Math.round(this.h * this.dpr);
-                    this.windowStart = -1;
+                /** Start the "sequencing" flicker (e.g. while a digest is computed). */
+                sequencing() {
+                    if (!this.reduce.matches) this.scramble = true;
                 }
 
-                /** Transcribe 32 bytes (a SHA-256 / HMAC digest) into the helix. */
+                /** Show a 32-byte digest: flicker briefly, then settle on its bases. */
                 setBytes(bytes, prefix) {
-                    const seq = bytesToBases(bytes).slice(0, LEN);
-                    const now = performance.now();
-                    const start = mod(Math.floor(this.offset), LEN);
-                    const instant = this.reduce.matches;
-                    for (let i = 0; i < LEN; i++) {
-                        this.target[i] = seq[i];
-                        // Wave starts at the left edge of the screen and travels right.
-                        this.switchAt[i] = instant ? now : now + mod(i - start, LEN) * 14;
-                    }
-                    this.pending = LEN;
-                    if (this.hashEl) {
-                        this.hashEl.innerHTML = '';
-                        const b = document.createElement('b');
-                        b.textContent = (prefix || 'sha256') + ':';
-                        this.hashEl.appendChild(b);
-                        this.hashEl.appendChild(document.createTextNode(toHexGroups(bytes)));
-                    }
-                    this.canvas.setAttribute('aria-label',
-                        'Animated DNA double helix encoding the ' + (prefix || 'sha256') + ' digest as 128 base pairs');
-                }
-
-                setHot(idx) {
-                    if (idx === this.hotIdx) return;
-                    if (this.hotIdx >= 0 && this.spans[this.hotIdx]) this.spans[this.hotIdx].classList.remove('hot');
-                    this.hotIdx = idx;
-                    if (idx >= 0 && this.spans[idx]) this.spans[idx].classList.add('hot');
-                }
-
-                frame(t) {
-                    const dt = Math.min(64, t - this.last);
-                    this.last = t;
-                    const moving = !this.paused && !this.reduce.matches;
-                    if (moving && this.visible) {
-                        this.offset += dt * 0.0011 * this.opts.speed;
-                        this.spin += dt * 0.0008 * this.opts.speed;
-                    }
-                    this.lens += ((this.mouse.inside ? 1 : 0) - this.lens) * Math.min(1, dt * 0.008);
-
-                    // Apply the transcription wave.
-                    if (this.pending) {
-                        let left = 0;
-                        for (let i = 0; i < LEN; i++) {
-                            if (this.switchAt[i] === Infinity) continue;
-                            if (t >= this.switchAt[i]) {
-                                this.cur[i] = this.target[i];
-                                this.switchAt[i] = Infinity;
-                                this.flash[i] = 1;
-                                const s = this.spans[i];
-                                if (s) { s.textContent = this.cur[i]; s.dataset.b = this.cur[i]; }
-                            } else {
-                                left++;
+                    const bases = bytesToBases(bytes);
+                    const hex = Array.from(bytes, x => x.toString(16).padStart(2, '0')).join('');
+                    const apply = () => {
+                        this.scramble = false;
+                        this.bases = bases;
+                        this.colorsDirty = true;
+                        this.paint();
+                        if (this.seqEl) {
+                            this.seqEl.textContent = '';
+                            const frag = document.createDocumentFragment();
+                            for (const ch of bases) {
+                                const sp = document.createElement('span');
+                                sp.className = ch;
+                                sp.textContent = ch;
+                                frag.appendChild(sp);
                             }
+                            this.seqEl.appendChild(frag);
                         }
-                        this.pending = left;
-                    }
-                    const decay = Math.exp(-dt / 380);
-                    for (let i = 0; i < LEN; i++) if (this.flash[i] > 0.01) this.flash[i] *= decay; else this.flash[i] = 0;
-
-                    if (this.visible && this.w > 0) this.draw();
-                    requestAnimationFrame(n => this.frame(n));
-                }
-
-                draw() {
-                    const ctx = this.ctx, W = this.w, H = this.h;
-                    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-                    ctx.clearRect(0, 0, W, H);
-
-                    const pad = Math.max(14, W * 0.022);
-                    const sp = Math.max(13, Math.min(24, W / 54));        // spacing between base pairs
-                    const amp = H * 0.29, cy = H * 0.5;
-                    const fadeW = sp * 3;
-                    const base0 = Math.floor(this.offset);
-                    const n = Math.ceil((W - 2 * pad) / sp) + 2;
-                    const lensOn = this.lens > 0.01;
-                    const mx = this.mouse.x;
-                    const rBase = Math.max(3.6, Math.min(7, sp * 0.3));
-
-                    const geom = kk => {
-                        const x = pad + (kk - this.offset) * sp;
-                        let L = 0;
-                        if (lensOn) { const d = (x - mx) / (sp * 3.2); L = Math.exp(-d * d) * this.lens; }
-                        const a = amp * (1 + 0.28 * L);
-                        const th = kk * TWIST + this.spin;
-                        const s = Math.sin(th), c = Math.cos(th);
-                        let e = Math.min((x - pad) / fadeW, (W - pad - x) / fadeW);
-                        e = e < 0 ? 0 : e > 1 ? 1 : e;
-                        e = e * e * (3 - 2 * e);
-                        return { x, L, e, y1: cy + a * s, y2: cy - a * s, z1: c, z2: -c };
+                        if (this.fpEl) this.fpEl.textContent = (prefix || 'sha256') + ':' + hex.match(/.{8}/g).join(' ');
                     };
-
-                    // ---- backbone samples (4 per base pair for smooth curves)
-                    const samples = [];
-                    for (let kk = base0 - 1; kk <= base0 + n + 1; kk += 0.25) samples.push(geom(kk));
-
-                    const strand = (front) => {
-                        for (const which of [1, 2]) {
-                            ctx.strokeStyle = which === 1 ? this.opts.strandA : this.opts.strandB;
-                            for (let i = 1; i < samples.length; i++) {
-                                const p = samples[i - 1], q = samples[i];
-                                const z = which === 1 ? (p.z1 + q.z1) / 2 : (p.z2 + q.z2) / 2;
-                                if ((z >= 0) !== front) continue;
-                                const e = Math.min(p.e, q.e);
-                                if (e <= 0) continue;
-                                const depth = (z + 1) / 2;
-                                ctx.globalAlpha = (0.1 + 0.5 * depth) * e;
-                                ctx.lineWidth = 1 + 1.8 * depth + q.L * 1.2;
-                                ctx.beginPath();
-                                ctx.moveTo(p.x, which === 1 ? p.y1 : p.y2);
-                                ctx.lineTo(q.x, which === 1 ? q.y1 : q.y2);
-                                ctx.stroke();
-                            }
-                        }
-                    };
-
-                    // ---- base pairs
-                    const pairs = [];
-                    for (let k = base0; k <= base0 + n; k++) {
-                        const g = geom(k);
-                        if (g.e <= 0) continue;
-                        const idx = mod(k, LEN);
-                        const b = this.cur[idx];
-                        pairs.push({ g, idx, b, comp: PAIR[b], fl: this.flash[idx] });
-                    }
-
-                    const dot = (x, y, z, b, e, L, fl, front) => {
-                        if ((z >= 0) !== front) return;
-                        const depth = (z + 1) / 2;
-                        const r = rBase * (0.55 + 0.45 * depth) * (1 + 0.7 * L) * (1 + 0.6 * fl);
-                        const s = r / 0.34 * 2 * 0.5;
-                        ctx.globalAlpha = (0.3 + 0.7 * depth) * e;
-                        ctx.drawImage(this.sprites[b], x - s, y - s, s * 2, s * 2);
-                        if (fl > 0.05) {                       // transcription flash ring
-                            ctx.globalAlpha = fl * e;
-                            ctx.strokeStyle = '#ffffff';
-                            ctx.lineWidth = 1.5;
-                            ctx.beginPath();
-                            ctx.arc(x, y, r + (1 - fl) * 14, 0, Math.PI * 2);
-                            ctx.stroke();
-                        }
-                        if (L > 0.55 && r > 7) {               // magnifier: show the letter
-                            ctx.globalAlpha = e * Math.min(1, (L - 0.55) * 3);
-                            ctx.fillStyle = '#000';
-                            ctx.font = 'bold ' + Math.round(r * 1.1) + 'px "Courier New", monospace';
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText(b, x, y + 0.5);
-                        }
-                    };
-
-                    const drawDots = front => {
-                        for (const p of pairs) {
-                            dot(p.g.x, p.g.y1, p.g.z1, p.b, p.g.e, p.g.L, p.fl, front);
-                            dot(p.g.x, p.g.y2, p.g.z2, p.comp, p.g.e, p.g.L, p.fl, front);
-                        }
-                    };
-
-                    const drawRungs = () => {
-                        for (const p of pairs) {
-                            const { x, y1, y2, e, L } = p.g;
-                            const len = Math.abs(y2 - y1);
-                            if (len < 2) continue;
-                            const dir = Math.sign(y2 - y1) || 1;
-                            const mid = (y1 + y2) / 2;
-                            const gap = len > 16 ? Math.min(len * 0.3, 7 + 7 * L) : 0;
-                            ctx.globalAlpha = (0.42 + 0.3 * L) * e;
-                            ctx.lineWidth = 1.4 + 1.6 * L;
-                            ctx.strokeStyle = COLORS[p.b];
-                            ctx.beginPath(); ctx.moveTo(x, y1); ctx.lineTo(x, mid - dir * gap / 2); ctx.stroke();
-                            ctx.strokeStyle = COLORS[p.comp];
-                            ctx.beginPath(); ctx.moveTo(x, mid + dir * gap / 2); ctx.lineTo(x, y2); ctx.stroke();
-                            if (gap >= 6) {                     // hydrogen bonds: 2 for A=T, 3 for G≡C
-                                const nb = BONDS[p.b];
-                                ctx.fillStyle = '#ffffff';
-                                ctx.globalAlpha = (0.35 + 0.5 * L) * e;
-                                for (let j = 0; j < nb; j++) {
-                                    const yy = mid + (j - (nb - 1) / 2) * (gap / (nb + 0.4));
-                                    ctx.beginPath(); ctx.arc(x, yy, 0.9 + 0.6 * L, 0, Math.PI * 2); ctx.fill();
-                                }
-                            }
-                        }
-                    };
-
-                    // Painter's algorithm: back strand -> rungs -> front strand.
-                    strand(false);
-                    drawDots(false);
-                    drawRungs();
-                    strand(true);
-                    drawDots(true);
-
-                    // ---- hover scanner beam + tooltip
-                    if (lensOn && this.mouse.inside) {
-                        const kh = Math.round(this.offset + (mx - pad) / sp);
-                        const g = geom(kh);
-                        if (g.e > 0.05) {
-                            const beam = ctx.createLinearGradient(0, 0, 0, H);
-                            beam.addColorStop(0, 'rgba(255,255,255,0)');
-                            beam.addColorStop(0.5, 'rgba(255,255,255,0.10)');
-                            beam.addColorStop(1, 'rgba(255,255,255,0)');
-                            ctx.globalAlpha = this.lens;
-                            ctx.fillStyle = beam;
-                            ctx.fillRect(g.x - sp / 2, 0, sp, H);
-                            const idx = mod(kh, LEN);
-                            const b = this.cur[idx], c = PAIR[b];
-                            this.setHot(idx);
-                            if (this.tipEl) {
-                                this.tipEl.hidden = false;
-                                this.tipEl.style.left = Math.max(90, Math.min(W - 90, g.x)) + 'px';
-                                this.tipEl.textContent = 'bp ' + String(idx + 1).padStart(3, '0') + '/128 · ' +
-                                    b + (BONDS[b] === 3 ? '≡' : '=') + c + ' · ' + BONDS[b] + ' H-bonds';
-                            }
-                        } else {
-                            this.setHot(-1);
-                            if (this.tipEl) this.tipEl.hidden = true;
-                        }
-                    }
-                    ctx.globalAlpha = 1;
-
-                    // ---- highlight the part of the sequence currently on screen
-                    const start = mod(base0, LEN);
-                    if (start !== this.windowStart && this.spans.length) {
-                        this.windowStart = start;
-                        const visibleCount = Math.max(1, n - 2);
-                        for (let i = 0; i < LEN; i++) {
-                            this.spans[i].classList.toggle('on', mod(i - start, LEN) < visibleCount);
-                        }
-                    }
+                    clearTimeout(this.settleTimer);
+                    if (this.reduce.matches) { apply(); return; }
+                    this.scramble = true;
+                    this.settleTimer = setTimeout(apply, SCRAMBLE_MS);
                 }
             }
 
             global.DNATV = {
-                mount: (root, opts) => new DNATV(root, opts),
+                mount: root => new DNATV(root),
                 bytesToBases,
                 async sha256(text) {
-                    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-                    return new Uint8Array(buf);
+                    return new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)));
                 },
                 hasSubtle: !!(global.crypto && global.crypto.subtle)
             };
@@ -1569,7 +1283,7 @@
         (function () {
             const root = document.getElementById('dnaTV');
             if (!root || !window.DNATV) return;
-            const tv = DNATV.mount(root, { strandA: '#7ff9ff', strandB: '#b9ff9e' });
+            const tv = DNATV.mount(root);
             const PROJECT = 'https://github.com/gerivanc/dnapass-password-generator';
             const title = root.querySelector('[data-dnatv-title]');
             const input = document.getElementById('dnatv-text');
@@ -1587,13 +1301,14 @@
                 title.textContent = label;
             }
 
-            transcribe(PROJECT, 'PROJECT DNA');
+            transcribe(PROJECT, 'Project DNA');
             input.addEventListener('input', () => {
+                tv.sequencing();
                 clearTimeout(timer);
                 timer = setTimeout(() => {
                     const v = input.value;
-                    if (v.trim()) transcribe(v, 'YOUR TEXT DNA');
-                    else transcribe(PROJECT, 'PROJECT DNA');
+                    if (v.trim()) transcribe(v, 'Your text DNA');
+                    else transcribe(PROJECT, 'Project DNA');
                 }, 220);
             });
         })();
